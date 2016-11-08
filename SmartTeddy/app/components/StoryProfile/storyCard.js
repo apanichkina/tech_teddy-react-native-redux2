@@ -92,7 +92,7 @@ StoryCard.propTypes = {
     onConnectBear: React.PropTypes.func,
     onPlay: React.PropTypes.func,
     onPause: React.PropTypes.func,
-    isPlaying: React.PropTypes.func,
+    isPlaying: React.PropTypes.bool,
     isUpload: React.PropTypes.bool,
     isBought: React.PropTypes.bool,
     isConnected: React.PropTypes.bool,
