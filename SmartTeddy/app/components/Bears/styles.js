@@ -10,5 +10,14 @@ module.exports = StyleSheet.create({
     btn_search: {
         alignSelf: 'center',
         margin: 6
+    },
+    help: {
+    	fontSize: 10,
+    	height: 20,
+    	lineHeight: 15
+    },
+    header: {
+    	fontSize: 24,
+    	height: 35
     }
 });

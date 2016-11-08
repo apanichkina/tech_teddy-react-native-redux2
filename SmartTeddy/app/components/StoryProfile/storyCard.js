@@ -7,7 +7,24 @@ const illustration_default = require('../../../img/illustration2.jpg');
 export default class StoryCard extends Component {
 
   render() {
-    const { name, illustration, price, description, onBuyClick, onUploadClick, onDeleteClick, isUpload, isBought, logo, category, isConnected, onConnectBear, onPlay, isPlaying, onPause   } = this.props;
+    const {
+        name,
+        illustration,
+        price,
+        description,
+        onBuyClick,
+        onUploadClick,
+        onDeleteClick,
+        isUpload,
+        isBought,
+        logo,
+        category,
+        isConnected,
+        onConnectBear,
+        onPlay,
+        isPlaying,
+        onPause,
+    } = this.props;
     return (
         <Card style={[styles.mb, { flex: 0 }]}>
 
@@ -92,7 +109,7 @@ StoryCard.propTypes = {
     onConnectBear: React.PropTypes.func,
     onPlay: React.PropTypes.func,
     onPause: React.PropTypes.func,
-    isPlaying: React.PropTypes.func,
+    isPlaying: React.PropTypes.bool,
     isUpload: React.PropTypes.bool,
     isBought: React.PropTypes.bool,
     isConnected: React.PropTypes.bool,
