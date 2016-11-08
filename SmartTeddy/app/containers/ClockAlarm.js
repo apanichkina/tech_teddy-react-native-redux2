@@ -1,17 +1,11 @@
 import React, { Component } from 'react';
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  StyleSheet
-} from 'react-native';
 
-import DateTimePicker from 'react-native-modal-datetime-picker'
+
+//import DateTimePicker from 'react-native-modal-datetime-picker'
 //import Toast from '@remobile/react-native-toast'
 import Button from "react-native-button";
 // import BluetoothSerial from 'react-native-bluetooth-hc05'
-
+import Alarm from '../components/ClockAlarm/'
 import TeddyBluetooth from '../BluetoothLib'
 //import ToastError from './ToastError'
 //var E = new ToastError('ClockAlarm')
@@ -26,7 +20,8 @@ export default class ClockAlarm extends Component {
 
   constructor (props) {
     super(props)
-
+    this._handleTimePicked = this._handleTimePicked.bind(this)
+    this._changeWeekDay = this._changeWeekDay.bind(this)
     this.alarm = {
       days: [false, false, false, false, false, false, false],
       active: false,
@@ -54,14 +49,34 @@ export default class ClockAlarm extends Component {
     }
 
   }
+  render() {
+    return (
+        <Alarm
+            title={strings.title}
+            alarmTime={this.state.timeHHMM}
+            days={this.state.days}
+            data={this.state.data}
+            isAlarmActive={this.state.alarmActive}
+            isSoundActive={this.state.soundActive}
+            isVibroActive={this.state.vibroActive}
+            isLightActive={this.state.lightActive}
+            _handleTimePicked={this._handleTimePicked}
+            _changeWeekDay={this._changeWeekDay}
+            toggleAlarm={() =>{this.toggleAlarm()}}
+            toggleSound={() =>{this.toggleSound()}}
+            toggleVibro={() =>{this.toggleVibro()}}
+            toggleLight={() =>{this.toggleLight()}}
+            setTime={() =>{this.setTime()}}
+            />
+    )
+  }
+
 
   timeToString (time) {
     return this._checkZero(time.getHours())+':'+this._checkZero(time.getMinutes())
   }
 
-  _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true })
 
-  _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false })
 
   _checkZero (number) {
     return ((number < 10) ? '0' : '') + number
@@ -168,14 +183,15 @@ export default class ClockAlarm extends Component {
   }
 
   _handleTimePicked (time) {
-    // console.log('A date has been picked: ', time)
+     console.log('A date has been picked: ', time)
     this.alarm.time = time
     this.setState({time: this.alarm.time})
     this.setAlarm()
-    this._hideDateTimePicker()
+    //this._hideDateTimePicker()
   }
 
   _changeWeekDay (day) {
+    console.log('_changeWeekDay: '+ day)
     var d = this.state.days
     d[day] = !d[day]
     this.setState({days: d})
@@ -183,118 +199,4 @@ export default class ClockAlarm extends Component {
     this.setAlarm()
   }
 
-  render() {
-      return (
-        <View style={styles.container}>
-          <View style={styles.inline}>
-            <Text style={styles.heading}>{strings.title}</Text>
-          </View>
-          <View style={styles.inlineH0} >
-            <TouchableOpacity onPress={this._showDateTimePicker}>
-              <Text
-                style={[styles.time, (this.state.alarmActive) ? styles.active : styles.inactive]}>
-                {this.state.timeHHMM}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={this.toggleAlarm.bind(this)}>
-              <Image
-                style={[styles.alarm, (this.state.alarmActive) ? styles.activeImg : styles.inactiveImg]}
-                source={require('../../img/ic_alarm_white_24dp.png')} />
-            </TouchableOpacity>
-          </View>
-          <DateTimePicker
-            isVisible={this.state.isDateTimePickerVisible}
-            onConfirm={this._handleTimePicked.bind(this)}
-            onCancel={this._hideDateTimePicker}
-            mode='time'
-          />            
-          <View style={styles.inline} >
-          {this.state.days.map((day, i) => {
-              return (
-                <Text
-                  key={i}
-                  onPress={this._changeWeekDay.bind(this, i)}
-                  style={[styles.days, (day) ? styles.active : styles.inactive]}>
-                    {strings.days[i]}
-                  </Text>
-              )
-            })
-          }
-          </View>
-          <View style={styles.inlineH0} >
-            <TouchableOpacity onPress={this.toggleSound.bind(this)}>
-              <Image
-                style={[styles.alarm, (this.state.soundActive) ? styles.activeImg : styles.inactiveImg]}
-                source={require('../../img/audiotrack_white_24dp.png')} />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={this.toggleVibro.bind(this)}>
-              <Image
-                style={[styles.alarm, (this.state.vibroActive) ? styles.activeImg : styles.inactiveImg]}
-                source={require('../../img/vibration_white_24dp.png')} />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={this.toggleLight.bind(this)}>
-              <Image
-                style={[styles.alarm, (this.state.lightActive) ? styles.activeImg : styles.inactiveImg]}
-                source={require('../../img/brightness_high_white_24dp.png')} />
-            </TouchableOpacity>
-          </View>
-
-          <Button onPress={this.setTime.bind(this)} >SYNC</Button>
-              <Text>{this.state.data}</Text>
-
-        </View>
-      )
-  }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#ffffff',
-        paddingBottom: 50
-    },
-    inlineH0: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      height: 80,
-      paddingHorizontal: 25,
-      alignItems: 'center'
-    },
-    inline: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      height: 40,
-      paddingHorizontal: 25,
-      alignItems: 'center'
-    },
-    heading: {
-      fontWeight: 'bold',
-      fontSize: 24,
-      marginVertical: 10,
-      alignSelf: 'center'
-    },
-    alarm: {
-      width: 40,
-      height: 40
-    },
-    time: {
-      fontWeight: 'bold',
-      fontSize: 44
-    },
-    active: {
-      color: '#00cc00'
-    },
-    inactive: {
-      color: '#cccccc'
-    },
-    days: {
-      fontWeight: 'bold',
-      fontSize: 24
-    },
-    activeImg: {
-      tintColor: '#00cc00'
-    },
-    inactiveImg: {
-      tintColor: '#cccccc'
-    }
-});
