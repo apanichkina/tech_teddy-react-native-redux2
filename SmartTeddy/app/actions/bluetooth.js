@@ -89,6 +89,7 @@ export function disconnectFromDevice() {
     return function (dispatch) {
         return instance.disconnect().then(() => {
                 dispatch(unconnectBluetooth());
+                dispatch(setConnectedBearName(''));
             }
         ).catch((error) => {
                 console.log('disconnect from device error:');

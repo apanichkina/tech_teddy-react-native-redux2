@@ -81,6 +81,19 @@ class AppNavigator extends Component {
             return true;
         });
 
+        //popToRoute
+        BluetoothSerial.on('connectionLost', () => {
+
+            const routes = this._navigator.getCurrentRoutes();
+            for (var i = 0; i < routes.length; ++i) {
+                if (routes[i].id === 'bear-profile') {
+                    this.popRoute();
+                }
+            }
+            this.disconnectFromDevice();
+            console.log('Bluetooth connectionLost')
+        });
+
         BluetoothSerial.on('bluetoothEnabled', () => {
             this.enableBluetooth();
             console.log('Bluetooth enabled')
@@ -199,7 +212,7 @@ class AppNavigator extends Component {
                     }}
                     configureScene={() => Navigator.SceneConfigs.FloatFromRight}
                     initialRoute={{ id: (Platform.OS === 'android') ? 'splashscreen' : 'home', statusBarHidden: true }}
-                    renderScene={this.renderScene.bind(this)}
+                    renderScene={this.renderScene}
                     />
             </Drawer>
         );
@@ -210,7 +223,8 @@ const bindAction = dispatch => ({
     closeDrawer: () => dispatch(closeDrawer()),
     popRoute: () => dispatch(popRoute()),
     enableBluetooth: () => dispatch(enableBluetooth()),
-    disableBluetooth: () => dispatch(disableBluetooth())
+    disableBluetooth: () => dispatch(disableBluetooth()),
+    disconnectFromDevice: () => dispatch(disconnectFromDevice())
 });
 
 const mapStateToProps = state => ({
