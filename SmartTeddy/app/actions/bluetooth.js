@@ -1,7 +1,16 @@
 import * as types from './actionTypes';
 import Bluetooth from '../BluetoothLib'
-import { setBearStories, setConnectedBearName} from './bear'
+import { 
+    setBearStories,
+    setConnectedBearName,
+    alarmIsPlaying,
+    playStory,
+    pauseStory,
+    downloadedStory
+} from './bear'
 import { pushNewRoute} from './route'
+
+var heartBeatID = undefined;
 
 export function enableBluetooth():Action {
     return {
@@ -58,15 +67,20 @@ export function connectToDevice(id, name) {
     let instance = Bluetooth.getInstance();
     return function (dispatch) {
         return instance.connect(id).then(() => {
-                disconnectFromDevice();
+                // disconnectFromDevice();
                 dispatch(connectBluetooth());
+                console.log('connectToDevice');
                 dispatch(setConnectedBearName(name));
-                dispatch(pushNewRoute('bear-profile'));
-                dispatch(setBearStories())
+                heartBeatID = setTimeout(() => {
+                    heartBeatID = undefined;
+                    heartBeat()(dispatch)
+                }, 2000);
+                // dispatch(setBearStories());
             }
         ).catch((error) => {
                 console.log('connect ti device error:');
-                console.log(error)
+                console.log(error);
+                throw error;
             });
     }
 }
@@ -88,12 +102,67 @@ export function disconnectFromDevice() {
     let instance = Bluetooth.getInstance();
     return function (dispatch) {
         return instance.disconnect().then(() => {
+                // if (heartBeatID) {
+                //     heartBeatID = clearTimeout(heartBeatID);
+                // }
                 dispatch(unconnectBluetooth());
+                console.log('disconnectFromDevice');
                 dispatch(setConnectedBearName(''));
             }
         ).catch((error) => {
                 console.log('disconnect from device error:');
                 console.log(error)
             });
+    }
+}
+
+export function heartBeat() {
+    // console.log('heartBeat me please');
+    let instance = Bluetooth.getInstance();
+    return function (dispatch) {
+        return instance.shortPolling().then((array) => {
+            for (var i = 0; i < array.length; ++i) {
+                var code = array[i][0];
+                var body = array[i].substring(1);
+                switch (code) {
+                    case 'a': {
+                        dispatch(alarmIsPlaying());
+                        console.log('alarm: ', body); 
+                    }; break;
+                    case 's': {
+                        dispatch(playStory(body));
+                        console.log('story: '+body+' is playing');
+                    }; break;
+                    case 'p': {
+                        dispatch(pauseStory(body));
+                        console.log('story: '+body+' is paused');
+                    }; break;
+                    case 'r': {
+                        // dispatch(speakRole(body));
+                        console.log('hero: '+body+' is speaking');
+                    }; break;
+                    case 'd': {
+                        dispatch(downloadedStory(body));
+                        console.log('downloaded: '+body+' bytes');
+                    }; break;
+                    default: break;
+                }
+            }
+        }).catch((error) => {
+                console.log('heartBeat error:');
+                console.log(error);
+                if (error === 'not connected') {
+                    heartBeatID = 0;
+                }
+                // throw error;
+        })
+        .finally(() => {
+            if (heartBeatID === undefined) {
+                heartBeatID = setTimeout(() => {
+                    heartBeatID = undefined;
+                    heartBeat()(dispatch);                    
+                }, 2000);
+            }            
+        })
     }
 }

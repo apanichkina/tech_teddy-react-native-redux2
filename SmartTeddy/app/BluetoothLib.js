@@ -330,6 +330,23 @@ class BlueManager {
         return BluetoothSerial.disconnect()
     }
 
+    shortPolling(timeout = 2000) {
+        var process = this.talkToBear(
+            'poll\r\n',
+            '\r\n',
+            (endmsg, delimeter, resolve, reject, data)=> {
+                var datastr = data.data.toString().replace(endmsg, '');
+                var templist = datastr.split(delimeter);
+                var len = templist.length;
+                if (len > 0) {
+                    templist.splice(len - 1, 1)
+                }
+                resolve(templist);
+            },
+            'h\n');
+        return process(timeout)
+    }
+
 }
 
 export default Singleton = (function () {

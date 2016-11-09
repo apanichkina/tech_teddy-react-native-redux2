@@ -21,6 +21,7 @@ export default function (state = initialState, action={}) {
             };
         case 'UPLOAD_STORY':
             return {
+                ...state,
                 bearStories: [...state.bearStories, action.id]
             };
         case 'DELETE_STORY':
@@ -28,6 +29,7 @@ export default function (state = initialState, action={}) {
             let index = bearStories.indexOf(action.id);
             if (index >= 0) bearStories.splice(index,1);
             return {
+                ...state,
                 bearStories: bearStories
             };
         case 'PLAY_STORY':

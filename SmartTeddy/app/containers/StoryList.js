@@ -22,6 +22,7 @@ class StorePageContainer extends Component {
   };
   getFilteredStories(stories) {
     let filter = this.props.filter;
+    //////////////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     return stories.filter(t => t.category == filter)
   }
 
