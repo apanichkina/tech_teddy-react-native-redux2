@@ -72,8 +72,14 @@ export function connectToDevice(id, name) {
                 console.log('connectToDevice');
                 dispatch(setConnectedBearName(name));
                 heartBeatID = setTimeout(() => {
-                    heartBeatID = undefined;
-                    heartBeat()(dispatch)
+
+                    syncTime()
+                        .then(()=>{
+                            heartBeatID = undefined;
+                            heartBeat()(dispatch)
+                        })
+                        .catch((err)=>{ console.log('syncTime failed', err);})
+
                 }, 2000);
                 // dispatch(setBearStories());
             }
@@ -165,4 +171,12 @@ export function heartBeat() {
             }            
         })
     }
+}
+
+export function syncTime() {
+    // setTime
+    let instance = Bluetooth.getInstance();
+    return instance.setTime()
+        .then(() => {})
+        .catch((error) => { throw error; });
 }

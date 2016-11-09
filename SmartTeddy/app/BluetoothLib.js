@@ -6,6 +6,8 @@ class BlueManager {
     story = false
     storyList = []
 
+    requestStack = []
+
     stop = function (func) {
         BluetoothSerial.off('data', func);
         this.unsubscribe();
@@ -38,6 +40,7 @@ class BlueManager {
                 var endmsg = bear_endmsg;
                 var temp = read(endmsg, delimeter, resolve, reject, this.stop);
                 if (this.isFetching == true) {
+                    // requestStack.push();
                     reject(this.errors.isFetching)
                 }
                 else {
