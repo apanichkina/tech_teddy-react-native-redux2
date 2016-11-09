@@ -52,6 +52,14 @@ module.exports = StyleSheet.create({
         fontWeight: '500',
         fontSize: 16,
     },
+    activeItem: {
+        backgroundColor: '#CCCCCC'
+    },
+    connectedBear: {
+        color: '#00CC00',
+        fontWeight: '500',
+        fontSize: 16,
+    }
     // sidebar: {
     //   flex: 1,
     //   backgroundColor: '#fff',

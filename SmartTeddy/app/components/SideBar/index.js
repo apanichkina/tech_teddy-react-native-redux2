@@ -33,6 +33,7 @@ class SideBar extends Component {
     }
 
     render() {
+        const { bearname } = this.props;
         return (
             <Content
                 theme={sidebarTheme}
@@ -47,14 +48,14 @@ class SideBar extends Component {
                     <Text>Лучший родитель на свете</Text>
                 </View>
                 <List>
-                    <ListItem button iconLeft onPress={() => this.navigateTo('anatomy')} >
+                    {/* <ListItem button iconLeft onPress={() => this.navigateTo('anatomy')} >
                         <View style={styles.listItemContainer}>
                             <View style={[styles.iconContainer, { paddingLeft: 14 }]}>
                                 <Icon name="ios-browsers" style={styles.sidebarIcon} />
                             </View>
                             <Text style={styles.text}>Пример tab снизу</Text>
                         </View>
-                    </ListItem>
+                    </ListItem> */}
                     <ListItem button iconLeft onPress={() => this.navigateTo('store')} >
                         <View style={styles.listItemContainer}>
                             <View style={[styles.iconContainer, { paddingLeft: 14 }]}>
@@ -71,12 +72,14 @@ class SideBar extends Component {
                             <Text style={styles.text}>Мои сказки</Text>
                         </View>
                     </ListItem>
-                    <ListItem button iconLeft onPress={() => this.navigateTo('bears')} >
+                    <ListItem button iconLeft onPress={() => {
+                        !!bearname ? this.navigateTo('bear-profile') : this.navigateTo('bears')
+                    }} >
                         <View style={styles.listItemContainer}>
                             <View style={[styles.iconContainer, { paddingLeft: 14 }]}>
                                 <Icon name="ios-paw" style={styles.sidebarIcon} />
                             </View>
-                            <Text style={styles.text}>Примедведиться</Text>
+                            <Text style={!!bearname ? styles.connectedBear : styles.text}>{bearname || 'Примедведиться'}</Text>
                         </View>
                     </ListItem>
                     <ListItem button iconLeft onPress={() => this.navigateTo('profile')} >
@@ -87,14 +90,14 @@ class SideBar extends Component {
                             <Text style={styles.text}>Профиль</Text>
                         </View>
                     </ListItem>
-                    <ListItem button iconLeft onPress={() => this.navigateTo('bluetooth')} >
+                    {/* <ListItem button iconLeft onPress={() => this.navigateTo('bluetooth')} >
                         <View style={styles.listItemContainer}>
                             <View style={[styles.iconContainer, { paddingLeft: 14 }]}>
                                 <Icon name="ios-bluetooth" style={styles.sidebarIcon} />
                             </View>
                             <Text style={styles.text}>Блютус</Text>
                         </View>
-                    </ListItem>
+                    </ListItem> */}
                 </List>
             </Content>
         );
@@ -109,7 +112,8 @@ function bindAction(dispatch) {
 }
 
 const mapStateToProps = state => ({
-    drawerState: state.drawer.drawerState
+    drawerState: state.drawer.drawerState,
+    bearname: state.bear.connectedBearName,
 });
 
 export default connect(mapStateToProps, bindAction)(SideBar);
