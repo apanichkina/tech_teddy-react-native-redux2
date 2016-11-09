@@ -14,6 +14,7 @@ import { receiveCategories } from '../actions/storyCategory'
 import { receiveStories } from '../actions/storyFromServer'
 import { setToken } from '../actions/user'
 import { PossiblePurposes } from '../actions/actionTypes'
+import { setAlarmTime, getAlarmTime } from '../actions/alarm'
 const loggerMiddleware = createLogger();
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 const reducer = combineReducers(reducers);
@@ -34,6 +35,9 @@ store.dispatch(fetchCategories())
 store.dispatch(fetchStories(PossiblePurposes.USER))
 store.dispatch(fetchStories(PossiblePurposes.SHOP))
 store.dispatch(setStoriesResource(PossiblePurposes.USER))
+
+store.dispatch(getAlarmTime());
+store.dispatch(setAlarmTime(new Date()))
 const bearTalk = ["1.raw", "2.raw", "8"]
 console.log('!!!!!!!!!');
 //store.dispatch(setBearStories());

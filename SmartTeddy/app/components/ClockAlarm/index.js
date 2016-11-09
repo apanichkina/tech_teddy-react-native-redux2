@@ -34,6 +34,7 @@ class ClockAlarmPresentational extends Component {
             this.props._handleTimePicked(time);
             this._hideDateTimePicker()
         };
+
         return (
             <Container theme={myTheme} style={styles.container}>
 
@@ -69,16 +70,14 @@ class ClockAlarmPresentational extends Component {
                             mode='time'
                             />
                         <View style={styles.inline} >
-                            {days.map((day, i) => {
-                                return (
+                            {days.map((day, i) =>
                                     <Text
                                         key={i}
                                         onPress={() =>_changeWeekDay(i)}
-                                        style={[styles.days, (day) ? styles.active : styles.inactive]}>
+                                        style={[styles.days, (days[i]) ? styles.active : styles.inactive]}>
                                         {strings.days[i]}
                                     </Text>
-                                )
-                            })
+                            )
                             }
                         </View>
                         <View style={styles.inlineH0} >
@@ -117,7 +116,7 @@ ClockAlarmPresentational.propTypes = {
     _handleTimePicked: React.PropTypes.func,
     title: React.PropTypes.string,
     alarmTime: React.PropTypes.string,
-    days: React.PropTypes.array.isRequired,
+    days: React.PropTypes.arrayOf(React.PropTypes.bool),
     isSoundActive: React.PropTypes.bool,
     isVibroActive: React.PropTypes.bool,
     isLightActive: React.PropTypes.bool,

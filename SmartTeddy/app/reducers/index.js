@@ -8,7 +8,9 @@ import user from './user'
 import storyFromServer from './storyFromServer'
 import bluetooth from './bluetooth'
 import bear from './bear'
+import alarm from './alarm'
 export {
+    alarm,
     counter,
     drawer,
     route,
