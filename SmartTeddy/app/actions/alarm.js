@@ -46,17 +46,7 @@ export function toggleAlarmSound():Action {
     }
 }
 
-export function getAlarmTime () {
-    let instance = Bluetooth.getInstance();
-    return function (dispatch, getState) {
-        return instance.getAlarmTime()
-            .then((res) => { this.parseTime(res,dispatch,getState ) })
-            .catch((error) => {
-                console.log('getAlarmTime error');
-                console.log(error)
-            });
-}
-}
+
 
 function parseTime (res, dispatch, getState) {
     let d = res.charCodeAt(2);
@@ -83,6 +73,18 @@ function parseTime (res, dispatch, getState) {
     //console.log(days);
     dispatch(setAlarmDays(days));
 
+}
+
+export function getAlarmTime () {
+    let instance = Bluetooth.getInstance();
+    return function (dispatch, getState) {
+        return instance.getAlarmTime()
+            .then((res) => { this.parseTime(res,dispatch,getState ) })
+            .catch((error) => {
+                console.log('getAlarmTime error');
+                console.log(error)
+            });
+    }
 }
 export function setAlarm () {
     let instance = Bluetooth.getInstance();
