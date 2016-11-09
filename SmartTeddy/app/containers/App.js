@@ -35,12 +35,8 @@ store.dispatch(fetchCategories())
 store.dispatch(fetchStories(PossiblePurposes.USER))
 store.dispatch(fetchStories(PossiblePurposes.SHOP))
 store.dispatch(setStoriesResource(PossiblePurposes.USER))
+//store.dispatch(setAlarmTime(new Date()))
 
-store.dispatch(getAlarmTime());
-store.dispatch(setAlarmTime(new Date()))
-const bearTalk = ["1.raw", "2.raw", "8"]
-console.log('!!!!!!!!!');
-//store.dispatch(setBearStories());
 console.log(store.getState())
 // Прекратим слушать обновление состояния
 //unsubscribe()

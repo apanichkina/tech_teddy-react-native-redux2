@@ -22,11 +22,11 @@ class ClockAlarm extends Component {
     this.state = {
       data: ''
     }
-
   }
   componentDidMount () {
-    //this.props.getAlarmTime()
-   // setTimeout(this.props.getAlarmTime(), 500);
+      setTimeout(() => {
+          this.props.getAlarmTime()
+      }, 500)	;
   }
 
   toggleAlarm () {

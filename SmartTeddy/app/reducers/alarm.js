@@ -2,7 +2,7 @@
 
 const initialState = {
     alarmTime: new Date(),
-    alarmDays: [true, false, false, false, false, false, false],
+    alarmDays: [false, false, false, false, false, false, false],
     isAlarmActive: false,
     isSoundActive: false,
     isVibroActive: false,
