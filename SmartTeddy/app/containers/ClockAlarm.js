@@ -109,17 +109,6 @@ class ClockAlarm extends Component {
 
 }
 
-//const timeToString = (time) => {
-//  console.log(typeof(time));
-//  time = new Date()
-//  return this._checkZero(time.getHours())+':'+this._checkZero(time.getMinutes())
-//};
-//
-//
-//const _checkZero = (number) => {
-//  return ((number < 10) ? '0' : '') + number
-//};
-
 const mapStateToProps = (state) => {
   return {
     time: state.alarm.alarmTime,
