@@ -50,19 +50,19 @@ export function toggleAlarmSound():Action {
 
 function parseTime (res, dispatch, getState) {
     let d = res.charCodeAt(2);
-    let time;
+    let time = new Date();
     time.setHours(res.charCodeAt(0), res.charCodeAt(1));
 
     let active = res.charCodeAt(3);
     let days = [];
     for (let i = 0; i < 7; ++i) {
-        days[i] = (d >> i) & 0x01
+        days[i] = ((d >> i) & 0x01) ? true : false;
     }
 
-    let alarm_active = ((active >> 3) & 0x01);
-    let alarm_lightActive = ((active >> 0) & 0x01);
-    let alarm_vibroActive = ((active >> 1) & 0x01);
-    let alarm_soundActive = ((active >> 2) & 0x01);
+    let alarm_active = ((active >> 3) & 0x01) ? true : false;
+    let alarm_lightActive = ((active >> 0) & 0x01) ? true : false;
+    let alarm_vibroActive = ((active >> 1) & 0x01) ? true : false;
+    let alarm_soundActive = ((active >> 2) & 0x01) ? true : false;
     let state = getState();
     if (state.alarm.isAlarmActive !== alarm_active) dispatch(toggleAlarmActive());
     if (state.alarm.isLightActive !== alarm_lightActive) dispatch(toggleAlarmLight());
@@ -97,7 +97,7 @@ export function setAlarm () {
             soundActive: state.alarm.isSoundActive
         };
         return instance.setAlarm(state.alarm.alarmTime, state.alarm.alarmDays, activate)
-            .then((res) => { this.parseTime(res,dispatch,getState ) })
+            .then((res) => { parseTime(res,dispatch,getState ) })
             .catch((error) => {
                 console.log('setAlarm error');
                 console.log(error)
