@@ -21,7 +21,7 @@ import Alarm from './ClockAlarm'
 import WiFi from './WiFi'
 import Bluetooth from './Bluetooth'
 import BStory from './Story'
-import { enableBluetooth, disableBluetooth } from '../actions/bluetooth';
+import { enableBluetooth, disableBluetooth, disconnectFromDevice } from '../actions/bluetooth';
 import BluetoothSerial from 'react-native-bluetooth-hc05'
 //import statusBarColor from './themes/base-theme';
 
@@ -58,6 +58,7 @@ class AppNavigator extends Component {
         connectBluetooth: React.PropTypes.func,
         unconnectBluetooth: React.PropTypes.func
     }
+
     componentWillMount() {
             BluetoothSerial.isEnabled().then((value) => {
                 if (value)  {
@@ -75,10 +76,24 @@ class AppNavigator extends Component {
 
             if (routes[routes.length - 1].id === 'home') {
                 // CLose the app
+                // this.disconnectFromDevice();
                 return true;
             }
             this.popRoute();
             return true;
+        });
+
+        //popToRoute
+        BluetoothSerial.on('connectionLost', () => {
+
+            const routes = this._navigator.getCurrentRoutes();
+            for (var i = 0; i < routes.length; ++i) {
+                if (routes[i].id === 'bear-profile') {
+                    this.popRoute();
+                }
+            }
+            this.disconnectFromDevice();
+            console.log('Bluetooth connectionLost')
         });
 
         BluetoothSerial.on('bluetoothEnabled', () => {
@@ -111,6 +126,9 @@ class AppNavigator extends Component {
     disableBluetooth() {
         this.props.disableBluetooth();
     }
+    disconnectFromDevice() {
+        this.props.disconnectFromDevice();
+    }
 
     openDrawer() {
         this._drawer.open();
@@ -123,7 +141,14 @@ class AppNavigator extends Component {
         }
     }
 
+    isConnected() {
+        console.log('this.props.bearname '+this.props.bearname)
+        return false; 
+        return (this.props.bearname) ? true : false; 
+    }
+
     renderScene(route, navigator) { // eslint-disable-line class-methods-use-this
+        // const { bearname } = this.props;
         switch (route.id) {
             case 'home':
                 return <Home navigator={navigator} />;
@@ -152,7 +177,8 @@ class AppNavigator extends Component {
             case 'wi-fi':
                 return <WiFi navigator={navigator} />;
             default :
-                return <Home navigator={navigator} />;
+                return <Store navigator={navigator} />;
+                // return <Home navigator={navigator} />;
         }
     }
 
@@ -169,29 +195,27 @@ class AppNavigator extends Component {
                 openDrawerOffset={0.2}
                 panCloseMask={0.2}
                 styles={{
-          drawer: {
-            shadowColor: '#000000',
-            shadowOpacity: 0.8,
-            shadowRadius: 3
-          }
-        }}
+                  drawer: {
+                    shadowColor: '#000000',
+                    shadowOpacity: 0.8,
+                    shadowRadius: 3
+                  }
+                }}
                 tweenHandler={(ratio) => {
-          return {
-            drawer: { shadowRadius: ratio < 0.2 ? ratio * 5 * 5 : 5 },
-            main: {
-              opacity: (2 - ratio) / 2
-            }
-          };
-        }}
-                negotiatePan
-                >
+                  return {
+                    drawer: { shadowRadius: ratio < 0.2 ? ratio * 5 * 5 : 5 },
+                    main: {
+                      opacity: (2 - ratio) / 2
+                    }
+                  };
+                }}
+                negotiatePan>
                 <StatusBar
-                    barStyle="default"
-                    />
+                    barStyle="default"/>
                 <Navigator
                     ref={(ref) => {
-            this._navigator = ref;
-          }}
+                        this._navigator = ref;
+                    }}
                     configureScene={() => Navigator.SceneConfigs.FloatFromRight}
                     initialRoute={{ id: (Platform.OS === 'android') ? 'splashscreen' : 'home', statusBarHidden: true }}
                     renderScene={this.renderScene}
@@ -205,11 +229,13 @@ const bindAction = dispatch => ({
     closeDrawer: () => dispatch(closeDrawer()),
     popRoute: () => dispatch(popRoute()),
     enableBluetooth: () => dispatch(enableBluetooth()),
-    disableBluetooth: () => dispatch(disableBluetooth())
+    disableBluetooth: () => dispatch(disableBluetooth()),
+    disconnectFromDevice: () => dispatch(disconnectFromDevice())
 });
 
 const mapStateToProps = state => ({
-    drawerState: state.drawer.drawerState
+    drawerState: state.drawer.drawerState,
+    bearname: state.bear.connectedBearName,
 });
 
 export default connect(mapStateToProps, bindAction)(AppNavigator);

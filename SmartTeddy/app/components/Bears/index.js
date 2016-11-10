@@ -22,11 +22,12 @@ class Bears extends Component {
 
     constructor(props) {
         super(props);
+        this.props.searchBears();
     }
     onBearClick(name, id) {
-        this.props.connectToDevice(id);
-        this.props.setConnectedBearName(name);
-        this.props.pushNewRoute('bear-profile');
+        this.props.connectToDevice(id, name);
+        // this.props.setConnectedBearName(name);
+        // this.props.pushNewRoute('bear-profile');
     }
 
     render() {
@@ -44,19 +45,21 @@ class Bears extends Component {
                     </Button>
                 </Header>
                 <Content>
-                <List dataArray={bears}
-                      renderRow={(item) =>
-                            <ListItem button onPress={()=>{this.onBearClick(item.name, item.id)}}>
-                             <Text>id: {item.id}</Text>
-                                <Text>{item.name}</Text>
-                            </ListItem>
-                        }>
-                </List>
-                    <Button style={styles.btn_search} onPress={searchBears}>
+                    <List dataArray={bears}
+                          renderRow={(item) =>
+                                <ListItem button onPress={()=>{this.onBearClick(item.name, item.id)}}>
+                                    <Content>
+                                        <Text style={styles.header} >{item.name}</Text>
+                                        <Text style={styles.help} >{item.id}</Text>
+                                    </Content>
+                                </ListItem>
+                            }>
+                    </List>
+                    {/* <Button style={styles.btn_search} onPress={searchBears}>
                         <Icon name='ios-search' />
                         Найти
-                    </Button>
-                    </Content>
+                    </Button> */}
+                </Content>
             </Container>
         );
     }
@@ -74,7 +77,7 @@ const mapDispatchToProps = (dispatch) => {
         pushNewRoute: route => dispatch(pushNewRoute(route)),
         setConnectedBearName: name => dispatch(setConnectedBearName(name)),
         searchBears: () => dispatch(searchBears()),
-        connectToDevice: (id) => dispatch(connectToDevice(id)),
+        connectToDevice: (id, name) => dispatch(connectToDevice(id, name)),
         setBearStories: () => dispatch(setBearStories())
     }
 };

@@ -1,6 +1,7 @@
 import * as types from './actionTypes';
 import Bluetooth from '../BluetoothLib'
-import { setBearStories} from './bear'
+import { setBearStories, setConnectedBearName} from './bear'
+import { pushNewRoute} from './route'
 
 export function enableBluetooth():Action {
     return {
@@ -18,7 +19,11 @@ export function connectBluetooth():Action {
         type: types.CONNECT_BLUETOOTH
     };
 }
-
+export function isConnectedBluetooth():Action {
+    return {
+        type: types.ISCONNECTED_BLUETOOTH
+    };
+}
 export function unconnectBluetooth():Action {
     return {
         type: types.UNCONNECT_BLUETOOTH
@@ -48,15 +53,46 @@ export function searchBears() {
             });
     }
 }
-export function connectToDevice(id) {
+
+export function connectToDevice(id, name) {
     let instance = Bluetooth.getInstance();
     return function (dispatch) {
         return instance.connect(id).then(() => {
+                disconnectFromDevice();
                 dispatch(connectBluetooth());
+                dispatch(setConnectedBearName(name));
+                dispatch(pushNewRoute('bear-profile'));
                 dispatch(setBearStories())
             }
         ).catch((error) => {
                 console.log('connect ti device error:');
+                console.log(error)
+            });
+    }
+}
+
+export function isConnectedToDevice() {
+    let instance = Bluetooth.getInstance();
+    return function (dispatch) {
+        return instance.isConnected().then(() => {
+                dispatch(isConnectedBluetooth());
+            }
+        ).catch((error) => {
+                console.log('disconnect from device error:');
+                console.log(error)
+            });
+    }
+}
+
+export function disconnectFromDevice() {
+    let instance = Bluetooth.getInstance();
+    return function (dispatch) {
+        return instance.disconnect().then(() => {
+                dispatch(unconnectBluetooth());
+                dispatch(setConnectedBearName(''));
+            }
+        ).catch((error) => {
+                console.log('disconnect from device error:');
                 console.log(error)
             });
     }
