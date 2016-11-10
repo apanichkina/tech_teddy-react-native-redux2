@@ -64,10 +64,10 @@ function parseTime (res, dispatch, getState) {
     let alarm_vibroActive = ((active >> 1) & 0x01);
     let alarm_soundActive = ((active >> 2) & 0x01);
     let state = getState();
-    if (state.alarm.active !== alarm_active) dispatch(toggleAlarmActive());
-    if (state.alarm.lightActive !== alarm_lightActive) dispatch(toggleAlarmLight());
-    if (state.alarm.vibroActive !== alarm_vibroActive) dispatch(toggleAlarmVibro());
-    if (state.alarm.soundActive !== alarm_soundActive) dispatch(toggleAlarmSound());
+    if (state.alarm.isAlarmActive !== alarm_active) dispatch(toggleAlarmActive());
+    if (state.alarm.isLightActive !== alarm_lightActive) dispatch(toggleAlarmLight());
+    if (state.alarm.isVibroActive !== alarm_vibroActive) dispatch(toggleAlarmVibro());
+    if (state.alarm.isSoundActive !== alarm_soundActive) dispatch(toggleAlarmSound());
     dispatch(setAlarmTime(time));
     //console.log('Reducer!!!!!!!');
     //console.log(days);
