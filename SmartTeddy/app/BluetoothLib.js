@@ -271,6 +271,7 @@ class BlueManager {
             '\r\n',
             (endmsg, delimeter, resolve, reject, data)=> {
                 var datastr = data.data.toString().replace(endmsg, '');
+                console.log('getAlarmTime:', datastr);
                 resolve(datastr);
             },
             't\n');
