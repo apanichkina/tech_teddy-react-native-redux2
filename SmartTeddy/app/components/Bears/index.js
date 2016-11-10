@@ -25,7 +25,11 @@ class Bears extends Component {
         this.props.searchBears();
     }
     onBearClick(name, id) {
-        this.props.connectToDevice(id, name);
+        this.props.connectToDevice(id, name)
+            .then(() => {
+                this.props.pushNewRoute('bear-profile');
+            })
+            .catch((err) => console.log('connectToDevice ERROR', err))
         // this.props.setConnectedBearName(name);
         // this.props.pushNewRoute('bear-profile');
     }

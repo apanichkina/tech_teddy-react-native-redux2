@@ -41,7 +41,7 @@ export default class StoryCard extends Component {
                     {isUpload ? <Button style={{ margin: 6, marginLeft:0, flex:1}} onPress={onPlay}>
                         <Icon name="ios-play" style={{ color: '#fff', margin: 5 }}/>
                     </Button> : null}
-                    {isPlaying ? <Button style={{ margin: 6, marginLeft:0, flex:1}} onPress={onPause}>
+                    {isUpload && isPlaying ? <Button style={{ margin: 6, marginLeft:0, flex:1}} onPress={onPause}>
                         <Icon name="ios-pause" style={{ color: '#fff', margin: 5 }}/>
                     </Button> : null}
 

@@ -6,6 +6,8 @@ class BlueManager {
     story = false
     storyList = []
 
+    requestStack = []
+
     stop = function (func) {
         BluetoothSerial.off('data', func);
         this.unsubscribe();
@@ -38,6 +40,7 @@ class BlueManager {
                 var endmsg = bear_endmsg;
                 var temp = read(endmsg, delimeter, resolve, reject, this.stop);
                 if (this.isFetching == true) {
+                    // requestStack.push();
                     reject(this.errors.isFetching)
                 }
                 else {
@@ -329,6 +332,23 @@ class BlueManager {
     }
     disconnect(){
         return BluetoothSerial.disconnect()
+    }
+
+    shortPolling(timeout = 2000) {
+        var process = this.talkToBear(
+            'poll\r\n',
+            '\r\n',
+            (endmsg, delimeter, resolve, reject, data)=> {
+                var datastr = data.data.toString().replace(endmsg, '');
+                var templist = datastr.split(delimeter);
+                var len = templist.length;
+                if (len > 0) {
+                    templist.splice(len - 1, 1)
+                }
+                resolve(templist);
+            },
+            'h\n');
+        return process(timeout)
     }
 
 }

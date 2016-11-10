@@ -15,6 +15,7 @@ export function receiveStories(stories):Action {
     }
 }
 export function setConnectedBearName(name:string):Action {
+    console.log('setConnectedBearName', name);
     return {
         type: types.SET_CONNECTED_BEAR_NAME,
         name
@@ -37,6 +38,12 @@ export function uploadStory(id:number):Action {
         id
     }
 }
+export function downloadedStory(bytes:number):Action {
+    return {
+        type: types.DOWNLOADED_STORY,
+        bytes
+    }
+}
 export function deleteStory(id:number):Action {
     return {
         type: types.DELETE_STORY,
@@ -54,6 +61,12 @@ export function pauseStory(id:number):Action {
     return {
         type: types.PAUSE_STORY,
         id
+    }
+}
+
+export function alarmIsPlaying():Action {
+    return {
+        type: types.ALARM_IS_PLAYING,
     }
 }
 

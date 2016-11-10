@@ -12,14 +12,22 @@ import TabThree from './helperPage.js';
 import ActionButton from 'react-native-action-button';
 import StoryList from '../../containers/StoryList';
 import Alarm from './alarmPage'
+import { setBearStories } from '../../actions/bear';
+import { heartBeat } from '../../actions/bluetooth';
 class BProfile extends Component {
 
     static propTypes = {
-        popRoute: React.PropTypes.func
+        popRoute: React.PropTypes.func,
+        setBearStories: React.PropTypes.func,
+        heartBeat: React.PropTypes.func,
     };
 
     constructor(props) {
         super(props);
+        setTimeout(() => {
+            console.log('BProfile:setTimeout done');
+            this.props.setBearStories()
+        }, 300);
     }
 
     render() {
@@ -66,7 +74,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        popRoute: () => dispatch(popRoute())
+        popRoute: () => dispatch(popRoute()),
+        setBearStories: () => dispatch(setBearStories()),
+        heartBeat: () => dispatch(heartBeat())
     }
 };
 

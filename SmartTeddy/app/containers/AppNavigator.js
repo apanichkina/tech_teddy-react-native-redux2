@@ -89,7 +89,9 @@ class AppNavigator extends Component {
             const routes = this._navigator.getCurrentRoutes();
             for (var i = 0; i < routes.length; ++i) {
                 if (routes[i].id === 'bear-profile') {
-                    this.popRoute();
+                    for (var j = routes.length - 1; j >= i; --j)
+                        this.popRoute();
+                    break;
                 }
             }
             this.disconnectFromDevice();
