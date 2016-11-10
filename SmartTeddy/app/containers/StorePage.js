@@ -8,6 +8,7 @@ import myTheme from '../themes/base-theme';
 import StorePage from './StoryList';
 import { PossiblePurposes } from '../actions/actionTypes'
 import Alarm from '../components/BearProfile/alarmPage'
+
 class Store extends Component {
 
   static propTypes = {

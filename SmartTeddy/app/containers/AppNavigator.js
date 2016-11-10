@@ -17,6 +17,8 @@ import Profile from '../components/Profile/';
 import BearProfile from '../components/BearProfile/';
 import StoryProfile from '../components/StoryProfile';
 import SideBar from '../components/SideBar/';
+import Alarm from './ClockAlarm'
+import WiFi from './WiFi'
 import Bluetooth from './Bluetooth'
 import BStory from './Story'
 import { enableBluetooth, disableBluetooth, disconnectFromDevice } from '../actions/bluetooth';
@@ -170,6 +172,10 @@ class AppNavigator extends Component {
                 return <Bluetooth navigator={navigator} />;
             case 'bluetooth-story':
                 return <BStory navigator={navigator} />;
+            case 'alarm':
+                return <Alarm navigator={navigator} />;
+            case 'wi-fi':
+                return <WiFi navigator={navigator} />;
             default :
                 return <Store navigator={navigator} />;
                 // return <Home navigator={navigator} />;
