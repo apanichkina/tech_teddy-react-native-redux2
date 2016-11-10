@@ -23,7 +23,7 @@ export function toggleWiFiActive(value:boolean):Action {
 }
 export function setWiFi () {
     let instance = Bluetooth.getInstance();
-    return function (dispatch) {
+    return function (dispatch,getState) {
         return instance.setWiFi()
             .then((res) => {
                 let state = getState();
@@ -44,7 +44,7 @@ export function setWiFi () {
 
 export function toggleWiFi () {
     let instance = Bluetooth.getInstance();
-    return function (dispatch,getState) {
+    return function (dispatch) {
         return instance.toggleWiFi()
             .then((res) => {
                 let currentState = false;
