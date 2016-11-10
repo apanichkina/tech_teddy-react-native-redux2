@@ -29,7 +29,7 @@ class ClockAlarmPresentational extends Component {
     _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false })
 
     render() {
-        const { title, isAlarmActive, alarmTime, days, isSoundActive, isVibroActive, isLightActive,toggleAlarm, _changeWeekDay,toggleSound, toggleVibro, toggleLight, data, setTime } = this.props;
+        const { title, isAlarmActive, alarmTime, days, isSoundActive, isVibroActive, isLightActive,toggleAlarm, _changeWeekDay,toggleSound, toggleVibro, toggleLight, data, setTime, popRoute } = this.props;
         this._handleTimePickedLocal = (time) => {
             this.props._handleTimePicked(time);
             this._hideDateTimePicker()
@@ -39,8 +39,8 @@ class ClockAlarmPresentational extends Component {
             <Container theme={myTheme} style={styles.container}>
 
                 <Header>
-                    <Button transparent>
-                        <Icon name="ios-menu" />
+                    <Button transparent onPress={popRoute}>
+                        <Icon name="ios-arrow-back" />
                     </Button>
                     <Title>Будильник</Title>
                 </Header>
@@ -126,5 +126,6 @@ ClockAlarmPresentational.propTypes = {
     toggleVibro: React.PropTypes.func,
     toggleLight: React.PropTypes.func,
     data: React.PropTypes.string,
-    setTime: React.PropTypes.func
+    setTime: React.PropTypes.func,
+    popRoute: React.PropTypes.func
 };

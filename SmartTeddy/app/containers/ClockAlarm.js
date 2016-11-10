@@ -5,6 +5,7 @@ import Alarm from '../components/ClockAlarm/'
 import TeddyBluetooth from '../BluetoothLib'
 import { toggleAlarmActive, toggleAlarmLight, toggleAlarmSound, toggleAlarmVibro, setAlarmDays, setAlarmDay, setAlarmTime, getAlarmTime, setAlarm } from '../actions/alarm';
 import { connect } from 'react-redux';
+import { popRoute } from '../actions/route';
 BL = TeddyBluetooth.getInstance();
 var strings = {
   days: ['П','В','С','Ч','П','С','В'],
@@ -69,6 +70,7 @@ class ClockAlarm extends Component {
             toggleVibro={() =>{this.toggleVibro()}}
             toggleLight={() =>{this.toggleLight()}}
             setTime={() =>{this.setTime()}}
+            popRoute={() =>{this.props.popRoute()}}
             />
     )
   }
@@ -130,7 +132,8 @@ const mapDispatchToProps = (dispatch) => {
     setAlarmDay: (i) => dispatch(setAlarmDay(i)),
     setAlarmTime: (t) => dispatch(setAlarmTime(t)),
     setAlarm: () => dispatch(setAlarm()),
-    getAlarmTime: () => dispatch(getAlarmTime())
+    getAlarmTime: () => dispatch(getAlarmTime()),
+    popRoute: () => dispatch(popRoute())
   }
 };
 
