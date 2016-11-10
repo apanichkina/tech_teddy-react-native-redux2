@@ -21,14 +21,16 @@ export function toggleWiFiActive(value:boolean):Action {
         value
     }
 }
-export function setWiFi () {
+export function setWiFi (ssid, password) {
     let instance = Bluetooth.getInstance();
+    console.log('ssid: '+ssid);
+    console.log('pass: '+password);
     return function (dispatch,getState) {
-        return instance.setWiFi()
+        return instance.setWiFi(ssid, password)
             .then((res) => {
                 let state = getState();
-                dispatch(setWiFiSSID(state.wifi.wifiSSID));
-                dispatch(setWiFiPassword(state.wifi.wifiPassword));
+                dispatch(setWiFiSSID(ssid));
+                dispatch(setWiFiPassword(password));
                 console.log(res);
                 console.log('setWiFi');
                 //E.long(res, 'setWiFi')

@@ -78,7 +78,7 @@ class Settings extends Component {
 
             <Button
                 style={{alignSelf: 'flex-end', margin: 6}}
-                onPress={() => this.props.setWiFi()}>
+                onPress={() => this.props.setWiFi(this.state.wifiSSID, this.state.wifiPassword)}>
               Применить
             </Button>
           </List>
@@ -109,7 +109,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     toggleWiFi: () => dispatch(toggleWiFi()),
-    setWiFi: () => dispatch(setWiFi()),
+    setWiFi: (ssid, pass) => dispatch(setWiFi(ssid, pass)),
     popRoute: () => dispatch(popRoute())
   }
 };
