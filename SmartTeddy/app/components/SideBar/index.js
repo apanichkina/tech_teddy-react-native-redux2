@@ -72,6 +72,14 @@ class SideBar extends Component {
                             <Text style={styles.text}>Мои сказки</Text>
                         </View>
                     </ListItem>
+                    <ListItem button iconLeft onPress={() => this.navigateTo('profile')} >
+                        <View style={styles.listItemContainer}>
+                            <View style={[styles.iconContainer, { paddingLeft: 14 }]}>
+                                <Icon name="ios-person" style={styles.sidebarIcon} />
+                            </View>
+                            <Text style={styles.text}>Профиль</Text>
+                        </View>
+                    </ListItem>
                     <ListItem button iconLeft onPress={() => {
                         !!bearname ? this.navigateTo('bear-profile') : this.navigateTo('bears')
                     }} >
@@ -82,14 +90,6 @@ class SideBar extends Component {
                             <Text style={!!bearname ? styles.connectedBear : styles.text}>{bearname || 'Примедведиться'}</Text>
                         </View>
                     </ListItem>
-                    <ListItem button iconLeft onPress={() => this.navigateTo('profile')} >
-                        <View style={styles.listItemContainer}>
-                            <View style={[styles.iconContainer, { paddingLeft: 14 }]}>
-                                <Icon name="ios-person" style={styles.sidebarIcon} />
-                            </View>
-                            <Text style={styles.text}>Профиль</Text>
-                        </View>
-                    </ListItem>
                     {/* <ListItem button iconLeft onPress={() => this.navigateTo('bluetooth')} >
                         <View style={styles.listItemContainer}>
                             <View style={[styles.iconContainer, { paddingLeft: 14 }]}>
@@ -98,22 +98,28 @@ class SideBar extends Component {
                             <Text style={styles.text}>Блютус</Text>
                         </View>
                         </ListItem> */}
-                    <ListItem button iconLeft onPress={() => this.navigateTo('alarm')} >
-                        <View style={styles.listItemContainer}>
-                            <View style={[styles.iconContainer, { paddingLeft: 14 }]}>
-                                <Icon name="ios-alarm" style={styles.sidebarIcon} />
+                    { !!bearname ? (
+                        <ListItem button iconLeft onPress={() => this.navigateTo('alarm')} >
+                            <View style={styles.listItemContainer}>
+                                <View style={[styles.iconContainer, { paddingLeft: 14 }]}>
+                                    <Icon name="ios-alarm" style={styles.sidebarIcon} />
+                                </View>
+                                <Text style={styles.text}>Будильник</Text>
                             </View>
-                            <Text style={styles.text}>Будильник</Text>
-                        </View>
-                    </ListItem>
-                    <ListItem button iconLeft onPress={() => this.navigateTo('wi-fi')} >
-                        <View style={styles.listItemContainer}>
-                            <View style={[styles.iconContainer, { paddingLeft: 14 }]}>
-                                <Icon name="ios-wifi" style={styles.sidebarIcon} />
+                        </ListItem>
+                        ) : (null)
+                    }
+                    { !!bearname ? (
+                        <ListItem button iconLeft onPress={() => this.navigateTo('wi-fi')} >
+                            <View style={styles.listItemContainer}>
+                                <View style={[styles.iconContainer, { paddingLeft: 14 }]}>
+                                    <Icon name="ios-wifi" style={styles.sidebarIcon} />
+                                </View>
+                                <Text style={styles.text}>WiFi</Text>
                             </View>
-                            <Text style={styles.text}>WiFi</Text>
-                        </View>
-                    </ListItem>
+                        </ListItem>
+                        ): (null)
+                    }
                 </List>
             </Content>
         );

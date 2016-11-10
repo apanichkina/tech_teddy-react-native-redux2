@@ -29,7 +29,24 @@ class ClockAlarmPresentational extends Component {
     _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false })
 
     render() {
-        const { title, isAlarmActive, alarmTime, days, isSoundActive, isVibroActive, isLightActive,toggleAlarm, _changeWeekDay,toggleSound, toggleVibro, toggleLight, data, setTime, popRoute } = this.props;
+        const {
+            title,
+            isAlarmActive,
+            alarmTime,
+            days,
+            isSoundActive,
+            isVibroActive,
+            isLightActive,
+            toggleAlarm,
+            _changeWeekDay,
+            toggleSound,
+            toggleVibro,
+            toggleLight,
+            data,
+            setTime,
+            popRoute,
+            openDrawer,
+        } = this.props;
         this._handleTimePickedLocal = (time) => {
             this.props._handleTimePicked(time);
             this._hideDateTimePicker()
@@ -39,8 +56,11 @@ class ClockAlarmPresentational extends Component {
             <Container theme={myTheme} style={styles.container}>
 
                 <Header>
-                    <Button transparent onPress={popRoute}>
+                    {/* <Button transparent onPress={popRoute}>
                         <Icon name="ios-arrow-back" />
+                    </Button> */}
+                    <Button transparent onPress={openDrawer}>
+                        <Icon name="ios-menu" />
                     </Button>
                     <Title>Будильник</Title>
                 </Header>
@@ -108,8 +128,20 @@ class ClockAlarmPresentational extends Component {
     }
 }
 
+const mapStateToProps = (state) => {
+  return { }
+};
 
-export default (ClockAlarmPresentational);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    openDrawer: () => dispatch(openDrawer())
+  }
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ClockAlarmPresentational);
 
 ClockAlarmPresentational.propTypes = {
     isAlarmActive: React.PropTypes.bool,
@@ -127,5 +159,6 @@ ClockAlarmPresentational.propTypes = {
     toggleLight: React.PropTypes.func,
     data: React.PropTypes.string,
     setTime: React.PropTypes.func,
-    popRoute: React.PropTypes.func
+    popRoute: React.PropTypes.func,
+    openDrawer: React.PropTypes.func,
 };
