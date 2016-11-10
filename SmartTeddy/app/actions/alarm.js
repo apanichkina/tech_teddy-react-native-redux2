@@ -69,8 +69,6 @@ function parseTime (res, dispatch, getState) {
     if (state.alarm.isVibroActive !== alarm_vibroActive) dispatch(toggleAlarmVibro());
     if (state.alarm.isSoundActive !== alarm_soundActive) dispatch(toggleAlarmSound());
     dispatch(setAlarmTime(time));
-    //console.log('Reducer!!!!!!!');
-    //console.log(days);
     dispatch(setAlarmDays(days));
 
 }
@@ -79,7 +77,7 @@ export function getAlarmTime () {
     let instance = Bluetooth.getInstance();
     return function (dispatch, getState) {
         return instance.getAlarmTime()
-            .then((res) => { this.parseTime(res,dispatch,getState ) })
+            .then((res) => { parseTime(res,dispatch,getState ) })
             .catch((error) => {
                 console.log('getAlarmTime error');
                 console.log(error)
