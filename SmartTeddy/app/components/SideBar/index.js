@@ -103,6 +103,14 @@ class SideBar extends Component {
                             <Text style={styles.text}>Будильник</Text>
                         </View>
                     </ListItem>
+                    <ListItem button iconLeft onPress={() => this.navigateTo('wi-fi')} >
+                        <View style={styles.listItemContainer}>
+                            <View style={[styles.iconContainer, { paddingLeft: 14 }]}>
+                                <Icon name="ios-wifi" style={styles.sidebarIcon} />
+                            </View>
+                            <Text style={styles.text}>WiFi</Text>
+                        </View>
+                    </ListItem>
                 </List>
             </Content>
         );

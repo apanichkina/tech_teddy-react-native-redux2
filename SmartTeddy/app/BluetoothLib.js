@@ -101,8 +101,8 @@ class BlueManager {
     getStoryList(timeout = 10000) {
         var process = this.talkToBear(
             // КОНЕЦ ВСЕГО ОБЩЕНИЯ С МИШКОЙ
-            'list\r\n',
-            //'end\r\n',
+            //'list\r\n',
+            'end\r\n',
             // РАЗДЕЛИТЕЛЬ
             '\r\n',
             // ФУНКЦИЯ НА ПРИЕМ СООБЩЕНИЯ

@@ -9,7 +9,9 @@ import storyFromServer from './storyFromServer'
 import bluetooth from './bluetooth'
 import bear from './bear'
 import alarm from './alarm'
+import wifi from './wifi'
 export {
+    wifi,
     alarm,
     counter,
     drawer,

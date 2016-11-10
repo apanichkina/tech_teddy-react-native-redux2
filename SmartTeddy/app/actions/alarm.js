@@ -55,7 +55,7 @@ export function getAlarmTime () {
                 console.log('getAlarmTime error');
                 console.log(error)
             });
-}
+    }
 }
 
 function parseTime (res, dispatch, getState) {
@@ -85,6 +85,7 @@ function parseTime (res, dispatch, getState) {
     dispatch(setAlarmDays(days));
 
 }
+
 export function setAlarm () {
     let instance = Bluetooth.getInstance();
     return function (dispatch, getState) {
