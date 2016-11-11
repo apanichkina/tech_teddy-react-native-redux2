@@ -1,6 +1,10 @@
 import * as types from './actionTypes';
 import Bluetooth from '../BluetoothLib'
-
+export function requestBearStories():Action {
+    return {
+        type: types.REQUEST_BEAR_STORIES
+    }
+}
 export function receiveStories(stories):Action {
     let arr = stories;
     let bearStories=[];
@@ -23,8 +27,10 @@ export function setConnectedBearName(name:string):Action {
 }
 
 export function setBearStories() {
+
     let instance = Bluetooth.getInstance();
     return function (dispatch) {
+        dispatch(requestBearStories());
         return instance.getStoryList().then(array => {dispatch(receiveStories(array))}
         ).catch((error) => {
                 console.log('bear stories error:');

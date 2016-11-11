@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Header, Title, View, Button, Icon, Tabs, Spinner } from 'native-base';
+import { Container, Content, Header, Title, View, Button, Icon, Tabs, Spinner } from 'native-base';
 import { openDrawer } from '../actions/drawer';
 import { popRoute } from '../actions/route';
 import myTheme from '../themes/base-theme';
@@ -15,10 +15,11 @@ class Store extends Component {
     openDrawer: React.PropTypes.func,
       title: React.PropTypes.string.isRequired,
       stories: React.PropTypes.array.isRequired,
-      content: React.PropTypes.string.isRequired
+      content: React.PropTypes.string.isRequired,
+      isFetching: React.PropTypes.bool.isRequired
   };
   render() {
-    const { openDrawer, title, stories, categories, content} = this.props;
+    const { openDrawer, title, stories, categories, content, isFetching} = this.props;
     return (
       <Container theme={myTheme}>
         <Header>
@@ -28,22 +29,23 @@ class Store extends Component {
             <Icon name="ios-menu" />
           </Button>
         </Header>
-
-        <View>
-            <Tabs locked>
-            {categories.map(category =>
-                  <StorePage
-                      key={category.id}
-                      tabLabel={category.name}
-                      filter={category.id}
-                      stories={stories}
-                      content={content}
-                      />
-
-          )
-            }
-          </Tabs>
-        </View>
+          {isFetching ?
+              <Content>
+                  <Spinner color='#F06292' style={{ alignSelf: 'center' }} />
+              </Content>
+              :<View>
+                <Tabs locked>
+                    {categories.map(category =>
+                        <StorePage
+                            key={category.id}
+                            tabLabel={category.name}
+                            filter={category.id}
+                            stories={stories}
+                            content={content}
+                            />)}
+                </Tabs>
+                </View>
+          }
       </Container>
     );
   }

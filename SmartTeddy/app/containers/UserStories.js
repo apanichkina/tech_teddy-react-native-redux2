@@ -11,12 +11,13 @@ import { PossiblePurposes } from '../actions/actionTypes'
 class Store extends Component {
 
   render() {
-      const { stories } = this.props;
+      const { stories, isFetching } = this.props;
     return (
       <StorePage
           stories={stories}
           title={'Мои сказки'}
           content={'USER'}
+          isFetching={false}
           />
     );
   }
@@ -24,7 +25,8 @@ class Store extends Component {
 
 const mapStateToProps = (state) => {
   return {
-      stories: state.storyFromServer.USER.stories
+      stories: state.storyFromServer.USER.stories,
+      isFetching: state.storyFromServer.USER.isFetching
   }
 };
 

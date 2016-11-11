@@ -54,6 +54,7 @@ class StorePageContainer extends Component {
                 stories={this.getFilteredStories(stories)}
                 onStoryClick={this.onClick}
                 />
+
     )
   }
 }

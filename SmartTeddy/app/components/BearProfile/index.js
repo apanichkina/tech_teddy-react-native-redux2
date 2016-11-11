@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Header, Title, Content, Text, List, ListItem, Button, Icon, InputGroup, Input, View, Tabs, Footer } from 'native-base';
+import { Container, Header, Title, Content, Text, List, ListItem, Button, Icon, InputGroup, Input, View, Tabs, Footer, Spinner } from 'native-base';
 import { TouchableHighlight, Image} from "react-native";
 import { openDrawer, closeDrawer } from '../../actions/drawer';
 import { popRoute } from '../../actions/route';
@@ -31,7 +31,7 @@ class BProfile extends Component {
     }
 
     render() {
-        const { popRoute, categories, name} = this.props;
+        const { popRoute, categories, name, isFetching } = this.props;
         return (
             <Container theme={myTheme} style={styles.container}>
 
@@ -46,7 +46,9 @@ class BProfile extends Component {
                 </Header>
 
                 <Content>
-                    <Tabs locked>
+                    {isFetching ?
+                        <Spinner color='#F06292' style={{ alignSelf: 'center' }} />
+                    :<Tabs locked>
                         {categories.map(category =>
                                 <StoryList
                                     key={category.id}
@@ -58,6 +60,7 @@ class BProfile extends Component {
                         )}
 
                     </Tabs>
+                    }
                 </Content>
             </Container>
 
@@ -68,7 +71,8 @@ class BProfile extends Component {
 const mapStateToProps = (state) => {
     return {
         name: state.bear.connectedBearName,
-        categories: state.storyCategory.categories
+        categories: state.storyCategory.categories,
+         isFetching: state.bear.isFetching
     }
 };
 

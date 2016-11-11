@@ -2,6 +2,7 @@
 
 const initialState = {
     bearStories: [],
+    isFetching: false,
     connectedBearName: '',
     storyIsPlaying: false,
     storyIsPaused: false
@@ -9,10 +10,15 @@ const initialState = {
 
 export default function (state = initialState, action={}) {
     switch (action.type) {
+        case 'REQUEST_BEAR_STORIES':
+            return Object.assign({}, state, {
+                isFetching: true
+            });
         case 'SET_BEAR_STORIES':
             return {
                 ...state,
-                bearStories: action.stories
+                bearStories: action.stories,
+                isFetching: false
             };
         case 'SET_CONNECTED_BEAR_NAME':
             return {
