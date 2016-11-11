@@ -30,7 +30,7 @@ export default class StoryCard extends Component {
 
             <CardItem>
                 <Icon name={logo}/>
-                <Text>{name}</Text>
+                <Text>{name.toUpperCase()}</Text>
                 <Text note>{category}</Text>
             </CardItem>
 

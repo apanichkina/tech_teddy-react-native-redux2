@@ -9,7 +9,7 @@ export default class Story extends React.Component {
         return (
             <CardItem button onPress={onClick}>
                 <Thumbnail square size={100}  source={illustration} />
-                <Text>Имя: {name}</Text>
+                <Text>{name.toUpperCase()}</Text>
                 <Text note>Длительность: {minutes}:{seconds}</Text>
                 <Text note>Цена: {price}</Text>
             </CardItem>
