@@ -44,9 +44,6 @@ class Bears extends Component {
                         <Icon name="ios-menu" />
                     </Button>
                     <Title>Примедведиться</Title>
-                    <Button transparent right onPress={this.props.setBearStories}>
-                        <Icon name="ios-menu" />
-                    </Button>
                 </Header>
                 <Content>
                     <List dataArray={bears}

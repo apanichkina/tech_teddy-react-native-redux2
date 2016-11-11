@@ -8,7 +8,7 @@ const deviceWidth = Dimensions.get('window').width;
 module.exports = StyleSheet.create({
     sidebar: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#fff'
     },
     drawerCover: {
         alignSelf: 'stretch',
@@ -17,7 +17,7 @@ module.exports = StyleSheet.create({
         height: deviceHeight / 3.5,
         width: null,
         position: 'relative',
-        marginBottom: 10,
+        marginBottom: 10
     },
     drawerImage: {
         position: 'absolute',
@@ -26,12 +26,12 @@ module.exports = StyleSheet.create({
         // top: (Platform.OS === 'android') ? 45 : 55,
         top: (Platform.OS === 'android') ? deviceHeight / 13 : deviceHeight / 12,
         width: 97,
-        resizeMode: 'cover',
+        resizeMode: 'cover'
     },
     listItemContainer: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
-        alignItems: 'center',
+        alignItems: 'center'
     },
     iconContainer: {
         width: 37,
@@ -40,25 +40,25 @@ module.exports = StyleSheet.create({
         marginRight: 12,
         paddingLeft: 11,
         backgroundColor: '#fff',
-        paddingTop: (Platform.OS === 'android') ? 7 : 5,
+        paddingTop: (Platform.OS === 'android') ? 7 : 5
     },
     sidebarIcon: {
         fontSize: 21,
         color: '#000000',
         lineHeight: 25,
-        backgroundColor: 'transparent',
+        backgroundColor: 'transparent'
     },
     text: {
         fontWeight: '500',
-        fontSize: 16,
+        fontSize: 16
     },
     activeItem: {
         backgroundColor: '#CCCCCC'
     },
     connectedBear: {
-        color: '#00CC00',
+        color: '#B39DDB',
         fontWeight: '500',
-        fontSize: 16,
+        fontSize: 16
     }
     // sidebar: {
     //   flex: 1,

@@ -67,7 +67,7 @@ class SideBar extends Component {
                     <ListItem button iconLeft onPress={() => this.navigateTo('user-stories')} >
                         <View style={styles.listItemContainer}>
                             <View style={[styles.iconContainer, { paddingLeft: 14 }]}>
-                                <Icon name="ios-cart" style={styles.sidebarIcon} />
+                                <Icon name="ios-book" style={styles.sidebarIcon} />
                             </View>
                             <Text style={styles.text}>Мои сказки</Text>
                         </View>
@@ -80,14 +80,12 @@ class SideBar extends Component {
                             <Text style={styles.text}>Профиль</Text>
                         </View>
                     </ListItem>
-                    <ListItem button iconLeft onPress={() => {
-                        !!bearname ? this.navigateTo('bear-profile') : this.navigateTo('bears')
-                    }} >
+                    <ListItem button iconLeft onPress={() => this.navigateTo('bears')} >
                         <View style={styles.listItemContainer}>
                             <View style={[styles.iconContainer, { paddingLeft: 14 }]}>
                                 <Icon name="ios-paw" style={styles.sidebarIcon} />
                             </View>
-                            <Text style={!!bearname ? styles.connectedBear : styles.text}>{bearname || 'Примедведиться'}</Text>
+                            <Text style={styles.text}>{'Примедведиться'}</Text>
                         </View>
                     </ListItem>
                     {/* <ListItem button iconLeft onPress={() => this.navigateTo('bluetooth')} >
@@ -98,28 +96,36 @@ class SideBar extends Component {
                             <Text style={styles.text}>Блютус</Text>
                         </View>
                         </ListItem> */}
-                    { !!bearname ? (
-                        <ListItem button iconLeft onPress={() => this.navigateTo('alarm')} >
+                    <ListItem itemDivider>
+                        <Text style={!!bearname ? styles.connectedBear : styles.text} >{bearname || 'Игрушка не подключена'}</Text>
+                    </ListItem>
+
+                    <ListItem button disabled={!bearname} iconLeft onPress={() => this.navigateTo('bear-profile')}>
+                        <View style={styles.listItemContainer}>
+                            <View style={[styles.iconContainer, { paddingLeft: 14 }]}>
+                                <Icon name="ios-book" style={[styles.sidebarIcon, !bearname ? {color:'#BDBDBD'}:null]} />
+                            </View>
+                            <Text style={[styles.text, !bearname ? {color:'#BDBDBD'}:null]}>Сказки на мишке</Text>
+                        </View>
+                    </ListItem>
+                        <ListItem button disabled={!bearname} iconLeft onPress={() => this.navigateTo('alarm')}>
                             <View style={styles.listItemContainer}>
                                 <View style={[styles.iconContainer, { paddingLeft: 14 }]}>
-                                    <Icon name="ios-alarm" style={styles.sidebarIcon} />
+                                    <Icon name="ios-alarm" style={[styles.sidebarIcon, !bearname ? {color:'#BDBDBD'}:null]} />
                                 </View>
-                                <Text style={styles.text}>Будильник</Text>
+                                <Text style={[styles.text, !bearname ? {color:'#BDBDBD'}:null]}>Будильник</Text>
                             </View>
                         </ListItem>
-                        ) : (null)
-                    }
-                    { !!bearname ? (
-                        <ListItem button iconLeft onPress={() => this.navigateTo('wi-fi')} >
-                            <View style={styles.listItemContainer}>
-                                <View style={[styles.iconContainer, { paddingLeft: 14 }]}>
-                                    <Icon name="ios-wifi" style={styles.sidebarIcon} />
-                                </View>
-                                <Text style={styles.text}>WiFi</Text>
+
+                    <ListItem button disabled={!bearname} iconLeft onPress={() => this.navigateTo('wi-fi')}>
+                        <View style={styles.listItemContainer}>
+                            <View style={[styles.iconContainer, { paddingLeft: 14 }]}>
+                                <Icon name="ios-wifi" style={[styles.sidebarIcon, !bearname ? {color:'#BDBDBD'}:null]} />
                             </View>
-                        </ListItem>
-                        ): (null)
-                    }
+                            <Text style={[styles.text, !bearname ? {color:'#BDBDBD'}:null]}>WiFi</Text>
+                        </View>
+                    </ListItem>
+
                 </List>
             </Content>
         );
