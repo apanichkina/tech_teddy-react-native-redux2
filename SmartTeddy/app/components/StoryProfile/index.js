@@ -7,7 +7,8 @@ import { Col, Row, Grid } from 'react-native-easy-grid';
 import { openDrawer } from '../../actions/drawer';
 import { popRoute, pushNewRoute } from '../../actions/route';
 import { buyStory } from '../../actions/store';
-import { uploadStoryToBear, deleteStoryFromBear, playStoryOnBear, pauseStoryOnBear } from '../../actions/bear';
+import { uploadStoryToBear, deleteStoryFromBear} from '../../actions/bear';
+import { playStoryOnBear, pauseStoryOnBear } from '../../actions/player';
 import { fetchBuyStory } from '../../actions/store';
 import StoryCard from './storyCard'
 import styles from './styles';
@@ -44,9 +45,9 @@ class SProfile extends Component {
         this.props.playStoryOnBear(id);
 
   }
-    pauseStory(id) {
-        console.log('pause'+id);
-        this.props.pauseStoryOnBear(id);
+    pauseStory() {
+       // console.log('pause'+id);
+        this.props.pauseStoryOnBear();
 
     }
 
@@ -64,7 +65,7 @@ class SProfile extends Component {
   }
 
   render() {
-    const { story, isBought, category, isUpload, isConnected, isPlaying} = this.props;
+    const { story, isBought, category, isUpload, isConnected, isPlaying, isPaused} = this.props;
       let logo = '';
       switch(category) {
           case "сказки":
@@ -98,7 +99,7 @@ class SProfile extends Component {
                 onDeleteClick={()=>{this.deleteStory(story.id)}}
                 onConnectBear={()=>{this.connectBear()}}
                 onPlay={()=>{this.playStory(story.id)}}
-                onPause={()=>{this.pauseStory(story.id)}}
+                onPause={()=>{this.pauseStory()}}
                 isPlaying={isPlaying}
                 isUpload={isUpload}
                 isConnected={isConnected}
@@ -106,6 +107,7 @@ class SProfile extends Component {
                 logo={logo}
                 category={category}
                 illustration={{uri: 'https://storage.googleapis.com/hardteddy_images/large/'+story.id+'.jpg'}}
+                isPaused={isPaused}
                 />
 
         </Content>
@@ -117,17 +119,20 @@ class SProfile extends Component {
 
 const findElementByValue = (array, value) => {
     return array.indexOf(value) !== -1;
-
-
 };
+const checkPlaying = (storyId, playingStoryid) => {
+    return (storyId === playingStoryid);
+};
+
 const mapStateToProps = (state) => {
   return {
-    story: state.storyFromServer.SHOP.stories[state.story.storyId],
-    isBought: !!state.storyFromServer.USER.stories[state.story.storyId],
-    isUpload: findElementByValue(state.bear.bearStories,state.story.storyId),
-    category: state.storyCategory.categoryFilter,
-    isConnected: !!state.bluetooth.bluetoothConnected,
-      isPlaying: state.bear.storyIsPlaying
+      story: state.storyFromServer.SHOP.stories[state.story.storyId],
+      isBought: !!state.storyFromServer.USER.stories[state.story.storyId],
+      isUpload: findElementByValue(state.bear.bearStories,state.story.storyId),
+      category: state.storyCategory.categoryFilter,
+      isConnected: !!state.bluetooth.bluetoothConnected,
+      isPlaying: checkPlaying(state.story.storyId, state.player.storyId),
+      isPaused: state.player.isStoryPaused
   }
 };
 
@@ -135,7 +140,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
       buyStory: id => dispatch(fetchBuyStory(id)),
       playStoryOnBear: id => dispatch(playStoryOnBear(id)),
-      pauseStoryOnBear: id => dispatch(pauseStoryOnBear(id)),
+      pauseStoryOnBear: () => dispatch(pauseStoryOnBear()),
       uploadStoryToBear: id => dispatch(uploadStoryToBear(id)),
       deleteStoryFromBear: id => dispatch(deleteStoryFromBear(id)),
       openDrawer: () => dispatch(openDrawer()),

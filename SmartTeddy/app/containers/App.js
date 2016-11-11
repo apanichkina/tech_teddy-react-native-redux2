@@ -16,7 +16,7 @@ import { setToken } from '../actions/user'
 import { PossiblePurposes } from '../actions/actionTypes'
 import { setAlarmTime, getAlarmTime } from '../actions/alarm'
 const loggerMiddleware = createLogger();
-const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
+const createStoreWithMiddleware = applyMiddleware(thunk,loggerMiddleware )(createStore);
 const reducer = combineReducers(reducers);
 const store = createStoreWithMiddleware(reducer);
 // Выведем в консоль начальное состояние

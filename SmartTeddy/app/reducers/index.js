@@ -10,7 +10,9 @@ import bluetooth from './bluetooth'
 import bear from './bear'
 import alarm from './alarm'
 import wifi from './wifi'
+import player from './player'
 export {
+    player,
     wifi,
     alarm,
     counter,
