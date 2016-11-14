@@ -24,6 +24,7 @@ export default class StoryCard extends Component {
         onPlay,
         isPlaying,
         onPause,
+        isPaused
     } = this.props;
     return (
         <Card style={[styles.mb, { flex: 0 }]}>
@@ -38,12 +39,22 @@ export default class StoryCard extends Component {
                 <Image style={{ resizeMode: 'cover', width: null}} source={illustration}/>
 
                 <View style={{ flexDirection:'row'}}>
-                    {isUpload ? <Button style={{ margin: 6, marginLeft:0, flex:1}} onPress={onPlay}>
-                        <Icon name="ios-play" style={{ color: '#fff', margin: 5 }}/>
-                    </Button> : null}
-                    {isPlaying ? <Button style={{ margin: 6, marginLeft:0, flex:1}} onPress={onPause}>
-                        <Icon name="ios-pause" style={{ color: '#fff', margin: 5 }}/>
-                    </Button> : null}
+                    {isConnected && isUpload ?
+                        !isPlaying ?
+                            <Button style={{ margin: 6, marginLeft:0, flex:1, backgroundColor: '#F06292'}} onPress={onPlay}>
+                                <Icon name="ios-play" style={{ color: '#fff', margin: 5 }}/>
+                            </Button>
+                            : isPaused ?
+                                <Button style={{ margin: 6, marginLeft:0, flex:1}} onPress={onPause}>
+                                    <Icon  name="ios-play" style={{ color: '#fff', margin: 5 }}/>
+                                </Button>
+                                    :<Button style={{ margin: 6, marginLeft:0, flex:1}} onPress={onPause}>
+                                        <Icon name='ios-pause' style={{ color: '#fff', margin: 5 }}/>
+                                    </Button>
+                        : null
+
+                    }
+
 
                     <View style={{flex:7}}>
                         {/* <SliderContainer caption=''>
@@ -113,5 +124,6 @@ StoryCard.propTypes = {
     isUpload: React.PropTypes.bool,
     isBought: React.PropTypes.bool,
     isConnected: React.PropTypes.bool,
-    logo: React.PropTypes.string.isRequired
+    logo: React.PropTypes.string.isRequired,
+    isPaused: React.PropTypes.bool
 };

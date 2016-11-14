@@ -182,7 +182,7 @@ class BlueManager {
         return BluetoothSerial.isConnected();
     }
 
-    play(filename, timeout = 2000) {
+    play(filename, timeout = 10000) {
         console.log('s' + filename + '\n');
         var process = this.talkToBear(
             'story\r\n',
@@ -195,7 +195,7 @@ class BlueManager {
         return process(timeout)
     }
 
-    pause_unpause(timeout = 2000) {
+    pause_unpause(timeout = 10000) {
         var process = this.talkToBear(
             'pause\r\n',
             '\r\n',
@@ -207,7 +207,7 @@ class BlueManager {
         return process(timeout)
     }
 
-    downloadFile(filename, timeout = 2000) {
+    downloadFile(filename, timeout = 10000) {
         var process = this.talkToBear(
             'download\r\n',
             '\r\n',
@@ -219,7 +219,7 @@ class BlueManager {
         return process(timeout)
     }
 
-    removeFile(filename, timeout = 2000) {
+    removeFile(filename, timeout = 10000) {
         var process = this.talkToBear(
             'remove\r\n',
             '\r\n',
@@ -231,7 +231,7 @@ class BlueManager {
         return process(timeout)
     }
 
-    setAlarm (time, days, active, timeout = 2000) {
+    setAlarm (time, days, active, timeout = 10000) {
 
         var d = 0;
 
@@ -261,7 +261,7 @@ class BlueManager {
 
     }
 
-    getAlarmTime (timeout = 2000) {
+    getAlarmTime (timeout = 10000) {
 
         var process = this.talkToBear(
             'alarm\r\n',
@@ -276,7 +276,7 @@ class BlueManager {
 
     }
 
-    setTime (timeout = 2000) {
+    setTime (timeout = 10000) {
 
         var time = new Date()
         var z = (time.getTimezoneOffset() / -60).toFixed()
@@ -293,7 +293,7 @@ class BlueManager {
 
     }
 
-    setWiFi (ssid, password, timeout = 2000) {
+    setWiFi (ssid, password, timeout = 10000) {
         var process = this.talkToBear(
             'wifi\r\n',
             '\r\n',
@@ -306,7 +306,7 @@ class BlueManager {
         return process(timeout)
     }
 
-    toggleWiFi (timeout = 2000) {
+    toggleWiFi (timeout = 10000) {
         var process = this.talkToBear(
             'wifi\r\n',
             '\r\n',
