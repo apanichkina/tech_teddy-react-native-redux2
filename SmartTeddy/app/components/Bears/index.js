@@ -35,7 +35,10 @@ class Bears extends Component {
     }
 
     render() {
-        const {bears, searchBears} = this.props;
+        const {bears, searchBears, bluetoothEnabled, devicesCount} = this.props;
+        console.log('dddddd')
+        console.log(bears);
+        console.log(devicesCount);
         return (
             <Container theme={myTheme} style={styles.container}>
 
@@ -46,8 +49,12 @@ class Bears extends Component {
                     <Title>Примедведиться</Title>
                 </Header>
                 <Content>
-                    <List dataArray={bears}
-                          renderRow={(item) =>
+                    {!bluetoothEnabled ?
+                        <Text>Блютус не подключен</Text>
+                        : (!devicesCount) ?
+                        <Text>Нет соединенных устройств</Text>
+                        :<List dataArray={bears}
+                                renderRow={(item) =>
                                 <ListItem button onPress={()=>{this.onBearClick(item.name, item.id)}}>
                                     <Content>
                                         <Text style={styles.header} >{item.name}</Text>
@@ -56,6 +63,9 @@ class Bears extends Component {
                                 </ListItem>
                             }>
                     </List>
+
+                    }
+
                     {/* <Button style={styles.btn_search} onPress={searchBears}>
                         <Icon name='ios-search' />
                         Найти
@@ -68,7 +78,9 @@ class Bears extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        bears: state.bluetooth.searchBears
+        bears: state.bluetooth.searchBears,
+        devicesCount: Object.keys(state.bluetooth.searchBears).length,
+        bluetoothEnabled: state.bluetooth.bluetoothEnabled
     }
 };
 
