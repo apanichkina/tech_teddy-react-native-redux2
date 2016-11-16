@@ -4,10 +4,12 @@ import {
     setBearStories,
     setConnectedBearName,
     alarmIsPlaying,
-    playStory,
-    pauseStory,
     downloadedStory
 } from './bear'
+import {
+    playStory,
+    pauseStory
+}from './player'
 import { pushNewRoute} from './route'
 
 var heartBeatID = undefined;
@@ -72,7 +74,10 @@ export function connectToDevice(id, name) {
                 console.log('connectToDevice');
                 dispatch(setConnectedBearName(name));
                 heartBeatID = setTimeout(() => {
+                    //heartBeatID = undefined;
+                    //heartBeat()(dispatch);
 
+                    //СИНХРОНИЗАЦИЯ ВРЕМЕНИ -------- ЖЕСТЬ КАК ДОЛГО
                     syncTime()
                         .then(()=>{
                             heartBeatID = undefined;
@@ -136,20 +141,20 @@ export function heartBeat() {
                         console.log('alarm: ', body); 
                     }; break;
                     case 's': {
-                        dispatch(playStory(body));
-                        console.log('story: '+body+' is playing');
+                        //dispatch(playStory(body));
+                        console.log('story: '+ body +' is playing');
                     }; break;
                     case 'p': {
                         dispatch(pauseStory(body));
-                        console.log('story: '+body+' is paused');
+                        console.log('story: '+ body +' is paused');
                     }; break;
                     case 'r': {
                         // dispatch(speakRole(body));
-                        console.log('hero: '+body+' is speaking');
+                        console.log('hero: '+ body +' is speaking');
                     }; break;
                     case 'd': {
                         dispatch(downloadedStory(body));
-                        console.log('downloaded: '+body+' bytes');
+                        console.log('downloaded: '+ body +' bytes');
                     }; break;
                     default: break;
                 }
@@ -167,7 +172,7 @@ export function heartBeat() {
                 heartBeatID = setTimeout(() => {
                     heartBeatID = undefined;
                     heartBeat()(dispatch);                    
-                }, 2000);
+                }, 7000);
             }            
         })
     }

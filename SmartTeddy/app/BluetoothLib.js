@@ -3,10 +3,10 @@ import BluetoothSerial from 'react-native-bluetooth-hc05'
 class BlueManager {
     isFetching = false;
 
-    story = false
-    storyList = []
+    story = false;
+    storyList = [];
 
-    requestStack = []
+    requestStack = [];
 
     stop = function (func) {
         BluetoothSerial.off('data', func);
