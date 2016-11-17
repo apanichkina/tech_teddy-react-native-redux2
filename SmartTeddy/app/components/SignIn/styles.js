@@ -6,9 +6,8 @@ const { StyleSheet } = React;
 module.exports = StyleSheet.create({
     container: {
         backgroundColor: '#FBFAFA',
-        flex: 1,
-        justifyContent: 'center',
-        padding: 20
+        flex: 1
+
     },
     title: {
         fontSize: 30,

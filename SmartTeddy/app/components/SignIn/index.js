@@ -1,22 +1,14 @@
 'use strict';
 import React, { Component } from 'react';
-import { Container, Content, Text, List, ListItem, Button, Icon, InputGroup, Input, View, Spinner } from 'native-base';
+import { Container, Content, Header, Text, Title, List, ListItem, Button, Icon, InputGroup, Input, View, Spinner } from 'native-base';
 import styles from './styles';
 import myTheme from '../../themes/base-theme';
+import { popRoute, pushNewRoute } from '../../actions/route';
+import { connect } from 'react-redux';
 import {
     AppRegistry,
     StyleSheet,
     TouchableHighlight} from 'react-native'
-//import SmartScrollView from 'react-native-smart-scroll-view';
-
-//const Realm = require('realm');
-//const realm = new Realm({
-//    schema: [{name: 'Token', primaryKey: 'name', properties: {name: 'string', token : 'string'}}]
-//});
-
-
-//var MessageBarAlert = require('react-native-message-bar').MessageBar;
-//var MessageBarManager = require('react-native-message-bar').MessageBarManager;
 
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
@@ -62,6 +54,13 @@ class SignIn extends Component {
             internet:false
         };
     }
+    popRoute() {
+        this.props.popRoute();
+    }
+
+    pushNewRoute(route) {
+        this.props.pushNewRoute(route);
+    }
     onChange(value) {
         this.setState({ value });
     }
@@ -69,8 +68,8 @@ class SignIn extends Component {
         return (
         <Container theme={myTheme} style={styles.container}>
             <Header>
-                <Button transparent onPress={this.props.openDrawer}>
-                    <Icon name="ios-menu" />
+                <Button transparent onPress={()=>this.popRoute()}>
+                    <Icon name="md-arrow-back" />
                 </Button>
                 <Title>Авторизация</Title>
             </Header>
@@ -89,14 +88,17 @@ class SignIn extends Component {
 
                                         <View>
                                             {(this.state.internet ? <Spinner></Spinner>
-                                                :  <Button
+                                                :  <Button block
                                                 onPress={this.onPress.bind(this)}>
-                                                Войти
+                                                ВОЙТИ
                                             </Button>
                                             )}
                                         </View>
-                                    <Button style={{alignSelf: 'center' }} onPress={console.log('Sign UP')}>Зарегестрироваться</Button>
-                                </View>
+                                    <View style={{ flexDirection:'row', alignSelf: 'center', marginTop: 6 }}>
+                                        <Button  transparent  onPress={() => this.pushNewRoute('signup')}>Еще нет учетной записи?</Button>
+                                        <Button  transparent   textStyle={{fontWeight: 'bold'}}  onPress={() => this.pushNewRoute('signup')}>Зарегистрироваться</Button>
+                                    </View>
+                                    </View>
                             </Content>
                         </Container>
 
@@ -105,8 +107,6 @@ class SignIn extends Component {
         );
     }
     onPress() {
-        //const dismissKeyboard = require('dismissKeyboard');
-        //dismissKeyboard();
         // call getValue() to get the values of the form
         var value = this.refs.form.getValue();
 
@@ -114,12 +114,7 @@ class SignIn extends Component {
             this.setState({
                 internet:true
             });
-            //let tokens = realm.objects('Token');
-            //let FCMToken = tokens.filtered('name = "FCM"');
-            //let FCMstr = "";
-            //if (FCMToken.length == 1){
-            //    FCMstr = FCMToken[0].token
-            //}
+
 
             fetch('https://hardteddy.ru/api/user/login', {
                 method: 'POST',
@@ -142,10 +137,7 @@ class SignIn extends Component {
                     if(responseJson.status == 0){
                         // Все хорошо
                         console.log('все ок')
-                        //realm.write(() =>   {
-                        //    realm.create('Token', {name: 'bearToken', token:responseJson.body.bearToken});
-                        //    realm.create('Token', {name: 'userToken', token:responseJson.body.userToken});
-                        //});
+
                     }
                     else{
 
@@ -167,6 +159,15 @@ class SignIn extends Component {
     }
 }
 SignIn.propTypes = {
+    popRoute: React.PropTypes.func,
+    pushNewRoute: React.PropTypes.func
 
 };
-export default (SignIn);
+function bindAction(dispatch) {
+    return {
+        popRoute: () => dispatch(popRoute()),
+        pushNewRoute: route => dispatch(pushNewRoute(route))
+    };
+}
+
+export default connect(null, bindAction)(SignIn);

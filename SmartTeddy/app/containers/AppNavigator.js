@@ -15,6 +15,7 @@ import Counter from '../components/counter';
 import Bears from '../components/Bears/';
 import Profile from '../components/Profile/';
 import SignIn from '../components/SignIn/';
+import SignUp from '../components/SignUp/';
 import BearProfile from '../components/BearProfile/';
 import StoryProfile from '../components/StoryProfile';
 import SideBar from '../components/SideBar/';
@@ -24,7 +25,7 @@ import Bluetooth from './Bluetooth'
 import BStory from './Story'
 import { enableBluetooth, disableBluetooth, disconnectFromDevice } from '../actions/bluetooth';
 import BluetoothSerial from 'react-native-bluetooth-hc05'
-//import statusBarColor from './themes/base-theme';
+import statusBarColor from '../themes/base-theme';
 
 Navigator.prototype.replaceWithAnimation = function replaceWithAnimation(route) {
     const activeLength = this.state.presentedIndex + 1;
@@ -181,6 +182,8 @@ class AppNavigator extends Component {
                 return <WiFi navigator={navigator} />;
             case 'signin':
                 return <SignIn navigator={navigator} />;
+            case 'signup':
+                return <SignUp navigator={navigator} />;
             default :
                 return <Store navigator={navigator} />;
                 // return <Home navigator={navigator} />;
@@ -216,6 +219,7 @@ class AppNavigator extends Component {
                 }}
                 negotiatePan>
                 <StatusBar
+                    backgroundColor={statusBarColor.statusBarColor}
                     barStyle="default"/>
                 <Navigator
                     ref={(ref) => {

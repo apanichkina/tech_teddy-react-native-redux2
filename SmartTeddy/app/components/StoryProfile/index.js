@@ -67,7 +67,7 @@ class SProfile extends Component {
   render() {
     const { story, isBought, category, isUpload, isConnected, isPlaying, isPaused} = this.props;
       let logo = '';
-      switch(category) {
+      switch(category.toLowerCase()) {
           case "сказки":
               logo = logo_fun;
               break;
@@ -87,7 +87,7 @@ class SProfile extends Component {
           <Title>Сказка</Title>
 
           <Button transparent onPress={()=>this.popRoute()}>
-            <Icon name="ios-arrow-back" />
+            <Icon name="md-arrow-back" />
           </Button>
         </Header>
 

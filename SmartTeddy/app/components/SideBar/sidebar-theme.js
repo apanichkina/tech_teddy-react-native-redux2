@@ -19,4 +19,8 @@ export default {
     listNoteColor: '#808080',
     listNoteSize: 13,
 
+    // Icon
+    iconFamily: 'Ionicons',
+    iconFontSize: (Platform.OS === 'ios') ? 30 : 60
+
 };

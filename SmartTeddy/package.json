@@ -9,7 +9,7 @@
     "step2": "cd node_modules; find . -name .babelrc | grep -v packager | xargs rm"
   },
   "dependencies": {
-    "native-base": "^0.5.11",
+    "native-base": "^0.5.13",
     "object-assign": "^4.1.0",
     "react": "15.3.2",
     "react-native": "0.36.1",
@@ -28,6 +28,7 @@
     "redux-actions": "0.11.0",
     "redux-logger": "^2.7.4",
     "redux-optimist": "0.0.2",
-    "redux-thunk": "2.1.0"
+    "redux-thunk": "2.1.0",
+    "tcomb-form-native": "^0.6.1"
   }
 }

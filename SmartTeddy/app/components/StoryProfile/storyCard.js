@@ -32,7 +32,6 @@ export default class StoryCard extends Component {
             <CardItem>
                 <Icon name={logo}/>
                 <Text>{name.toUpperCase()}</Text>
-                <Text note>{category}</Text>
             </CardItem>
 
             <CardItem cardBody >
@@ -83,8 +82,8 @@ export default class StoryCard extends Component {
                             }
                         </Button>
                         :  !isConnected ?
-                            <Button style={{ margin: 6, marginLeft:0, flex:2, backgroundColor:'#F06292'}} onPress={onConnectBear}>
-                                Примедведиться
+                            <Button info style={{ margin: 6, marginLeft:0, flex:2}} onPress={onConnectBear}>
+                                ПРИМЕДВЕДИТЬСЯ
                             </Button>
                         : isUpload ?
                             <Button style={{ margin: 6, marginLeft:0, flex:2}} onPress={onDeleteClick}>
@@ -96,9 +95,9 @@ export default class StoryCard extends Component {
 
                     }
 
-                    <Button style={{ margin: 6, marginLeft:0,marginRight:0, flex: 2}} >
+                    <Button bordered  style={{ margin: 6, marginLeft:0, marginRight:0, flex: 2}} >
                         <Icon name="ios-share-alt" />
-                        <Text>Поделиться</Text>
+                        <Text>ПОДЕЛИТЬСЯ</Text>
                     </Button>
                 </View>
                 <Text>{description}</Text>

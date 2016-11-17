@@ -13,7 +13,7 @@ module.exports = StyleSheet.create({
     drawerCover: {
         alignSelf: 'stretch',
         // resizeMode: 'cover',
-        backgroundColor: '#B39DDB',
+
         height: deviceHeight / 3.5,
         width: null,
         position: 'relative',
@@ -38,19 +38,19 @@ module.exports = StyleSheet.create({
         height: 37,
         borderRadius: 18,
         marginRight: 12,
-        paddingLeft: 11,
         backgroundColor: '#fff',
         paddingTop: (Platform.OS === 'android') ? 7 : 5
     },
     sidebarIcon: {
-        fontSize: 21,
-        color: '#000000',
-        lineHeight: 25,
+        fontSize: 26,
+        color: '#757575',
+        lineHeight: 23,
         backgroundColor: 'transparent'
     },
     text: {
         fontWeight: '500',
-        fontSize: 16
+        fontSize: 16,
+        color: '#212121'
     },
     activeItem: {
         backgroundColor: '#CCCCCC'

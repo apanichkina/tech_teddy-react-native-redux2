@@ -37,7 +37,7 @@ class BProfile extends Component {
 
                 <Header>
                     <Button transparent onPress={()=>popRoute()}>
-                        <Icon name="ios-arrow-back" />
+                        <Icon name="md-arrow-back" />
                     </Button>
                     <Title>{name}</Title>
                     <Button transparent onPress={()=>popRoute()}>

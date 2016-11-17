@@ -22,30 +22,33 @@ class Store extends Component {
     const { openDrawer, title, stories, categories, content, isFetching} = this.props;
     return (
       <Container theme={myTheme}>
-        <Header>
+        <Header style={{shadowOffset: {width: 0, height: 0}, elevation: 0 }} >
           <Title>{title}</Title>
 
           <Button transparent onPress={openDrawer}>
             <Icon name="ios-menu" />
           </Button>
         </Header>
+          <Content>
           {isFetching ?
-              <Content>
+
                   <Spinner style={{ alignSelf: 'center' }} />
-              </Content>
+
               :<View>
-                <Tabs locked>
+                <Tabs locked >
                     {categories.map(category =>
                         <StorePage
                             key={category.id}
-                            tabLabel={category.name}
+                            tabLabel={category.name.toUpperCase()}
                             filter={category.id}
                             stories={stories}
                             content={content}
                             />)}
                 </Tabs>
                 </View>
+
           }
+      </Content>
       </Container>
     );
   }

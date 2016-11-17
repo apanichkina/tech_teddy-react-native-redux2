@@ -79,8 +79,8 @@ export default {
 
 
   // Color
-  brandPrimary: '#B39DDB',
-  brandInfo: '#5bc0de',
+  brandPrimary: '#00897B', //Primary
+  brandInfo: '#FFB74D', //Accent
   brandSuccess: '#5cb85c',
   brandDanger: '#d9534f',
   brandWarning: '#f0ad4e',
@@ -104,7 +104,7 @@ export default {
 
   // Footer
   footerHeight: 55,
-  footerDefaultBg: (Platform.OS === 'ios') ? '#F8F8F8' : '#B39DDB',
+  footerDefaultBg: (Platform.OS === 'ios') ? '#F8F8F8' : '#7E57C2',
 
   // FooterTab
   tabBarTextColor: (Platform.OS === 'ios') ? '#6b6b6b' : '#E0E0E0',
@@ -113,7 +113,7 @@ export default {
 
   // Header
   iosToolbarBtnColor: '#007aff',
-  toolbarDefaultBg: (Platform.OS === 'ios') ? '#F8F8F8' : '#B39DDB',
+  toolbarDefaultBg: (Platform.OS === 'ios') ? '#F8F8F8' : '#00897B', //Primary
   toolbarHeight: (Platform.OS === 'ios') ? 64 : 56,
   toolbarIconSize: (Platform.OS === 'ios') ? 20 : 22,
   toolbarInputColor: '#CECDD2',
@@ -185,7 +185,7 @@ export default {
 
 
   // Spinner
-  defaultSpinnerColor: '#F06292',
+  defaultSpinnerColor: '#FFB74D', //Accent
   inverseSpinnerColor: '#1A191B',
 
 
@@ -193,13 +193,13 @@ export default {
   // tabBgColor: '#F8F8F8',
   // tabFontSize: 15,
   // tabTextColor: '#fff',
-  tabBgColor: (Platform.OS === 'ios') ? '#F8F8F8' : '#B39DDB',
+  tabBgColor: (Platform.OS === 'ios') ? '#F8F8F8' : '#00897B', //Primary
   tabFontSize: 15,
   tabTextColor: (Platform.OS === 'ios') ? '#007aff' : '#fff',
 
 
   // Text
-  textColor: '#000',
+  textColor: '#212121',
   inverseTextColor: '#fff',
 
 
