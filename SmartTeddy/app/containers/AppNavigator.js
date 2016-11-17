@@ -14,6 +14,7 @@ import UserStories from './UserStories';
 import Counter from '../components/counter';
 import Bears from '../components/Bears/';
 import Profile from '../components/Profile/';
+import SignIn from '../components/SignIn/';
 import BearProfile from '../components/BearProfile/';
 import StoryProfile from '../components/StoryProfile';
 import SideBar from '../components/SideBar/';
@@ -178,6 +179,8 @@ class AppNavigator extends Component {
                 return <Alarm navigator={navigator} />;
             case 'wi-fi':
                 return <WiFi navigator={navigator} />;
+            case 'signin':
+                return <SignIn navigator={navigator} />;
             default :
                 return <Store navigator={navigator} />;
                 // return <Home navigator={navigator} />;

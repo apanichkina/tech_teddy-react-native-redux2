@@ -56,6 +56,7 @@ class SideBar extends Component {
                             <Text style={styles.text}>Пример tab снизу</Text>
                         </View>
                     </ListItem> */}
+
                     <ListItem button iconLeft onPress={() => this.navigateTo('store')} >
                         <View style={styles.listItemContainer}>
                             <View style={[styles.iconContainer, { paddingLeft: 14 }]}>
@@ -64,6 +65,19 @@ class SideBar extends Component {
                             <Text style={styles.text}>Магазин сказок</Text>
                         </View>
                     </ListItem>
+
+                    <ListItem button iconLeft onPress={() => this.navigateTo('signin')} >
+                        <View style={styles.listItemContainer}>
+                            <View style={[styles.iconContainer, { paddingLeft: 14 }]}>
+                                <Icon name="ios-log-in-outline" style={styles.sidebarIcon} />
+                            </View>
+                            <Text style={styles.text}>Войти</Text>
+                        </View>
+                    </ListItem>
+
+
+
+
                     <ListItem button iconLeft onPress={() => this.navigateTo('user-stories')} >
                         <View style={styles.listItemContainer}>
                             <View style={[styles.iconContainer, { paddingLeft: 14 }]}>
@@ -86,6 +100,15 @@ class SideBar extends Component {
                                 <Icon name="ios-paw" style={styles.sidebarIcon} />
                             </View>
                             <Text style={styles.text}>{'Примедведиться'}</Text>
+                        </View>
+                    </ListItem>
+
+                    <ListItem button iconLeft onPress={() => this.navigateTo('out')} >
+                        <View style={styles.listItemContainer}>
+                            <View style={[styles.iconContainer, { paddingLeft: 14 }]}>
+                                <Icon name="ios-log-out-outline" style={styles.sidebarIcon} />
+                            </View>
+                            <Text style={styles.text}>Выйти</Text>
                         </View>
                     </ListItem>
                     {/* <ListItem button iconLeft onPress={() => this.navigateTo('bluetooth')} >
@@ -135,13 +158,13 @@ class SideBar extends Component {
 function bindAction(dispatch) {
     return {
         closeDrawer: () => dispatch(closeDrawer()),
-        replaceOrPushRoute: route => dispatch(replaceOrPushRoute(route)),
+        replaceOrPushRoute: route => dispatch(replaceOrPushRoute(route))
     };
 }
 
 const mapStateToProps = state => ({
     drawerState: state.drawer.drawerState,
-    bearname: state.bear.connectedBearName,
+    bearname: state.bear.connectedBearName
 });
 
 export default connect(mapStateToProps, bindAction)(SideBar);

@@ -47,7 +47,7 @@ class BProfile extends Component {
 
                 <Content>
                     {isFetching ?
-                        <Spinner color='#F06292' style={{ alignSelf: 'center' }} />
+                        <Spinner style={{ alignSelf: 'center' }} />
                     :<Tabs locked>
                         {categories.map(category =>
                                 <StoryList

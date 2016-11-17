@@ -185,7 +185,7 @@ export default {
 
 
   // Spinner
-  defaultSpinnerColor: '#45D56E',
+  defaultSpinnerColor: '#F06292',
   inverseSpinnerColor: '#1A191B',
 
 

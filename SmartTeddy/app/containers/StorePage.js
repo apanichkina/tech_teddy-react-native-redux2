@@ -31,7 +31,7 @@ class Store extends Component {
         </Header>
           {isFetching ?
               <Content>
-                  <Spinner color='#F06292' style={{ alignSelf: 'center' }} />
+                  <Spinner style={{ alignSelf: 'center' }} />
               </Content>
               :<View>
                 <Tabs locked>
