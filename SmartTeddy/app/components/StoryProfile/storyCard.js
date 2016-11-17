@@ -40,7 +40,7 @@ export default class StoryCard extends Component {
                 <View style={{ flexDirection:'row'}}>
                     {isConnected && isUpload ?
                         !isPlaying ?
-                            <Button style={{ margin: 6, marginLeft:0, flex:1, backgroundColor: '#F06292'}} onPress={onPlay}>
+                            <Button info style={{ margin: 6, marginLeft:0, flex:1}} onPress={onPlay}>
                                 <Icon name="ios-play" style={{ color: '#fff', margin: 5 }}/>
                             </Button>
                             : isPaused ?
@@ -86,10 +86,10 @@ export default class StoryCard extends Component {
                                 ПРИМЕДВЕДИТЬСЯ
                             </Button>
                         : isUpload ?
-                            <Button style={{ margin: 6, marginLeft:0, flex:2}} onPress={onDeleteClick}>
+                            <Button bordered style={{ margin: 6, marginLeft:0, flex:2}} onPress={onDeleteClick}>
                                 <Icon name="ios-trash" />
                             </Button>
-                        :   <Button style={{ margin: 6, marginLeft:0, flex:2}} onPress={onUploadClick}>
+                        :   <Button bordered style={{ margin: 6, marginLeft:0, flex:2}} onPress={onUploadClick}>
                                 <Icon name="ios-cloud-upload" />
                             </Button>
 

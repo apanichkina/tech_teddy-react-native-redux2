@@ -87,7 +87,7 @@ class Settings extends Component {
             <Button
                 style={{alignSelf: 'flex-end', margin: 6}}
                 onPress={() => this.props.setWiFi(this.state.wifiSSID, this.state.wifiPassword)}>
-              Применить
+              ПРИМЕНИТЬ
             </Button>
           </List>
 

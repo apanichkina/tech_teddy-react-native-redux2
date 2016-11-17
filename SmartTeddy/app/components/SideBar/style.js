@@ -56,7 +56,7 @@ module.exports = StyleSheet.create({
         backgroundColor: '#CCCCCC'
     },
     connectedBear: {
-        color: '#B39DDB',
+        color: '#FFB74D', //Accent
         fontWeight: '500',
         fontSize: 16
     }

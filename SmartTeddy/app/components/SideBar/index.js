@@ -71,8 +71,6 @@ class SideBar extends Component {
                     </ListItem>
 
 
-
-
                     <ListItem button iconLeft onPress={() => this.navigateTo('user-stories')} >
                         <View style={styles.listItemContainer}>
                             <View style={[styles.iconContainer]}>

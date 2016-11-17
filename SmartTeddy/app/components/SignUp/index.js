@@ -125,7 +125,7 @@ class SignUp extends Component {
 
                 <View>
                     {(this.state.internet ? <Spinner></Spinner>
-                        :  <Button block
+                        :  <Button block info
                                    onPress={this.onPress.bind(this)}>
                         ЗАРЕГИСТРИРОВАТЬСЯ
                     </Button>
