@@ -47,4 +47,5 @@ export function fetchBuyStory(id) {
                 console.log('buy error:')
             console.log(error)
         });
-}}
+    }
+}

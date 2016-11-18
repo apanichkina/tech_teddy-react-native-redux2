@@ -4,6 +4,7 @@ import { Container, Content, Header, Text, Title, List, ListItem, Button, Icon, 
 import styles from './styles';
 import myTheme from '../../themes/base-theme';
 import { popRoute, pushNewRoute } from '../../actions/route';
+import { fetchSignIn } from '../../actions/user';
 import { connect } from 'react-redux';
 import {
     AppRegistry,
@@ -61,10 +62,17 @@ class SignIn extends Component {
     pushNewRoute(route) {
         this.props.pushNewRoute(route);
     }
+    fetchSignIn() {
+        var value = this.refs.form.getValue();
+        this.props.fetchSignIn(value.name, value.password);
+    }
+
+
     onChange(value) {
         this.setState({ value });
     }
     render() {
+        const {isFetching} = this.props;
         return (
         <Container theme={myTheme} style={styles.container}>
             <Header>
@@ -73,101 +81,51 @@ class SignIn extends Component {
                 </Button>
                 <Title>Авторизация</Title>
             </Header>
-                            <Content padder>
-                                <View>
-
-                                        <Form
-                                            ref="form"
-                                            type={Person}
-                                            options={options}
-                                            value={this.state.value}
-                                            onChange={this.onChange.bind(this)}
-                                            />
-
-
-
-                                        <View>
-                                            {(this.state.internet ? <Spinner></Spinner>
-                                                :  <Button block info
-                                                onPress={this.onPress.bind(this)}>
-                                                ВОЙТИ
-                                            </Button>
-                                            )}
-                                        </View>
-                                    <View style={{ flexDirection:'row', alignSelf: 'center', marginTop: 6 }}>
-                                        <Button  transparent  onPress={() => this.pushNewRoute('signup')}>Еще нет учетной записи?</Button>
-                                        <Button  transparent   textStyle={{fontWeight: 'bold'}}  onPress={() => this.pushNewRoute('signup')}>Зарегистрироваться</Button>
-                                    </View>
-                                    </View>
-                            </Content>
-                        </Container>
-
-
-
+            <Content padder>
+                <View>
+                    <Form
+                        ref="form"
+                        type={Person}
+                        options={options}
+                        value={this.state.value}
+                        onChange={this.onChange.bind(this)}
+                        />
+                    <View>
+                        {(isFetching ? <Spinner></Spinner>
+                            :  <Button block info onPress={() => this.fetchSignIn()}>
+                                        ВОЙТИ
+                                </Button>
+                        )}
+                    </View>
+                    <View style={{ flexDirection:'row', alignSelf: 'center', marginTop: 6 }}>
+                        <Button  transparent  onPress={() => this.pushNewRoute('signup')}>Еще нет учетной записи?</Button>
+                        <Button  transparent   textStyle={{fontWeight: 'bold'}}  onPress={() => this.pushNewRoute('signup')}>Зарегистрироваться</Button>
+                    </View>
+                </View>
+            </Content>
+        </Container>
         );
     }
-    onPress() {
-        // call getValue() to get the values of the form
-        var value = this.refs.form.getValue();
-
-        if (value) { // if validation fails, value will be null
-            this.setState({
-                internet:true
-            });
 
 
-            fetch('https://hardteddy.ru/api/user/login', {
-                method: 'POST',
-
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    name: value.name,
-                    password: value.password
-                    //fcm: FCMstr
-                })
-            }).then((response) => response.json())
-                .then((responseJson) => {
-                    console.log(responseJson);
-                    this.setState({
-                        internet:false
-                    });
-                    if(responseJson.status == 0){
-                        // Все хорошо
-                        console.log('все ок')
-
-                    }
-                    else{
-
-                    }
-                })
-                .catch((error) => {
-                    this.setState({
-                        internet:false
-                    });
-                    if (error.message == "Network request failed")
-                    {
-
-                    }
-                    else{
-
-                    }
-                });
-        }
-    }
 }
 SignIn.propTypes = {
     popRoute: React.PropTypes.func,
-    pushNewRoute: React.PropTypes.func
+    pushNewRoute: React.PropTypes.func,
+    fetchSignIn: React.PropTypes.func
 
 };
-function bindAction(dispatch) {
+const mapStateToProps = (state) => {
+    return {
+        isFetching: state.user.isFetching
+    }
+};
+const mapDispatchToProps = (dispatch) => {
     return {
         popRoute: () => dispatch(popRoute()),
-        pushNewRoute: route => dispatch(pushNewRoute(route))
-    };
-}
+        pushNewRoute: route => dispatch(pushNewRoute(route)),
+        fetchSignIn: (n,p) => dispatch(fetchSignIn(n,p))
+    }
+};
 
-export default connect(null, bindAction)(SignIn);
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

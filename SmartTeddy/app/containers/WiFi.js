@@ -32,7 +32,7 @@ var strings = {
 class Settings extends Component {
 
   static propTypes = {
-    openDrawer: React.PropTypes.func,
+    openDrawer: React.PropTypes.func
   };
 
   constructor (props) {

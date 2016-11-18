@@ -12,6 +12,7 @@ import alarm from './alarm'
 import wifi from './wifi'
 import player from './player'
 export {
+    user,
     player,
     wifi,
     alarm,
@@ -22,7 +23,6 @@ export {
     storyCategory,
     story,
     storyFromServer,
-    user,
     bluetooth,
     bear
     };
