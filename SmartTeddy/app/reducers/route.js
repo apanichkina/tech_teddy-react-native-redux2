@@ -54,15 +54,16 @@ export default function (state = initialState, action={}) {
             return {
                 routes
             };}
-        case "POP_TO_ROUTE":
+        case "POP_N_ROUTE":
         {
-            globalNav.navigator.popToRoute({id: action.route});
+            globalNav.navigator.popN(action.count);
             const routes = state.routes;
-            while (routes.pop() !== action.route) {
-                // keep popping till you get to the route
+            const count = action.count;
+            for (let i = 0; i < count; ++i) {
+                routes.pop();
             }
             return {
-                routes: [...routes, action.route]
+                routes
             };}
         default:
             return state;

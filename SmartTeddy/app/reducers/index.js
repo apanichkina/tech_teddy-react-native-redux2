@@ -13,12 +13,12 @@ import wifi from './wifi'
 import player from './player'
 export {
     user,
+    route,
     player,
     wifi,
     alarm,
     counter,
     drawer,
-    route,
     store,
     storyCategory,
     story,

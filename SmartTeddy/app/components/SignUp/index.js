@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { Container, Content, Header, Text, Title,  List, ListItem, Button, Icon, InputGroup, Input, View, Spinner } from 'native-base';
 import styles from './styles';
 import myTheme from '../../themes/base-theme';
-import { popRoute } from '../../actions/route';
+import { popRoute, popNRoute } from '../../actions/route';
 import { connect } from 'react-redux';
 import {
     AppRegistry,
@@ -103,6 +103,11 @@ class SignUp extends Component {
     onChange(value) {
         this.setState({ value });
     }
+    fetchSignUp() {
+        //var value = this.refs.form.getValue();
+       // this.props.fetchSignIn(value.name, value.password);
+        this.props.popNRoute(2);
+    }
     render() {
         return (
             <Container theme={myTheme} style={styles.container}>
@@ -126,7 +131,7 @@ class SignUp extends Component {
                 <View>
                     {(this.state.internet ? <Spinner></Spinner>
                         :  <Button block info
-                                   onPress={this.onPress.bind(this)}>
+                                   onPress={() => this.fetchSignUp()}>
                         ЗАРЕГИСТРИРОВАТЬСЯ
                     </Button>
                     )}
@@ -208,12 +213,18 @@ class SignUp extends Component {
 }
 
 SignUp.propTypes = {
-    popRoute: React.PropTypes.func
+    popRoute: React.PropTypes.func,
+    popNRoute: React.PropTypes.func
 };
-function bindAction(dispatch) {
+const mapStateToProps = (state) => {
     return {
-        popRoute: () => dispatch(popRoute())
-    };
-}
+    }
+};
+const mapDispatchToProps = (dispatch) => {
+    return {
+        popRoute: () => dispatch(popRoute()),
+        popNRoute: (n) => dispatch(popNRoute(n))
+    }
+};
 
-export default connect(null, bindAction)(SignUp);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

@@ -65,6 +65,7 @@ class SignIn extends Component {
     fetchSignIn() {
         var value = this.refs.form.getValue();
         this.props.fetchSignIn(value.name, value.password);
+        this.props.popRoute();
     }
 
 

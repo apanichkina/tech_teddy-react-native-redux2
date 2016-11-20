@@ -77,7 +77,8 @@ class AppNavigator extends Component {
         BackAndroid.addEventListener('hardwareBackPress', () => {
             const routes = this._navigator.getCurrentRoutes();
 
-            if (routes[routes.length - 1].id === 'home') {
+            //if (routes[routes.length - 1].id === 'home') {
+            if (routes.length <= 1) {
                 // CLose the app
                 // this.disconnectFromDevice();
                 return true;
@@ -147,18 +148,13 @@ class AppNavigator extends Component {
     }
 
     isConnected() {
-        console.log('this.props.bearname '+this.props.bearname)
-        return false; 
+        console.log('this.props.bearname '+this.props.bearname);
+        //return false;
         return (this.props.bearname) ? true : false; 
     }
 
     renderScene(route, navigator) { // eslint-disable-line class-methods-use-this
-        // const { bearname } = this.props;
         switch (route.id) {
-            case 'home':
-                return <Home navigator={navigator} />;
-            case 'anatomy':
-                return <Anatomy navigator={navigator} />;
             case 'store':
                 return <Store navigator={navigator} />;
             case 'user-stories':
