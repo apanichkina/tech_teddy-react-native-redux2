@@ -57,7 +57,7 @@ export function receiveBears(devices):Action {
 export function searchBears() {
     let instance = Bluetooth.getInstance();
     return function (dispatch) {
-        return instance.list().then(array => {console.log(array); dispatch(receiveBears(array))}
+        return instance.list().then(array => {dispatch(receiveBears(array))}
         ).catch((error) => {
                 console.log('bear search error:');
                 console.log(error)
@@ -71,7 +71,6 @@ export function connectToDevice(id, name) {
         return instance.connect(id).then(() => {
                 // disconnectFromDevice();
                 dispatch(connectBluetooth());
-                console.log('connectToDevice');
                 dispatch(setConnectedBearName(name));
                 heartBeatID = setTimeout(() => {
                     //heartBeatID = undefined;

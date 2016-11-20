@@ -10,7 +10,6 @@ const initialState = {
 export default function (state = initialState, action={}) {
     switch (action.type) {
         case "PUSH_NEW_ROUTE":
-            console.log('push'+action.route)
             globalNav.navigator.push({id: action.route});
             return {
                 routes: [...state.routes, action.route]

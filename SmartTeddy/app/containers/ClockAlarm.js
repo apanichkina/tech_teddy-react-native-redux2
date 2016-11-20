@@ -18,7 +18,7 @@ var strings = {
 class ClockAlarm extends Component {
 
   static propTypes = {
-    openDrawer: React.PropTypes.func,
+    openDrawer: React.PropTypes.func
   };
 
   constructor (props) {

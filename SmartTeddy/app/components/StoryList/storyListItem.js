@@ -24,5 +24,5 @@ Story.propTypes = {
     minutes: React.PropTypes.number.isRequired,
     seconds: React.PropTypes.number.isRequired,
     price: React.PropTypes.number.isRequired,
-    illustration: React.PropTypes.object.isRequired,
+    illustration: React.PropTypes.object.isRequired
 };

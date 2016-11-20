@@ -1,15 +1,16 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Header, Title, View, Button, Icon, Tabs } from 'native-base';
-import { openDrawer } from '../actions/drawer';
-import { popRoute } from '../actions/route';
 import { fetchStories } from '../actions/storyFromServer';
-import myTheme from '../themes/base-theme';
 import StorePage from './StorePage';
 import { PossiblePurposes } from '../actions/actionTypes'
+
 class Store extends Component {
 
+    constructor(props) {
+        super(props);
+        this.props.getStories();
+    }
   render() {
       const { stories, isFetching } = this.props;
     return (
@@ -32,6 +33,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+      getStories: () => dispatch(fetchStories(PossiblePurposes.USER))
   }
 };
 

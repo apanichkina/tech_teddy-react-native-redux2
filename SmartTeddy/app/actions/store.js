@@ -23,7 +23,7 @@ export function fetchBuyStory(id) {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': getState().user.userToken
+            'Authorization': getState().user.token
         },
         body: JSON.stringify({
             'storyID': id

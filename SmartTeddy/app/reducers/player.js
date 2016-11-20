@@ -16,8 +16,6 @@ export default function (state = initialState, action={}) {
         case 'PAUSE_STORY':
             let currentState = state.isStoryPaused;
             let newState = !currentState;
-            console.log('current: '+ state.isStoryPaused);
-            console.log('new: '+newState);
             return {
                 ...state,
                 isStoryPaused: newState

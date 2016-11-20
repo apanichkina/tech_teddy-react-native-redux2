@@ -1,18 +1,12 @@
 const initialState = {
-    userToken: '',
-    token: '',
-    user: '',
+    token: null,
+    user: null,
     isFetching: false
 };
 
 
 export default function (state = initialState, action={}) {
     switch (action.type) {
-        case 'SET_USER_TOKEN':
-            return {
-                userToken: action.token
-
-            };
         case 'REQUEST_SIGN_IN':
             return {
                 ...state,
@@ -23,10 +17,11 @@ export default function (state = initialState, action={}) {
                 isFetching: false,
                 token: action.token
             });
-        // discards the current token (logout)
         case 'AUTH_DISCARD_TOKEN':
-            return {};
-        // saves the current user
+            return Object.assign({}, state, {
+                token: null,
+                user: null
+            });
         case 'AUTH_SET_USER':
             return {
                 ...state,

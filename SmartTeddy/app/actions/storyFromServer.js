@@ -73,7 +73,7 @@ export function fetchStories(purpose) {
                 return fetch(url, {
                     method: 'GET',
                     headers: {
-                        'Authorization': state.user.userToken
+                        'Authorization': state.user.token
                     }
                 }).then((response) => response.json())
                     .then(json =>

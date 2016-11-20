@@ -131,7 +131,7 @@ class SignUp extends Component {
                     </Button>
                     )}
                 </View>
-                <View style={{ flexDirection:'row', alignSelf: 'center', marginTop: 6 }}>
+                <View style={{flexDirection: 'row', justifyContent: 'flex-end' }}>
                     <Button  transparent  onPress={()=>this.popRoute()}>Есть учетная запись?</Button>
                     <Button  transparent   textStyle={{fontWeight: 'bold'}}  onPress={()=>this.popRoute()}>Войти</Button>
                 </View>

@@ -97,7 +97,9 @@ class SignIn extends Component {
                                 </Button>
                         )}
                     </View>
-                    <View style={{ flexDirection:'row', alignSelf: 'center', marginTop: 6 }}>
+                    <View style={{
+        flexDirection: 'row',
+        justifyContent: 'flex-end'}}>
                         <Button  transparent  onPress={() => this.pushNewRoute('signup')}>Еще нет учетной записи?</Button>
                         <Button  transparent   textStyle={{fontWeight: 'bold'}}  onPress={() => this.pushNewRoute('signup')}>Зарегистрироваться</Button>
                     </View>

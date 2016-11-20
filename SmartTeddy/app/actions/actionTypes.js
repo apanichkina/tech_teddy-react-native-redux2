@@ -25,8 +25,6 @@ export const SEE_STORY = 'SEE_STORY';
 export const SET_STORIES_RESOURCE = 'SET_STORIES_RESOURCE';
 
 //User
-export const SET_USER_TOKEN = 'SET_USER_TOKEN';
-
 export const AUTH_SET_TOKEN = 'AUTH_SET_TOKEN';
 export const AUTH_DISCARD_TOKEN = 'AUTH_DISCARD_TOKEN';
 export const AUTH_SET_USER = 'AUTH_SET_USER';

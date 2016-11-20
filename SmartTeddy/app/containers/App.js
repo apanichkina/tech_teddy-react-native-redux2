@@ -3,6 +3,7 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import createLogger from 'redux-logger'
 import AppNavigator from '../containers/AppNavigator';
+import Root from './Root';
 import { connect, Provider } from 'react-redux';
 import * as reducers from '../reducers';
 import { addStory, buyStory } from '../actions/store'
@@ -28,8 +29,6 @@ const store = createStoreWithMiddleware(reducer);
 //        console.log(store.getState())
 //)
 
-store.dispatch(setToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImpvcGEiLCJ0eXBlIjoidXNlciJ9.2QyJX3PfqDFzv24Dt5jB-ZHO0dBWeuzayO0ezjmvYGA'));
-
 store.dispatch(fetchCategories())
 
 store.dispatch(fetchStories(PossiblePurposes.USER))
@@ -45,7 +44,7 @@ export default class App extends React.Component  {
   render() {
     return (
         <Provider store={store}>
-            <AppNavigator/>
+            <Root/>
         </Provider>
     );
   }

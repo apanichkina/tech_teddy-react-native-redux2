@@ -58,7 +58,8 @@ class AppNavigator extends Component {
         popRoute: React.PropTypes.func,
         closeDrawer: React.PropTypes.func,
         connectBluetooth: React.PropTypes.func,
-        unconnectBluetooth: React.PropTypes.func
+        unconnectBluetooth: React.PropTypes.func,
+        openModal: React.PropTypes.func
     }
 
     componentWillMount() {
@@ -196,7 +197,7 @@ class AppNavigator extends Component {
                 ref={(ref) => { this._drawer = ref; }}
                 type="overlay"
                 tweenDuration={150}
-                content={<SideBar navigator={this._navigator} />}
+                content={<SideBar navigator={this._navigator} openModal={() => this.props.openModal()}/>}
                 tapToClose
                 acceptPan={false}
                 onClose={() => this.closeDrawer()}
