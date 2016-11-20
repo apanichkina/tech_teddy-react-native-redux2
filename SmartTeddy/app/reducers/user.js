@@ -1,7 +1,8 @@
 const initialState = {
     token: null,
     user: null,
-    isFetching: false
+    isSignInFetching: false,
+    isSignUpFetching: false
 };
 
 
@@ -10,11 +11,17 @@ export default function (state = initialState, action={}) {
         case 'REQUEST_SIGN_IN':
             return {
                 ...state,
-                isFetching: true
+                isSignInFetching: true
+            };
+        case 'REQUEST_SIGN_UP':
+            return {
+                ...state,
+                isSignUpFetching: true
             };
         case 'AUTH_SET_TOKEN':
             return Object.assign({}, state, {
-                isFetching: false,
+                isSignInFetching: false,
+                isSignUpFetching: false,
                 token: action.token
             });
         case 'AUTH_DISCARD_TOKEN':

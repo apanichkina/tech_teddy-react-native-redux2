@@ -64,7 +64,17 @@ export default function (state = initialState, action={}) {
             }
             return {
                 routes
-            };}
+            };
+        }
+        case "POP_TO_TOP":
+        {
+            globalNav.navigator.popToTop();
+            const routes = state.routes;
+            let new_routes = routes.slice(0,1);
+            return {
+                routes: new_routes
+            };
+        }
         default:
             return state;
     }

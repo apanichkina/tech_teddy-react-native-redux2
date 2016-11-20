@@ -7,11 +7,8 @@ import { Drawer } from 'native-base';
 import { closeDrawer } from '../actions/drawer';
 import { popRoute } from '../actions/route';
 
-import Home from '../components/Home';
-import Anatomy from '../components/Anatomy/';
 import Store from './Store';
 import UserStories from './UserStories';
-import Counter from '../components/counter';
 import Bears from '../components/Bears/';
 import Profile from '../components/Profile/';
 import SignIn from '../components/SignIn/';
@@ -21,8 +18,7 @@ import StoryProfile from '../components/StoryProfile';
 import SideBar from '../components/SideBar/';
 import Alarm from './ClockAlarm'
 import WiFi from './WiFi'
-import Bluetooth from './Bluetooth'
-import BStory from './Story'
+
 import { enableBluetooth, disableBluetooth, disconnectFromDevice } from '../actions/bluetooth';
 import BluetoothSerial from 'react-native-bluetooth-hc05'
 import statusBarColor from '../themes/base-theme';
@@ -60,7 +56,7 @@ class AppNavigator extends Component {
         connectBluetooth: React.PropTypes.func,
         unconnectBluetooth: React.PropTypes.func,
         openModal: React.PropTypes.func
-    }
+    };
 
     componentWillMount() {
             BluetoothSerial.isEnabled().then((value) => {
@@ -153,14 +149,12 @@ class AppNavigator extends Component {
         return (this.props.bearname) ? true : false; 
     }
 
-    renderScene(route, navigator) { // eslint-disable-line class-methods-use-this
+    static renderScene(route, navigator) { // eslint-disable-line class-methods-use-this
         switch (route.id) {
             case 'store':
                 return <Store navigator={navigator} />;
             case 'user-stories':
                 return <UserStories navigator={navigator} />;
-            case 'counter':
-                return <Counter navigator={navigator} />;
             case 'bears':
                 return <Bears navigator={navigator} />;
             case 'story-profile':
@@ -169,10 +163,6 @@ class AppNavigator extends Component {
                 return <Profile navigator={navigator} />;
             case 'bear-profile':
                 return <BearProfile navigator={navigator} />;
-            case 'bluetooth':
-                return <Bluetooth navigator={navigator} />;
-            case 'bluetooth-story':
-                return <BStory navigator={navigator} />;
             case 'alarm':
                 return <Alarm navigator={navigator} />;
             case 'wi-fi':
@@ -183,7 +173,6 @@ class AppNavigator extends Component {
                 return <SignUp navigator={navigator} />;
             default :
                 return <Store navigator={navigator} />;
-                // return <Home navigator={navigator} />;
         }
     }
 
@@ -224,7 +213,7 @@ class AppNavigator extends Component {
                     }}
                     configureScene={() => Navigator.SceneConfigs.FloatFromRight}
                     initialRoute={{ id: (Platform.OS === 'android') ? 'splashscreen' : 'home', statusBarHidden: true }}
-                    renderScene={this.renderScene}
+                    renderScene={AppNavigator.renderScene}
                     />
             </Drawer>
         );
@@ -241,7 +230,7 @@ const bindAction = dispatch => ({
 
 const mapStateToProps = state => ({
     drawerState: state.drawer.drawerState,
-    bearname: state.bear.connectedBearName,
+    bearname: state.bear.connectedBearName
 });
 
 export default connect(mapStateToProps, bindAction)(AppNavigator);

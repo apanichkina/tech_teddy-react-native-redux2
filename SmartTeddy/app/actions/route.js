@@ -36,3 +36,10 @@ export function popNRoute(count:number):Action {
     };
 }
 
+export function popToTop():Action {
+    return {
+        type: types.POP_TO_TOP
+    };
+}
+
+

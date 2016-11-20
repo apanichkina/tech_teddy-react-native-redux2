@@ -1,15 +1,11 @@
 'use strict';
 import React, { Component } from 'react';
-import { Container, Content, Header, Text, Title, List, ListItem, Button, Icon, InputGroup, Input, View, Spinner } from 'native-base';
+import { Container, Content, Header, Text, Title, Button, Icon, View, Spinner } from 'native-base';
 import styles from './styles';
 import myTheme from '../../themes/base-theme';
 import { popRoute, pushNewRoute } from '../../actions/route';
 import { fetchSignIn } from '../../actions/user';
 import { connect } from 'react-redux';
-import {
-    AppRegistry,
-    StyleSheet,
-    TouchableHighlight} from 'react-native'
 
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
@@ -51,9 +47,7 @@ class SignIn extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            internet:false
-        };
+        this.state = {};
     }
     popRoute() {
         this.props.popRoute();
@@ -64,8 +58,10 @@ class SignIn extends Component {
     }
     fetchSignIn() {
         var value = this.refs.form.getValue();
-        this.props.fetchSignIn(value.name, value.password);
-        this.props.popRoute();
+        if (value) {
+            this.props.fetchSignIn(value.name, value.password);
+            this.props.popRoute();
+        }
     }
 
 
@@ -98,9 +94,7 @@ class SignIn extends Component {
                                 </Button>
                         )}
                     </View>
-                    <View style={{
-        flexDirection: 'row',
-        justifyContent: 'flex-end'}}>
+                    <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                         <Button  transparent  onPress={() => this.pushNewRoute('signup')}>Еще нет учетной записи?</Button>
                         <Button  transparent   textStyle={{fontWeight: 'bold'}}  onPress={() => this.pushNewRoute('signup')}>Зарегистрироваться</Button>
                     </View>
@@ -120,7 +114,7 @@ SignIn.propTypes = {
 };
 const mapStateToProps = (state) => {
     return {
-        isFetching: state.user.isFetching
+        isFetching: state.user.isSignInFetching
     }
 };
 const mapDispatchToProps = (dispatch) => {

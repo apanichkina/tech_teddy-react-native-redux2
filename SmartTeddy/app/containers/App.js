@@ -17,7 +17,7 @@ import { setToken } from '../actions/user'
 import { PossiblePurposes } from '../actions/actionTypes'
 import { setAlarmTime, getAlarmTime } from '../actions/alarm'
 const loggerMiddleware = createLogger();
-const createStoreWithMiddleware = applyMiddleware(thunk, loggerMiddleware )(createStore);
+const createStoreWithMiddleware = applyMiddleware(thunk, loggerMiddleware)(createStore);
 const reducer = combineReducers(reducers);
 const store = createStoreWithMiddleware(reducer);
 // Выведем в консоль начальное состояние
@@ -36,7 +36,6 @@ store.dispatch(fetchStories(PossiblePurposes.SHOP))
 store.dispatch(setStoriesResource(PossiblePurposes.USER))
 //store.dispatch(setAlarmTime(new Date()))
 
-console.log(store.getState())
 // Прекратим слушать обновление состояния
 //unsubscribe()
 export default class App extends React.Component  {

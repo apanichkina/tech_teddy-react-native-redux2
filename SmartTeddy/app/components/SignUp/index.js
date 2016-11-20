@@ -1,20 +1,14 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { Container, Content, Header, Text, Title,  List, ListItem, Button, Icon, InputGroup, Input, View, Spinner } from 'native-base';
+import { Container, Content, Header, Text, Title, Button, Icon, View, Spinner } from 'native-base';
 import styles from './styles';
 import myTheme from '../../themes/base-theme';
 import { popRoute, popNRoute } from '../../actions/route';
+import {fetchSignUp} from '../../actions/user'
 import { connect } from 'react-redux';
-import {
-    AppRegistry,
-    StyleSheet,
-    ScrollView,
-    TouchableHighlight
-    } from 'react-native'
 
 var t = require('tcomb-form-native');
-
 var Form = t.form.Form;
 
 var regExpLogin = new RegExp("^[a-z0-9_-]{3,16}$", 'i');
@@ -94,7 +88,7 @@ class SignUp extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {internet:false, options:options};
+        this.state = {};
     }
     popRoute() {
         this.props.popRoute();
@@ -104,11 +98,14 @@ class SignUp extends Component {
         this.setState({ value });
     }
     fetchSignUp() {
-        //var value = this.refs.form.getValue();
-       // this.props.fetchSignIn(value.name, value.password);
-        this.props.popNRoute(2);
+        var value = this.refs.form.getValue();
+        if (value) {
+            this.props.fetchSignUp(value.name, value.email,value.password1, value.password2);
+            this.props.popNRoute(2);
+        }
     }
     render() {
+        const {isFetching} = this.props;
         return (
             <Container theme={myTheme} style={styles.container}>
                 <Header>
@@ -129,7 +126,7 @@ class SignUp extends Component {
                         onChange={this.onChange.bind(this)}/>
 
                 <View>
-                    {(this.state.internet ? <Spinner></Spinner>
+                    {(isFetching ? <Spinner></Spinner>
                         :  <Button block info
                                    onPress={() => this.fetchSignUp()}>
                         ЗАРЕГИСТРИРОВАТЬСЯ
@@ -146,70 +143,6 @@ class SignUp extends Component {
             </Container>
         );
     }
-    onPress() {
-        // call getValue() to get the values of the form
-        this.setState({options:options})
-        var value = this.refs.form.getValue();
-
-        if (value) {
-
-            this.setState({
-                internet:true
-            });
-            fetch('https://hardteddy.ru/api/user/register', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    name: value.name,
-                    email: value.email,
-                    password1: value.password1,
-                    password2: value.password2
-                })
-            }).then((response) => response.json())
-                .then((responseJson) => {
-                    console.log(responseJson)
-                    console.log(responseJson.status)
-                    console.log(responseJson.body.email)
-                    console.log(responseJson.body.password)
-                    console.log(responseJson.body.login)
-                    if (responseJson.status == 0){
-
-                        //
-                        //realm.write(() =>   {
-                        //    realm.create('Token', {name: 'bearToken', token:responseJson.body.bearToken});
-                        //    realm.create('Token', {name: 'userToken', token:responseJson.body.userToken});
-                        //});
-                    }
-                    else{
-                        var msg;
-                        if (responseJson.body.login.includes(1)){
-                            msg = "Логин уже занят :("
-                        }
-                        else{
-                            msg = "Неизвестная ошибка"
-                        }
-                       console.log(msg)
-                    }
-                    this.setState({
-                        internet:false
-                    });
-                }).catch((error) => {
-                    this.setState({
-                        internet:false
-                    });
-                    if (error.message == "Network request failed")
-                    {
-                    }
-                    else{
-                    }
-                    console.log(error)
-                });
-
-        }
-    }
 }
 
 SignUp.propTypes = {
@@ -218,12 +151,14 @@ SignUp.propTypes = {
 };
 const mapStateToProps = (state) => {
     return {
+        isFetching: state.user.isSignUpFetching
     }
 };
 const mapDispatchToProps = (dispatch) => {
     return {
         popRoute: () => dispatch(popRoute()),
-        popNRoute: (n) => dispatch(popNRoute(n))
+        popNRoute: (n) => dispatch(popNRoute(n)),
+        fetchSignUp: (n, e, p1, p2) => dispatch(fetchSignUp(n, e, p1, p2))
     }
 };
 

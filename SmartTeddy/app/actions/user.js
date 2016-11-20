@@ -25,6 +25,11 @@ export function requestSignIn():Action {
         type: types.REQUEST_SIGN_IN
     }
 }
+export function requestSignUp():Action {
+    return {
+        type: types.REQUEST_SIGN_UP
+    }
+}
 
 export function fetchSignIn(name, password) {
 
@@ -46,7 +51,6 @@ export function fetchSignIn(name, password) {
             .then(responseJson => {
                 if(responseJson.status == 0){
                     // Все хорошо
-                    console.log('все ок');
                     dispatch(authSetToken(responseJson.body.userToken));
                     dispatch(authSetUser(name));
                 }
@@ -55,7 +59,43 @@ export function fetchSignIn(name, password) {
                 }
             }
         ).catch((error) => {
-                console.log('sign in error:')
+                console.log('sign in error:');
+                console.log(error)
+            });
+    }
+
+}
+export function fetchSignUp(name, email, password1, password2) {
+
+    return function (dispatch) {
+        console.log('sign up action')
+        dispatch(requestSignUp());
+        let url = 'https://hardteddy.ru/api/user/register';
+        return fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: name,
+                email: email,
+                password1: password1,
+                password2: password2
+            })
+        }).then(response => response.json())
+            .then(responseJson => {
+                if(responseJson.status == 0){
+                    // Все хорошо
+                    dispatch(authSetToken(responseJson.body.userToken));
+                    dispatch(authSetUser(name));
+                }
+                else{
+
+                }
+            }
+        ).catch((error) => {
+                console.log('sign up error:');
                 console.log(error)
             });
     }

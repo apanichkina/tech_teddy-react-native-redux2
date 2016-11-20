@@ -9,6 +9,12 @@ class Store extends Component {
 
     constructor(props) {
         super(props);
+
+    }
+    componentWillMount(){
+      this.getStories();
+    }
+    getStories(){
         this.props.getStories();
     }
   render() {

@@ -1,5 +1,6 @@
 import * as types from './actionTypes';
 import Bluetooth from '../BluetoothLib'
+
 export function requestBearStories():Action {
     return {
         type: types.REQUEST_BEAR_STORIES
@@ -7,12 +8,19 @@ export function requestBearStories():Action {
 }
 export function receiveStories(stories):Action {
     let arr = stories;
+    console.log('dirty stories: ');
+    console.log(arr);
     let bearStories=[];
+    let index = 0;
     arr.forEach(function(item,i,arr){
+            if (item){
             item=item.replace(".raw","");
-            bearStories[i] = parseInt(item,10);
+            bearStories[index++] = parseInt(item,10);
+            }
         }
     );
+    console.log('clear stories: ');
+    console.log(arr);
     return {
         type: types.SET_BEAR_STORIES,
         stories: bearStories

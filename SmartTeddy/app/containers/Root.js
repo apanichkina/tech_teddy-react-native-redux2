@@ -8,6 +8,7 @@ import {
 import { connect } from 'react-redux';
 import Modal from '../components/Modal';
 import { authDiscardToken } from '../actions/user';
+import {popToTop} from '../actions/route'
 let strings = {
     message: 'Вы уверенны, что хотите ВЫЙТИ?'
 };
@@ -21,6 +22,8 @@ class Root extends React.Component  {
     }
     logout() {
         this.props.authDiscardToken();
+        this.props.popToTop();
+
     }
     openModal() {
         this.setState({isModalVisible: true});
@@ -60,7 +63,8 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
     return {
-        authDiscardToken: () => dispatch(authDiscardToken())
+        authDiscardToken: () => dispatch(authDiscardToken()),
+        popToTop: () => dispatch(popToTop())
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Root);

@@ -9,6 +9,8 @@ export const REPLACE_ROUTE = 'REPLACE_ROUTE';
 export const REPLACE_OR_PUSH_ROUTE = 'REPLACE_OR_PUSH_ROUTE';
 export const POP_ROUTE = 'POP_ROUTE';
 export const POP_N_ROUTE = 'POP_N_ROUTE';
+export const POP_TO_TOP = 'POP_TO_TOP';
+
 
 export const SET_CATEGORY_FILTER = 'SET_CATEGORY_FILTER';
 export const ADD_CATEGORY = 'ADD_CATEGORY';
@@ -29,6 +31,9 @@ export const AUTH_SET_TOKEN = 'AUTH_SET_TOKEN';
 export const AUTH_DISCARD_TOKEN = 'AUTH_DISCARD_TOKEN';
 export const AUTH_SET_USER = 'AUTH_SET_USER';
 export const REQUEST_SIGN_IN = 'REQUEST_SIGN_IN';
+export const REQUEST_SIGN_UP = 'REQUEST_SIGN_UP';
+
+
 
 
 /*

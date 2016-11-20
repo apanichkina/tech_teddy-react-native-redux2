@@ -10,6 +10,12 @@ import StorePage from './StorePage';
 import { PossiblePurposes } from '../actions/actionTypes'
 class Store extends Component {
 
+    componentWillMount(){
+        this.getStories();
+    }
+    getStories(){
+        this.props.getStories();
+    }
   render() {
       const { stories, isFetching } = this.props;
     return (
@@ -32,6 +38,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+      getStories: () => dispatch(fetchStories(PossiblePurposes.SHOP))
   }
 };
 

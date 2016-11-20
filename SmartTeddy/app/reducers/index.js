@@ -14,6 +14,7 @@ import player from './player'
 export {
     user,
     route,
+    bear,
     player,
     wifi,
     alarm,
@@ -23,6 +24,5 @@ export {
     storyCategory,
     story,
     storyFromServer,
-    bluetooth,
-    bear
+    bluetooth
     };
