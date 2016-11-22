@@ -29,11 +29,11 @@ class Store extends Component {
             <Icon name="ios-menu" />
           </Button>
         </Header>
-          <Content>
+
           {isFetching ?
-
+              <Content>
                   <Spinner style={{ alignSelf: 'center' }} />
-
+              </Content>
               :<View>
                 <Tabs locked >
                     {categories.map(category =>
@@ -48,7 +48,7 @@ class Store extends Component {
                 </View>
 
           }
-      </Content>
+
       </Container>
     );
   }

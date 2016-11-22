@@ -48,10 +48,12 @@ class BProfile extends Component {
 
                 </Header>
 
-                <Content>
+
                     {isFetching ?
-                        <Spinner style={{ alignSelf: 'center' }} />
-                    :<Tabs locked>
+                        <Content>
+                            <Spinner style={{ alignSelf: 'center' }} />
+                        </Content>
+                        :<Tabs locked>
                         {categories.map(category =>
                                 <StoryList
                                     key={category.id}
@@ -64,7 +66,6 @@ class BProfile extends Component {
 
                     </Tabs>
                     }
-                </Content>
             </Container>
 
         );
