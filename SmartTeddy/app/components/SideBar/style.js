@@ -13,8 +13,7 @@ module.exports = StyleSheet.create({
     drawerCover: {
         alignSelf: 'stretch',
         // resizeMode: 'cover',
-
-        height: deviceHeight / 3.5,
+        height: 127,
         width: null,
         position: 'relative',
         marginBottom: 10
@@ -27,6 +26,19 @@ module.exports = StyleSheet.create({
         top: (Platform.OS === 'android') ? deviceHeight / 13 : deviceHeight / 12,
         width: 97,
         resizeMode: 'cover'
+    },
+    backdropView: {
+        backgroundColor: 'rgba(0,0,0,0)',
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        alignItems: 'flex-start'
+    },
+    headline: {
+        padding: 16,
+        textAlign: 'center',
+        backgroundColor: 'rgba(0,0,0,0)',
+        color: 'white'
     },
     listItemContainer: {
         flexDirection: 'row',

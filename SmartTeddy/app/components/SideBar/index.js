@@ -32,15 +32,20 @@ class SideBar extends Component {
     }
 
     render() {
-        const { bearname, isAuth } = this.props;
+        const { bearname, isAuth, username } = this.props;
         return (
             <Content
                 theme={sidebarTheme}
                 style={styles.sidebar}
                 >
-                <View  style={styles.drawerCover}>
-                    <Image source={drawerImage} />
-                </View>
+
+                <Image
+                    style={styles.drawerCover}
+                    source={drawerImage}>
+                    <View style={styles.backdropView}>
+                        <Text style={styles.headline}>{username ? username : 'Лучший в мире родитель'}</Text>
+                    </View>
+                </Image>
                 <List>
 
                     <ListItem button iconLeft onPress={() => this.navigateTo('store')} >
@@ -148,7 +153,8 @@ class SideBar extends Component {
 const mapStateToProps = state => ({
     drawerState: state.drawer.drawerState,
     bearname: state.bear.connectedBearName,
-    isAuth: !!state.user.token
+    isAuth: !!state.user.token,
+    username: state.user.user
 });
 
 const mapDispatchToProps = (dispatch) =>{
