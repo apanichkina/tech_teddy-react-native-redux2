@@ -73,13 +73,13 @@ class ClockAlarmPresentational extends Component {
                         <View style={styles.inlineH0} >
                             <TouchableOpacity onPress={this._showDateTimePicker}>
                                 <Text
-                                    style={[styles.time, (isAlarmActive) ? styles.active : styles.inactive]}>
+                                    style={[styles.time, (isAlarmActive) ? {color:myTheme.btnInfoBg } :{color:myTheme.btnDisableBg }]}>
                                     {alarmTime}
                                 </Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={toggleAlarm}>
                                 <Image
-                                    style={[styles.alarm, (isAlarmActive) ? styles.activeImg : styles.inactiveImg]}
+                                    style={[styles.alarm, (isAlarmActive) ? {tintColor:myTheme.btnInfoBg } :{tintColor:myTheme.btnDisableBg }]}
                                     source={require('../../../img/ic_alarm_white_24dp.png')} />
                             </TouchableOpacity>
                         </View>
@@ -94,7 +94,7 @@ class ClockAlarmPresentational extends Component {
                                     <Text
                                         key={i}
                                         onPress={() =>_changeWeekDay(i)}
-                                        style={[styles.days, (days[i]) ? styles.active : styles.inactive]}>
+                                        style={[styles.days, (days[i]) ? {color:myTheme.btnInfoBg } :{color:myTheme.btnDisableBg }]}>
                                         {strings.days[i]}
                                     </Text>
                             )
@@ -103,17 +103,17 @@ class ClockAlarmPresentational extends Component {
                         <View style={styles.inlineH0} >
                             <TouchableOpacity onPress={toggleSound}>
                                 <Image
-                                    style={[styles.alarm, (isSoundActive) ? styles.activeImg : styles.inactiveImg]}
+                                    style={[styles.alarm, (isSoundActive) ? {tintColor:myTheme.btnInfoBg } :{tintColor:myTheme.btnDisableBg }]}
                                     source={require('../../../img/audiotrack_white_24dp.png')} />
                             </TouchableOpacity>
                             <TouchableOpacity onPress={toggleVibro}>
                                 <Image
-                                    style={[styles.alarm, (isVibroActive) ? styles.activeImg : styles.inactiveImg]}
+                                    style={[styles.alarm, (isVibroActive) ? {tintColor:myTheme.btnInfoBg } :{tintColor:myTheme.btnDisableBg }]}
                                     source={require('../../../img/vibration_white_24dp.png')} />
                             </TouchableOpacity>
                             <TouchableOpacity onPress={toggleLight}>
                                 <Image
-                                    style={[styles.alarm, (isLightActive) ? styles.activeImg : styles.inactiveImg]}
+                                    style={[styles.alarm, (isLightActive) ? {tintColor:myTheme.btnInfoBg } :{tintColor:myTheme.btnDisableBg }]}
                                     source={require('../../../img/brightness_high_white_24dp.png')} />
                             </TouchableOpacity>
                         </View>

@@ -13,7 +13,9 @@ export default {
   btnFontFamily: (Platform.OS === 'ios') ? 'HelveticaNeue' : 'Roboto_medium',
   btnDisabledBg: '#b5b5b5',
   btnDisabledClr: '#f1f1f1',
-
+  get btnDisableBg() {
+    return this.btnDisabledBg;
+  },
   get btnPrimaryBg() {
     return this.brandPrimary;
   },
