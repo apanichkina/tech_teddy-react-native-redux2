@@ -17,17 +17,35 @@ import { setToken } from '../actions/user'
 import { PossiblePurposes } from '../actions/actionTypes'
 import { setAlarmTime, getAlarmTime } from '../actions/alarm'
 const loggerMiddleware = createLogger();
-const createStoreWithMiddleware = applyMiddleware(thunk, loggerMiddleware)(createStore);
+const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 const reducer = combineReducers(reducers);
 const store = createStoreWithMiddleware(reducer);
-// Выведем в консоль начальное состояние
-//console.log(store.getState())
 
-// Каждый раз при обновлении состояния - выводим его
-// Отметим, что subscribe() возвращает функцию для отмены регистрации слушателя
-//let unsubscribe = store.subscribe(() =>
-//        console.log(store.getState())
-//)
+//TODO disable landscape orientation http://stackoverflow.com/questions/32176548/how-to-disable-rotation-in-react-native
+//const Realm = require('realm');
+//const realm = new Realm({
+//    schema: [{
+//        name: 'Token',
+//        primaryKey: 'name',
+//        properties: {
+//            name: 'string',
+//            token : 'string',
+//            ownerName: 'string' //username or bearname
+//        }
+//    }]
+//});
+//
+//const device = new Realm({
+//    schema: [{
+//        name: 'Device',
+//        primaryKey: 'name',
+//        properties: {
+//            name: 'string',
+//            id: 'string',
+//            token : 'string'
+//        }
+//    }]
+//});
 
 store.dispatch(fetchCategories())
 

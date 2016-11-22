@@ -9,15 +9,23 @@ import { connect } from 'react-redux';
 import Modal from '../components/Modal';
 import { authDiscardToken } from '../actions/user';
 import {popToTop} from '../actions/route'
+import {authSetToken} from '../actions/user'
+import TokenService from '../database/tokenService'
 let strings = {
     message: 'Вы уверенны, что хотите ВЫЙТИ?'
 };
+
 class Root extends React.Component  {
 
     constructor (props) {
         super(props);
         this.state = {
             isModalVisible: false
+        };
+
+        let userToken = TokenService.getByName('userToken').token;
+        if (userToken){
+            this.props.authSetToken(userToken)
         }
     }
     logout() {
@@ -64,7 +72,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         authDiscardToken: () => dispatch(authDiscardToken()),
-        popToTop: () => dispatch(popToTop())
+        popToTop: () => dispatch(popToTop()),
+        authSetToken: (token) =>dispatch(authSetToken(token))
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Root);

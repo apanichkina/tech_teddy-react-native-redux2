@@ -48,12 +48,17 @@ export default function (state = initialState, action={}) {
             };}
         case "POP_ROUTE":
         {
-            globalNav.navigator.pop();
             const routes = state.routes;
-            routes.pop();
-            return {
-                routes
-            };}
+            if (routes.length > 1) {
+                globalNav.navigator.pop();
+
+                routes.pop();
+                return {
+                    routes
+                };
+            }
+            return state;
+        }
         case "POP_N_ROUTE":
         {
             globalNav.navigator.popN(action.count);
