@@ -21,7 +21,6 @@ export function receiveStories(purpose, json):Action {
 //invalidatePurporse('store') - обровить содержимое магазина
 //invalidatePurporse('user') - обровить содержимое "мои сказки"
 export function invalidatePurporse(purpose:string):Action {
-    console.log('action')
     return {
         type: types.INVALIDATE_PURPOSE,
         purpose

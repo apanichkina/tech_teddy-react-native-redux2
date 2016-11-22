@@ -68,7 +68,6 @@ export function fetchSignIn(name, password) {
 export function fetchSignUp(name, email, password1, password2) {
 
     return function (dispatch) {
-        console.log('sign up action')
         dispatch(requestSignUp());
         let url = 'https://hardteddy.ru/api/user/register';
         return fetch(url, {

@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container, Header, Title, Content, Text, List, ListItem, Button, Icon, InputGroup, Input, View, Tabs, Footer, Spinner } from 'native-base';
 import { TouchableHighlight, Image} from "react-native";
-import { openDrawer, closeDrawer } from '../../actions/drawer';
-import { popRoute } from '../../actions/route';
+import { openDrawer } from '../../actions/drawer';
 import styles from './styles';
 import myTheme from '../../themes/base-theme';
 import TabOne from './storyPage';
@@ -19,8 +18,14 @@ class BProfile extends Component {
     static propTypes = {
         popRoute: React.PropTypes.func,
         setBearStories: React.PropTypes.func,
-        heartBeat: React.PropTypes.func,
+        heartBeat: React.PropTypes.func
     };
+    componentWillMount(){
+        //setTimeout(() => {
+        //    console.log('BProfile:setTimeout done');
+        //    this.props.setBearStories()
+        //}, 300);
+    }
 
     constructor(props) {
         super(props);
@@ -36,13 +41,11 @@ class BProfile extends Component {
             <Container theme={myTheme} style={styles.container}>
 
                 <Header>
-                    <Button transparent onPress={()=>popRoute()}>
-                        <Icon name="md-arrow-back" />
+                    <Button transparent onPress={this.props.openDrawer}>
+                        <Icon name="ios-menu" />
                     </Button>
                     <Title>{name}</Title>
-                    <Button transparent onPress={()=>popRoute()}>
-                        <Icon name="ios-settings" />
-                    </Button>
+
                 </Header>
 
                 <Content>
@@ -52,7 +55,7 @@ class BProfile extends Component {
                         {categories.map(category =>
                                 <StoryList
                                     key={category.id}
-                                    tabLabel={category.name}
+                                    tabLabel={category.name.toUpperCase()}
                                     filter={category.id}
                                     stories={[]}
                                     content={'BEAR'}
@@ -72,13 +75,13 @@ const mapStateToProps = (state) => {
     return {
         name: state.bear.connectedBearName,
         categories: state.storyCategory.categories,
-         isFetching: state.bear.isFetching
+        isFetching: state.bear.isFetching
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        popRoute: () => dispatch(popRoute()),
+        openDrawer: () => dispatch(openDrawer()),
         setBearStories: () => dispatch(setBearStories()),
         heartBeat: () => dispatch(heartBeat())
     }

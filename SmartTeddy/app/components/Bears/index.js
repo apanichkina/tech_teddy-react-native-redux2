@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Container, Header, Title, Content, Text, List, ListItem, Card, CardItem, Radio, Button, Icon } from 'native-base';
 
 import { openDrawer } from '../../actions/drawer';
-import { pushNewRoute } from '../../actions/route';
+import { pushNewRoute, replaceRoute} from '../../actions/route';
 import { searchBears, connectToDevice } from '../../actions/bluetooth';
 import { setConnectedBearName, setBearStories } from '../../actions/bear';
 
@@ -27,7 +27,7 @@ class Bears extends Component {
     onBearClick(name, id) {
         this.props.connectToDevice(id, name)
             .then(() => {
-                this.props.pushNewRoute('bear-profile');
+                this.props.replaceRoute('bear-profile');
             })
             .catch((err) => console.log('connectToDevice ERROR', err))
         // this.props.setConnectedBearName(name);
@@ -86,6 +86,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        replaceRoute: (route) => dispatch(replaceRoute(route)),
         openDrawer: () => dispatch(openDrawer()),
         pushNewRoute: route => dispatch(pushNewRoute(route)),
         setConnectedBearName: name => dispatch(setConnectedBearName(name)),

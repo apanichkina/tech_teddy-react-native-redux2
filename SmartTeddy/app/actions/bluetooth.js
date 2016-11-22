@@ -144,7 +144,7 @@ export function heartBeat() {
                         console.log('story: '+ body +' is playing');
                     }; break;
                     case 'p': {
-                        dispatch(pauseStory(body));
+                        //dispatch(pauseStory(body));
                         console.log('story: '+ body +' is paused');
                     }; break;
                     case 'r': {
