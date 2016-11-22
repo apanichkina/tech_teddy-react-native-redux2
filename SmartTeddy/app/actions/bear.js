@@ -12,15 +12,17 @@ export function receiveStories(stories):Action {
     console.log(arr);
     let bearStories=[];
     let index = 0;
+    let item_number = 0;
     arr.forEach(function(item,i,arr){
-            if (item){
             item=item.replace(".raw","");
-            bearStories[index++] = parseInt(item,10);
+            item_number = parseInt(item,10);
+            if (item_number){
+            bearStories[index++] = item_number;
             }
         }
     );
     console.log('clear stories: ');
-    console.log(arr);
+    console.log(bearStories);
     return {
         type: types.SET_BEAR_STORIES,
         stories: bearStories
