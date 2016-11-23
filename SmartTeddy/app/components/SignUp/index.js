@@ -101,7 +101,7 @@ class SignUp extends Component {
         var value = this.refs.form.getValue();
         if (value) {
             this.props.fetchSignUp(value.name, value.email,value.password1, value.password2);
-            this.props.popNRoute(2);
+            //this.props.popNRoute(2);
         }
     }
     render() {

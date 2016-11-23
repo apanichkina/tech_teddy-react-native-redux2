@@ -60,7 +60,7 @@ class SignIn extends Component {
         var value = this.refs.form.getValue();
         if (value) {
             this.props.fetchSignIn(value.name, value.password);
-            this.props.popRoute();
+            //this.props.popRoute();
         }
     }
 

@@ -1,4 +1,5 @@
 import * as types from './actionTypes';
+import {popRoute, popNRoute} from './route'
 import TokenModel from '../database/tokenModel';
 import TokenService from '../database/tokenService';
 
@@ -32,6 +33,12 @@ export function requestSignUp():Action {
         type: types.REQUEST_SIGN_UP
     }
 }
+export function authRequestFail(user){
+    return {
+        type: types.AUTH_REQUEST_FAIL,
+        user
+    };
+}
 
 export function fetchSignIn(name, password) {
 
@@ -54,18 +61,16 @@ export function fetchSignIn(name, password) {
                 if(responseJson.status == 0){
                     // Все хорошо
                     let userToken = responseJson.body.userToken;
-                    dispatch(authSetToken(userToken))
+                    dispatch(authSetToken(userToken));
                     dispatch(authSetUser(name));
-                    let newBearToken = new TokenModel('bearToken',responseJson.body.bearToken);
-                    let newUserToken = new TokenModel('userToken',userToken);
-                    TokenService.save(newBearToken);
-                    TokenService.save(newUserToken);
+                    dispatch(popRoute());
                 }
                 else{
-
+                    dispatch(authRequestFail())
                 }
             }
         ).catch((error) => {
+                dispatch(authRequestFail());
                 console.log('sign in error:');
                 console.log(error)
             });
@@ -96,16 +101,14 @@ export function fetchSignUp(name, email, password1, password2) {
                     let userToken = responseJson.body.userToken;
                     dispatch(authSetToken(userToken));
                     dispatch(authSetUser(name));
-                    let newBearToken = new TokenModel('bearToken',responseJson.body.bearToken);
-                    let newUserToken = new TokenModel('userToken',userToken);
-                    TokenService.save(newBearToken);
-                    TokenService.save(newUserToken);
+                    dispatch(popNRoute(2));
                 }
                 else{
-
+                    dispatch(authRequestFail());
                 }
             }
         ).catch((error) => {
+                dispatch(authRequestFail());
                 console.log('sign up error:');
                 console.log(error)
             });
