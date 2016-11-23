@@ -24,7 +24,6 @@
     "react-native-slider": "^0.9.1",
     "react-native-vector-icons": "^3.0.0",
     "react-redux": "4.4.5",
-    "realm": "^0.14.3",
     "redux": "3.5.2",
     "redux-actions": "0.11.0",
     "redux-logger": "^2.7.4",

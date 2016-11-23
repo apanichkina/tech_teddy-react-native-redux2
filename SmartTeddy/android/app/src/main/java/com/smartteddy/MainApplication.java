@@ -10,8 +10,6 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.rusel.RCTBluetoothSerial.*;
 
-import io.realm.react.RealmReactPackage;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,7 +27,6 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-          new RealmReactPackage(),
           new VectorIconsPackage(),
           new RCTBluetoothSerialPackage()
       );
