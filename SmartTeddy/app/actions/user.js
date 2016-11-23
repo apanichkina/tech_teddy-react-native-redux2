@@ -1,7 +1,6 @@
 import * as types from './actionTypes';
 import {popRoute, popNRoute} from './route'
-import TokenModel from '../database/tokenModel';
-import TokenService from '../database/tokenService';
+
 
 export function authSetToken(token){
     return {

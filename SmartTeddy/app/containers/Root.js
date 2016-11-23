@@ -10,7 +10,7 @@ import Modal from '../components/Modal';
 import { authDiscardToken } from '../actions/user';
 import {popToTop} from '../actions/route'
 import {authSetToken} from '../actions/user'
-import TokenService from '../database/tokenService'
+
 let strings = {
     message: 'Вы уверенны, что хотите ВЫЙТИ?'
 };
