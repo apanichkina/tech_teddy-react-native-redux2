@@ -11,7 +11,10 @@ let repository = new Realm({
         }
     }]
 });
-
+repository.addListener('change', () => {
+    // Update UI
+    
+});
 let TokenService = {
 
     save: function(obj) {
@@ -20,7 +23,7 @@ let TokenService = {
 
         repository.write(() => {
             repository.create('Token', obj);
-        })
+        });
         console.log('save!!!!!!!!!!!!!!!!!!!!!!!')
         console.log(repository.objects('Token'))
 
@@ -28,6 +31,22 @@ let TokenService = {
     getByName: function(name) {
         let result = repository.objects('Token').filtered('name = "'+name+'"');
         return result[0];
+    },
+    deleteByName: function(name) {
+        console.log('before delete!!!!!!!!!!!!!!!!!!!!!!!')
+        console.log(repository.objects('Token'))
+        let obj = realm.objects('Token').filtered('name = "'+name+'"');
+        realm.delete(obj);
+        console.log('after delete!!!!!!!!!!!!!!!!!!!!!!!')
+        console.log(repository.objects('Token'))
+    },
+    deleteAll: function(name) {
+        console.log('before delete all!!!!!!!!!!!!!!!!!!!!!!!')
+        console.log(repository.objects('Token'))
+        let obj = realm.objects('Token');
+        realm.delete(obj);
+        console.log('after delete!!!!!!!!!!!!!!!!!!!!!!!')
+        console.log(repository.objects('Token'))
     }
 };
 

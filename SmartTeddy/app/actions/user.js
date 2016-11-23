@@ -93,9 +93,13 @@ export function fetchSignUp(name, email, password1, password2) {
             .then(responseJson => {
                 if(responseJson.status == 0){
                     // Все хорошо
-                    dispatch(authSetToken(responseJson.body.userToken));
+                    let userToken = responseJson.body.userToken;
+                    dispatch(authSetToken(userToken));
                     dispatch(authSetUser(name));
-
+                    let newBearToken = new TokenModel('bearToken',responseJson.body.bearToken);
+                    let newUserToken = new TokenModel('userToken',userToken);
+                    TokenService.save(newBearToken);
+                    TokenService.save(newUserToken);
                 }
                 else{
 
