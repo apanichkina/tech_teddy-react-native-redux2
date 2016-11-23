@@ -32,6 +32,7 @@ export const AUTH_DISCARD_TOKEN = 'AUTH_DISCARD_TOKEN';
 export const AUTH_SET_USER = 'AUTH_SET_USER';
 export const REQUEST_SIGN_IN = 'REQUEST_SIGN_IN';
 export const REQUEST_SIGN_UP = 'REQUEST_SIGN_UP';
+export const AUTH_REQUEST_FAIL = 'AUTH_REQUEST_FAIL';
 
 
 
