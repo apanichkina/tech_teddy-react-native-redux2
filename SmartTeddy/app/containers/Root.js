@@ -22,11 +22,6 @@ class Root extends React.Component  {
         this.state = {
             isModalVisible: false
         };
-
-        let userToken = TokenService.getByName('userToken').token;
-        if (userToken){
-            this.props.authSetToken(userToken)
-        }
     }
     logout() {
         this.props.authDiscardToken();

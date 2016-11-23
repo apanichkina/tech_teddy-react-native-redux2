@@ -16,11 +16,23 @@ import { receiveStories } from '../actions/storyFromServer'
 import { setToken } from '../actions/user'
 import { PossiblePurposes } from '../actions/actionTypes'
 import { setAlarmTime, getAlarmTime } from '../actions/alarm'
+import {persistStore, autoRehydrate} from 'redux-persist';
+import {AsyncStorage} from 'react-native'
+import createFilter from 'redux-persist-transform-filter';
+
+const myTransform = createFilter(
+    'user',
+    ['token','user']
+);
+
 const loggerMiddleware = createLogger();
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 const reducer = combineReducers(reducers);
-const store = createStoreWithMiddleware(reducer);
-
+//const store = createStoreWithMiddleware(reducer);
+//const store = autoRehydrate()(createStoreWithMiddleware)(reducers);
+const store = createStoreWithMiddleware(reducer, undefined, autoRehydrate());
+persistStore(store, {whitelist: ['user'],transforms: [myTransform],storage: AsyncStorage}, () => {
+    console.log('rehydration complete')});
 //TODO disable landscape orientation http://stackoverflow.com/questions/32176548/how-to-disable-rotation-in-react-native
 
 store.dispatch(fetchCategories())

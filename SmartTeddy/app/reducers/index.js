@@ -18,7 +18,6 @@ export {
     player,
     wifi,
     alarm,
-    counter,
     drawer,
     store,
     storyCategory,
