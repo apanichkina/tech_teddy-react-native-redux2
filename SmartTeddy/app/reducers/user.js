@@ -1,3 +1,5 @@
+import {REHYDRATE} from 'redux-persist/constants'
+
 const initialState = {
     token: null,
     user: null,
@@ -34,6 +36,11 @@ export default function (state = initialState, action={}) {
                 ...state,
                 user: action.user
             };
+        case 'AUTH_REQUEST_FAIL':
+            return Object.assign({}, state, {
+                isSignInFetching: false,
+                isSignUpFetching: false
+            });
         default:
             return state
     }
