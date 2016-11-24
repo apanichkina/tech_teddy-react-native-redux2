@@ -31,7 +31,7 @@ class StorePageContainer extends Component {
     this.props.onStoryClick(id);
     this.props.pushNewRoute('story-profile')
   }
-
+//TODO проверить работает ли список сказок на мишке без case
   render() {
     const { storiesBear, storiesShop, storiesUser, content } = this.props;
     let stories = [];
@@ -51,7 +51,7 @@ class StorePageContainer extends Component {
     }
     return (
             <StorePage
-                stories={this.getFilteredStories(stories)}
+                stories={this.getFilteredStories(this.props.stories)}
                 onStoryClick={this.onClick}
                 />
 
@@ -70,9 +70,9 @@ const getStoriesByIndexes = (stories, indexes) => {
 };
 const mapStateToProps = (state) => {
   return {
-    storiesShop: state.storyFromServer.SHOP.stories,
-    storiesUser: state.storyFromServer.USER.stories,
-    storiesBear: getStoriesByIndexes(state.storyFromServer.USER.stories, state.bear.bearStories)
+    storiesShop: state.storeStories.stories,
+    storiesUser: state.userStories.stories,
+    storiesBear: getStoriesByIndexes(state.userStories.stories, state.bear.bearStories)
   }
 };
 

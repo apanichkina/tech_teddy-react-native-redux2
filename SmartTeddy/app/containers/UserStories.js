@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchStories } from '../actions/storyFromServer';
+import { fetchStories } from '../actions/userStories';
 import StorePage from './StorePage';
 import { PossiblePurposes } from '../actions/actionTypes'
 
@@ -12,19 +12,20 @@ class Store extends Component {
 
     }
     componentWillMount(){
-      this.getStories();
+      //this.getStories();
     }
     getStories(){
         this.props.getStories();
     }
   render() {
       const { stories, isFetching } = this.props;
+      console.log(stories);
     return (
       <StorePage
           stories={stories}
           title={'Мои сказки'}
           content={'USER'}
-          isFetching={false}
+          isFetching={isFetching}
           />
     );
   }
@@ -32,14 +33,14 @@ class Store extends Component {
 
 const mapStateToProps = (state) => {
   return {
-      stories: state.storyFromServer.USER.stories,
-      isFetching: state.storyFromServer.USER.isFetching
+      stories: state.userStories.stories.filter(function(n){ return n != undefined }),
+      isFetching: state.userStories.isFetching
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-      getStories: () => dispatch(fetchStories(PossiblePurposes.USER))
+      getStories: () => dispatch(fetchStories())
   }
 };
 

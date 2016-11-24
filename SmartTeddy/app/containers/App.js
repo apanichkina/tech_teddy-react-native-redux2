@@ -9,10 +9,9 @@ import * as reducers from '../reducers';
 import { addStory, buyStory } from '../actions/store'
 import { setBearStories } from '../actions/bear'
 import { setStoriesResource } from '../actions/story'
-import { fetchStories } from '../actions/storyFromServer'
+import { fetchStories } from '../actions/storeStories'
 import { fetchCategories } from '../actions/storyCategory'
 import { receiveCategories } from '../actions/storyCategory'
-import { receiveStories } from '../actions/storyFromServer'
 import { setToken } from '../actions/user'
 import { PossiblePurposes } from '../actions/actionTypes'
 import { setAlarmTime, getAlarmTime } from '../actions/alarm'
@@ -20,26 +19,29 @@ import {persistStore, autoRehydrate} from 'redux-persist';
 import {AsyncStorage} from 'react-native'
 import createFilter from 'redux-persist-transform-filter';
 
-const myTransform = createFilter(
+const userTransform = createFilter(
     'user',
     ['token','user']
 );
-
+const userStoriesTransform = createFilter(
+    'userStories',
+    ['stories']
+);
 const loggerMiddleware = createLogger();
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 const reducer = combineReducers(reducers);
 //const store = createStoreWithMiddleware(reducer);
 //const store = autoRehydrate()(createStoreWithMiddleware)(reducers);
 const store = createStoreWithMiddleware(reducer, undefined, autoRehydrate());
-persistStore(store, {whitelist: ['user'],transforms: [myTransform],storage: AsyncStorage}, () => {
+persistStore(store, {whitelist: ['user', 'userStories'],transforms: [userTransform, userStoriesTransform],storage: AsyncStorage}, () => {
     console.log('rehydration complete')});
 //TODO disable landscape orientation http://stackoverflow.com/questions/32176548/how-to-disable-rotation-in-react-native
 
 store.dispatch(fetchCategories())
 
-store.dispatch(fetchStories(PossiblePurposes.USER))
-store.dispatch(fetchStories(PossiblePurposes.SHOP))
-store.dispatch(setStoriesResource(PossiblePurposes.USER))
+//store.dispatch(fetchStories(PossiblePurposes.USER))
+store.dispatch(fetchStories())
+
 //store.dispatch(setAlarmTime(new Date()))
 
 // Прекратим слушать обновление состояния

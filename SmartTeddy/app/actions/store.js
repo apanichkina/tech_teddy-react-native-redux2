@@ -1,5 +1,5 @@
 import * as types from './actionTypes';
-
+import {fetchStories} from './userStories';
 
 export function buyStory(id:number):Action {
     return {
@@ -16,7 +16,6 @@ export function addStory(name:string, id:number, categoryId:number):Action {
     }
 }
 export function fetchBuyStory(id) {
-    console.log('id:'+id);
     return function (dispatch,getState) {
         fetch('https://hardteddy.ru/api/store/buy', {
         method: 'POST',
@@ -28,17 +27,11 @@ export function fetchBuyStory(id) {
         body: JSON.stringify({
             'storyID': id
         })
-    }).then(response =>
-        { console.log(response); return response.json() }
-        )
-            .then(tempResponseJson => {console.log(tempResponseJson); return tempResponseJson})
+    }).then(response => response.json())
+            .then(tempResponseJson =>  tempResponseJson)
         .then(responseJson => {
-            console.log(responseJson);
             if (responseJson.status == 0){
-                console.log('buy success')
-                console.log('id into buy'+id);
-                dispatch(buyStory(id))
-                return 0;
+                dispatch(fetchStories())
             }
             else{
                 console.log('buy failed')

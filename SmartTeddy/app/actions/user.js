@@ -1,6 +1,6 @@
 import * as types from './actionTypes';
 import {popRoute, popNRoute} from './route'
-
+import {fetchStories} from './userStories'
 
 export function authSetToken(token){
     return {
@@ -53,7 +53,8 @@ export function fetchSignIn(name, password) {
             body: JSON.stringify({
                 'name': name,
                 'password': password
-            })
+            }),
+            timeout: 2000
 
         }).then(response => response.json())
             .then(responseJson => {
@@ -62,6 +63,7 @@ export function fetchSignIn(name, password) {
                     let userToken = responseJson.body.userToken;
                     dispatch(authSetToken(userToken));
                     dispatch(authSetUser(name));
+                    dispatch(fetchStories());
                     dispatch(popRoute());
                 }
                 else{
@@ -100,6 +102,7 @@ export function fetchSignUp(name, email, password1, password2) {
                     let userToken = responseJson.body.userToken;
                     dispatch(authSetToken(userToken));
                     dispatch(authSetUser(name));
+                    dispatch(fetchStories());
                     dispatch(popNRoute(2));
                 }
                 else{

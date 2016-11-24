@@ -151,7 +151,7 @@ class AppNavigator extends Component {
 
     static renderScene(route, navigator) { // eslint-disable-line class-methods-use-this
         switch (route.id) {
-            case 'store':
+            case 'home':
                 return <Store navigator={navigator} />;
             case 'user-stories':
                 return <UserStories navigator={navigator} />;

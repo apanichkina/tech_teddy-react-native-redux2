@@ -126,8 +126,8 @@ const checkPlaying = (storyId, playingStoryid) => {
 
 const mapStateToProps = (state) => {
   return {
-      story: state.storyFromServer.SHOP.stories[state.story.storyId],
-      isBought: !!state.storyFromServer.USER.stories[state.story.storyId],
+      story: state.storeStories.stories[state.story.storyId],
+      isBought: !!state.userStories.stories[state.story.storyId],
       isUpload: findElementByValue(state.bear.bearStories,state.story.storyId),
       category: state.storyCategory.categoryFilter,
       isConnected: !!state.bluetooth.bluetoothConnected,

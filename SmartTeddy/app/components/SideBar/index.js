@@ -48,7 +48,7 @@ class SideBar extends Component {
                 </Image>
                 <List>
 
-                    <ListItem button iconLeft onPress={() => this.navigateTo('store')} >
+                    <ListItem button iconLeft onPress={() => this.navigateTo('home')} >
                         <View style={styles.listItemContainer}>
                             <View style={styles.iconContainer}>
                                 <Icon name="ios-cart" style={styles.sidebarIcon} />
