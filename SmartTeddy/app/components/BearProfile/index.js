@@ -5,12 +5,9 @@ import { TouchableHighlight, Image} from "react-native";
 import { openDrawer } from '../../actions/drawer';
 import styles from './styles';
 import myTheme from '../../themes/base-theme';
-import TabOne from './storyPage';
-import TabTwo from './alarmPage';
-import TabThree from './helperPage.js';
 import ActionButton from 'react-native-action-button';
 import StoryList from '../../containers/StoryList';
-import Alarm from './alarmPage'
+
 import { setBearStories } from '../../actions/bear';
 import { heartBeat } from '../../actions/bluetooth';
 class BProfile extends Component {

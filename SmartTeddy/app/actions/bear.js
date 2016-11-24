@@ -23,6 +23,7 @@ export function receiveStories(stories):Action {
     );
     console.log('clear stories: ');
     console.log(bearStories);
+
     return {
         type: types.SET_BEAR_STORIES,
         stories: bearStories
