@@ -19,12 +19,10 @@ class Store extends Component {
     }
   render() {
       const { stories, isFetching } = this.props;
-      console.log(stories);
     return (
       <StorePage
           stories={stories}
           title={'Мои сказки'}
-          content={'USER'}
           isFetching={isFetching}
           />
     );

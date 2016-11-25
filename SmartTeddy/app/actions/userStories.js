@@ -15,6 +15,11 @@ function receiveStories(json):Action {
         receivedAt: Date.now()
     }
 }
+function requestStoriesFail():Action {
+    return {
+        type: types.REQUEST_USER_STORIES_FAIL
+    }
+}
 
 export function fetchStories() {
 
@@ -30,6 +35,7 @@ export function fetchStories() {
         }).then((response) => response.json())
             .then(json => dispatch(receiveStories(json))
         ).catch((error) => {
+                dispatch(requestStoriesFail());
                 console.log('fetch user stories error:');
                 console.log(error)
             });

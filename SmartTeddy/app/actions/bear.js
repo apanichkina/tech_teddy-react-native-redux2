@@ -1,12 +1,30 @@
 import * as types from './actionTypes';
 import Bluetooth from '../BluetoothLib'
 
-export function requestBearStories():Action {
+function requestBearStories():Action {
     return {
         type: types.REQUEST_BEAR_STORIES
     }
 }
-export function receiveStories(stories):Action {
+
+function requestBearStoriesFailed():Action {
+    return {
+        type: types.SET_BEAR_STORIES_FAILED
+    }
+}
+
+function getFullStoryInformation(stories, indexes){
+    let fullStories = [];
+    let story = {};
+    let storiesCount = indexes.length;
+    for (var i = 0; i < storiesCount; ++i) {
+
+        fullStories[i] = stories[indexes[i]];
+    }
+    fullStories = fullStories.filter(function(n){ return n != undefined });
+    return fullStories;
+}
+function receiveStories(allStories,stories):Action {
     let arr = stories;
     console.log('dirty stories: ');
     console.log(arr);
@@ -23,10 +41,12 @@ export function receiveStories(stories):Action {
     );
     console.log('clear stories: ');
     console.log(bearStories);
-
+    let result = getFullStoryInformation(allStories,bearStories);
+    console.log('|||||||||');
+    console.log(result);
     return {
         type: types.SET_BEAR_STORIES,
-        stories: bearStories
+        stories: result
     }
 }
 export function setConnectedBearName(name:string):Action {
@@ -40,10 +60,12 @@ export function setConnectedBearName(name:string):Action {
 export function setBearStories() {
 
     let instance = Bluetooth.getInstance();
-    return function (dispatch) {
+    return function (dispatch, getState) {
+        let stories = getState().userStories.stories;
         dispatch(requestBearStories());
-        return instance.getStoryList().then(array => {dispatch(receiveStories(array))}
+        return instance.getStoryList().then(array => {dispatch(receiveStories(stories,array))}
         ).catch((error) => {
+                dispatch(requestBearStoriesFailed());
                 console.log('bear stories error:');
                 console.log(error)
             });
@@ -71,7 +93,7 @@ export function deleteStory(id:number):Action {
 
 export function alarmIsPlaying():Action {
     return {
-        type: types.ALARM_IS_PLAYING,
+        type: types.ALARM_IS_PLAYING
     }
 }
 

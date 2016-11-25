@@ -3,13 +3,14 @@ import AppNavigator from './AppNavigator'
 import {
     TouchableOpacity,
     View,
-    Text
+    Text,
+    NetInfo
     } from 'react-native'
 import { connect } from 'react-redux';
 import Modal from '../components/Modal';
 import { authDiscardToken } from '../actions/user';
 import {popToTop} from '../actions/route'
-import {authSetToken} from '../actions/user'
+import {isConnectedInternet} from '../actions/internet'
 
 let strings = {
     message: 'Вы уверенны, что хотите ВЫЙТИ?'
@@ -22,7 +23,33 @@ class Root extends React.Component  {
         this.state = {
             isModalVisible: false
         };
+
     }
+    componentDidMount() {
+        NetInfo.isConnected.fetch().then(isConnected => {
+            let state = isConnected ? true : false;
+            this.props.isConnectedInternet(state);
+            console.log('First, is ' + (isConnected ? 'online' : 'offline'));
+        });
+        NetInfo.isConnected.addEventListener(
+            'change',
+            this.handleFirstConnectivityChange.bind(this)
+        );
+    }
+
+    componentWillUnmount(){
+        NetInfo.isConnected.removeEventListener(
+            'change',
+            this.handleFirstConnectivityChange
+        );
+    }
+
+    handleFirstConnectivityChange(isConnected) {
+        let state = isConnected ? true : false;
+        this.props.isConnectedInternet(state);
+        console.log('Then, internet is ' + (isConnected ? 'online' : 'offline'));
+    }
+
     logout() {
         this.props.authDiscardToken();
         this.props.popToTop();
@@ -68,7 +95,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         authDiscardToken: () => dispatch(authDiscardToken()),
         popToTop: () => dispatch(popToTop()),
-        authSetToken: (token) =>dispatch(authSetToken(token))
+        isConnectedInternet: (s) => dispatch(isConnectedInternet(s))
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Root);

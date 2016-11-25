@@ -3,9 +3,7 @@
 const initialState = {
     bearStories: [],
     isFetching: false,
-    connectedBearName: '',
-    storyIsPlaying: false,
-    storyIsPaused: false
+    connectedBearName: ''
 };
 
 export default function (state = initialState, action={}) {
@@ -18,6 +16,11 @@ export default function (state = initialState, action={}) {
             return {
                 ...state,
                 bearStories: action.stories,
+                isFetching: false
+            };
+        case 'SET_BEAR_STORIES_FAILED':
+            return {
+                ...state,
                 isFetching: false
             };
         case 'SET_CONNECTED_BEAR_NAME':
@@ -37,16 +40,6 @@ export default function (state = initialState, action={}) {
             return {
                 ...state,
                 bearStories: bearStories
-            };
-        case 'PLAY_STORY':
-            return {
-                ...state,
-                storyIsPlaying: true
-            };
-        case 'PAUSE_STORY':
-            return {
-                ...state,
-                storyIsPaused: true
             };
         default:
             return state

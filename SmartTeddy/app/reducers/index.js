@@ -11,12 +11,14 @@ import wifi from './wifi'
 import player from './player'
 import userStories from './userStories'
 import storeStories from './storeSrories'
+import internet from './internet'
 export {
+    internet,
+    bear,
     user,
     route,
     userStories,
     storeStories,
-    bear,
     player,
     wifi,
     alarm,

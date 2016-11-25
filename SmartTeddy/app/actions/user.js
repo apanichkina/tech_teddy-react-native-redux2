@@ -32,10 +32,9 @@ export function requestSignUp():Action {
         type: types.REQUEST_SIGN_UP
     }
 }
-export function authRequestFail(user){
+export function authRequestFail(){
     return {
-        type: types.AUTH_REQUEST_FAIL,
-        user
+        type: types.AUTH_REQUEST_FAIL
     };
 }
 

@@ -17,6 +17,10 @@ export default function(state = initialState, action={}) {
                 stories: action.stories,
                 lastUpdated: action.receivedAt
             });
+        case 'REQUEST_USER_STORIES_FAIL':
+            return Object.assign({}, state, {
+                isFetching: false
+            });
         default:
             return state
     }

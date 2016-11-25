@@ -15,7 +15,11 @@ function receiveStories(json):Action {
         receivedAt: Date.now()
     }
 }
-
+function requestStoriesFail():Action {
+    return {
+        type: types.REQUEST_STORE_STORIES_FAIL
+    }
+}
 export function fetchStories() {
 
     return function (dispatch) {
@@ -27,6 +31,7 @@ export function fetchStories() {
         }).then(response => response.json())
             .then(json => dispatch(receiveStories(json))
         ).catch((error) => {
+                dispatch(requestStoriesFail());
                 console.log('fetch store stories error:');
                 console.log(error)
             });

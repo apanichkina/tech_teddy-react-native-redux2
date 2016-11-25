@@ -7,6 +7,7 @@ export default class StorePagePresentational extends Component {
 
   render() {
     const { stories, onStoryClick  } = this.props;
+
     return (
         <Container style={styles.container}>
         <Content padder>

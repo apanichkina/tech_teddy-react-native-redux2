@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container, Header, Title, View, Button, Icon, Tabs } from 'native-base';
+
 import { openDrawer } from '../actions/drawer';
 import { popRoute } from '../actions/route';
 import { fetchStories } from '../actions/storeStories';
@@ -14,7 +15,7 @@ class Store extends Component {
         this.getStories();
     }
     getStories(){
-        this.props.getStories();
+      this.props.getStories();
     }
   render() {
       const { stories, isFetching } = this.props;
@@ -22,7 +23,6 @@ class Store extends Component {
       <StorePage
           stories={stories}
           title={'Магазин сказок'}
-          content={'SHOP'}
           isFetching={isFetching}
           />
     );

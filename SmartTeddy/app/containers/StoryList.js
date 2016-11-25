@@ -17,8 +17,7 @@ class StorePageContainer extends Component {
     pushNewRoute: React.PropTypes.func,
     tabLabel: React.PropTypes.string,
     stories: React.PropTypes.array,
-    filter:React.PropTypes.number,
-    content: React.PropTypes.string
+    filter:React.PropTypes.number
   };
   getFilteredStories(stories) {
     let filter = this.props.filter;
@@ -33,46 +32,22 @@ class StorePageContainer extends Component {
   }
 //TODO проверить работает ли список сказок на мишке без case
   render() {
-    const { storiesBear, storiesShop, storiesUser, content } = this.props;
-    let stories = [];
-    switch(content) {
-      case 'BEAR':
-        stories = storiesBear;
-        break;
-      case 'USER':
-        stories = storiesUser;
-        break;
-      case 'SHOP':
-        stories = storiesShop;
-        break;
-      default:
-            break;
+    const { storiesBear, storiesShop, storiesUser, isInternet} = this.props;
 
-    }
     return (
             <StorePage
                 stories={this.getFilteredStories(this.props.stories)}
                 onStoryClick={this.onClick}
+                isInternet={isInternet}
                 />
 
     )
   }
 }
-const getStoriesByIndexes = (stories, indexes) => {
-  let fullStories = [];
 
-  let storiesCount = indexes.length;
-  for (var i = 0; i < storiesCount; ++i) {
-    fullStories[i] = stories[indexes[i]];
-  }
-  return fullStories;
-
-};
 const mapStateToProps = (state) => {
   return {
-    storiesShop: state.storeStories.stories,
-    storiesUser: state.userStories.stories,
-    storiesBear: getStoriesByIndexes(state.userStories.stories, state.bear.bearStories)
+    isInternet: state.internet.isConnected
   }
 };
 
