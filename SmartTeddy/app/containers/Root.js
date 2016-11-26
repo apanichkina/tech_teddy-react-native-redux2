@@ -11,7 +11,8 @@ import Modal from '../components/Modal';
 import { authDiscardToken } from '../actions/user';
 import {popToTop} from '../actions/route'
 import {isConnectedInternet} from '../actions/internet'
-
+import {setErrorNotVisible} from '../actions/error'
+import Toast from 'react-native-root-toast';
 let strings = {
     message: 'Вы уверенны, что хотите ВЫЙТИ?'
 };
@@ -35,6 +36,10 @@ class Root extends React.Component  {
             'change',
             this.handleFirstConnectivityChange.bind(this)
         );
+    }
+    componentDidUpdate(){
+        console.log("DidUpdate");
+        if (this.props.isErrorVisible) this.show();
     }
 
     componentWillUnmount(){
@@ -67,6 +72,23 @@ class Root extends React.Component  {
         this.setState({isModalVisible: false});
         console.log('Cancel')
     }
+    show = () =>{
+        let message = this.props.errorMessage;
+        this.toast = Toast.show(message, {
+            duration: Toast.durations.SHORT,
+            position: Toast.positions.BOTTOM,
+            shadow: false,
+            animation: true,
+            hideOnPress: true,
+            delay: 0,
+            backgroundColor: '#424242', //#616161 более светлый
+            shadowColor: null,
+            textColor: null,
+            onHide: () => {
+                this.props.setErrorNotVisible();
+            }
+        });
+    };
     render() {
 
         return (
@@ -89,13 +111,16 @@ class Root extends React.Component  {
 
 const mapStateToProps = (state) => {
     return {
+        isErrorVisible: state.error.isVisible,
+        errorMessage: state.error.message
     }
 };
 const mapDispatchToProps = (dispatch) => {
     return {
         authDiscardToken: () => dispatch(authDiscardToken()),
         popToTop: () => dispatch(popToTop()),
-        isConnectedInternet: (s) => dispatch(isConnectedInternet(s))
+        isConnectedInternet: (s) => dispatch(isConnectedInternet(s)),
+        setErrorNotVisible: () => dispatch(setErrorNotVisible())
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Root);

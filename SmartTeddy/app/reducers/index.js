@@ -12,19 +12,21 @@ import player from './player'
 import userStories from './userStories'
 import storeStories from './storeSrories'
 import internet from './internet'
+import error from './error'
 export {
+    player,
+    storyCategory,
+    bluetooth,
+    story,
+    error,
     internet,
     bear,
     user,
     route,
     userStories,
     storeStories,
-    player,
     wifi,
     alarm,
     drawer,
-    store,
-    storyCategory,
-    story,
-    bluetooth
+    store
     };
