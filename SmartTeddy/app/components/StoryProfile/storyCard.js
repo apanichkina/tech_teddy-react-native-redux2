@@ -26,6 +26,7 @@ export default class StoryCard extends Component {
         onPause,
         isPaused
     } = this.props;
+
     return (
         <Card style={[styles.mb, { flex: 0 }]}>
 

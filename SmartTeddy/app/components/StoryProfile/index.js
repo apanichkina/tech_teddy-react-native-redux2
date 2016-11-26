@@ -117,8 +117,9 @@ class SProfile extends Component {
 }
 
 
-const findElementByValue = (array, value) => {
-    return array.indexOf(value) !== -1;
+const findElementById = (array, value) => {
+    let result = array.filter(obj => obj.id == value);
+    return !!result.length;
 };
 const checkPlaying = (storyId, playingStoryid) => {
     return (storyId === playingStoryid);
@@ -128,7 +129,7 @@ const mapStateToProps = (state) => {
   return {
       story: state.storeStories.stories[state.story.storyId],
       isBought: !!state.userStories.stories[state.story.storyId],
-      isUpload: findElementByValue(state.bear.bearStories,state.story.storyId),
+      isUpload: findElementById(state.bear.bearStories,state.story.storyId),
       category: state.storyCategory.categoryFilter,
       isConnected: !!state.bluetooth.bluetoothConnected,
       isPlaying: checkPlaying(state.story.storyId, state.player.storyId),
