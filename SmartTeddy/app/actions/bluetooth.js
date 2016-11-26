@@ -1,5 +1,6 @@
 import * as types from './actionTypes';
 import Bluetooth from '../BluetoothLib'
+import {setError} from './error'
 import { 
     setBearStories,
     setConnectedBearName,
@@ -88,6 +89,7 @@ export function connectToDevice(id, name) {
                 // dispatch(setBearStories());
             }
         ).catch((error) => {
+                dispatch(setError('connect to device fail')); //<-------пример, как кидать пользователю ошибки в Toast
                 console.log('connect ti device error:');
                 console.log(error);
                 throw error;

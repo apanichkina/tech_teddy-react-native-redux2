@@ -17,5 +17,10 @@ export function setErrorMessage(message):Action {
         message
     }
 }
-
+export function setError(message):Action {
+    return {
+        type: types.SET_ERROR,
+        message
+    }
+}
 

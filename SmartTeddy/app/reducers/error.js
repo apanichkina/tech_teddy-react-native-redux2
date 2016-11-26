@@ -22,6 +22,11 @@ export default function (state = initialState, action={}) {
                 ...state,
                 isVisible: false
             };
+        case 'SET_ERROR':
+            return Object.assign({}, state, {
+                message: action.message,
+                isVisible: true
+            });
         default:
             return state
     }
