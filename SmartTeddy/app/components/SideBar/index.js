@@ -154,7 +154,7 @@ const mapStateToProps = state => ({
     drawerState: state.drawer.drawerState,
     bearname: state.bear.connectedBearName,
     isAuth: !!state.user.token,
-    username: state.user.token
+    username: state.user.user
 });
 
 const mapDispatchToProps = (dispatch) =>{
