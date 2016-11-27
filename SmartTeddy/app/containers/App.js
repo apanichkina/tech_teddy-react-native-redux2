@@ -18,7 +18,7 @@ import { setAlarmTime, getAlarmTime } from '../actions/alarm'
 import {persistStore, autoRehydrate} from 'redux-persist';
 import {AsyncStorage} from 'react-native'
 import createFilter from 'redux-persist-transform-filter';
-
+import Q from '../queue'
 const userTransform = createFilter(
     'user',
     ['token','user']

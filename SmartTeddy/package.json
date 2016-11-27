@@ -9,6 +9,7 @@
     "step2": "cd node_modules; find . -name .babelrc | grep -v packager | xargs rm"
   },
   "dependencies": {
+    "async": "^2.1.4",
     "native-base": "^0.5.13",
     "object-assign": "^4.1.0",
     "react": "15.3.2",
