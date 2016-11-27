@@ -1,5 +1,6 @@
 import * as types from './actionTypes';
 import Bluetooth from '../BluetoothLib'
+import {addUserTask} from '../queue';
 
 function requestBearStories():Action {
     return {
@@ -59,16 +60,27 @@ export function setConnectedBearName(name:string):Action {
 
 export function setBearStories() {
 
-    let instance = Bluetooth.getInstance();
+
     return function (dispatch, getState) {
         let stories = getState().userStories.stories;
         dispatch(requestBearStories());
-        return instance.getStoryList().then(array => {dispatch(receiveStories(stories,array))}
-        ).catch((error) => {
+        addUserTask('setBearStories',()=>{ let instance = Bluetooth.getInstance(); return instance.getStoryList(); },
+            function(){console.log('onStart setBearStories')},
+            (array) => {dispatch(receiveStories(stories,array))},
+            (error) => {
                 dispatch(requestBearStoriesFailed());
                 console.log('bear stories error:');
                 console.log(error)
-            });
+            }
+        );
+
+
+        //return instance.getStoryList().then(array => {dispatch(receiveStories(stories,array))}
+        //).catch((error) => {
+        //        dispatch(requestBearStoriesFailed());
+        //        console.log('bear stories error:');
+        //        console.log(error)
+        //    });
     }
 }
 export function uploadStory(id:number):Action {

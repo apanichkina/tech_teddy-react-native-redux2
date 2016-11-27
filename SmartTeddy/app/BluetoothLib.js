@@ -44,7 +44,7 @@ class BlueManager {
                     reject(this.errors.isFetching)
                 }
                 else {
-                    this.isFetching = true;
+                   // this.isFetching = true;
                     BluetoothSerial.isConnected().then(
                             result => {
                             if (result) {

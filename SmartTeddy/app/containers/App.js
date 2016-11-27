@@ -18,7 +18,62 @@ import { setAlarmTime, getAlarmTime } from '../actions/alarm'
 import {persistStore, autoRehydrate} from 'redux-persist';
 import {AsyncStorage} from 'react-native'
 import createFilter from 'redux-persist-transform-filter';
-import Q from '../queue'
+import QueueTask from '../QueueTask';
+import {addUserTask} from '../queue';
+//
+//addUserTask('task1', function () {
+//        return new Promise((resolve, reject)=>{
+//            setTimeout(function () {
+//                console.log('Первая функция 1600');
+//                resolve('Результат первой функции');
+//            }, 2000)
+//        });
+//    },
+//    function(){console.log('onStart')},
+//    function(){console.log('I talk success 1')},
+//    function(){console.log('I talk fail 1')}
+//);
+//let task1 = new QueueTask('task1',
+//    function () {
+//        return new Promise((resolve, reject)=>{
+//            setTimeout(function () {
+//                console.log('Первая функция 1500');
+//                resolve('Результат первой функции');
+//            }, 2000)
+//        });
+//    },
+//    function(){console.log('onStart')},
+//    function(){console.log('I talk success 1')},
+//    function(){console.log('I talk fail 1')}
+//);
+//
+//
+//task1.then(function (result) {
+//    console.log('Таск 1 выполненс с результатом:', result);
+//});
+//
+//let task2 = new QueueTask('task2',
+//    function (done, fail) {
+//        setTimeout(function () {
+//            console.log('Вторая функция 2500');
+//            done('Результат второй функции');
+//        }, 200)
+//    },
+//    function(){console.log('onStart 222')},
+//    function(){console.log('I talk success 2')},
+//    function(){console.log('I talk fail 2')}
+//);
+//
+//
+//task2.then(function (result) {
+//    console.log('Таск 2 выполненс с результатом:', result);
+//});
+//queue.push(task1, 2, function(err){console.log('finished processing first');});
+
+//queue.push(task2, 1, function(err){console.log('finished processing second');});
+
+
+//////////////////
 const userTransform = createFilter(
     'user',
     ['token','user']

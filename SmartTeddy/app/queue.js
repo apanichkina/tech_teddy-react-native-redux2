@@ -1,102 +1,70 @@
 import async from 'async';
-class QueueTask {
-    constructor (name, action, onStart) {
-        this.eventsHandlers = {};
-        this.name = name;
-        this.action = action;
-        this.onStart = onStart;
+import QueueTask from './QueueTask'
 
 
-        this._active = false;
-        this._resolved = false;
-        this._failed = false;
-    }
-
-    start () {
-        console.log('start');
-        let prom = new Promise( (resolve, reject) => {
-            this.action(resolve.bind(this), reject);
-            this._active = true;
-        });
-        prom.then(this._onSuccess.bind(this)).catch(this._onFail.bind(this));
-        return prom;
-    }
-
-    _onSuccess (result) {
-        console.log('success');
-        this._active = false;
-        this._resolved = true;
-        this._result = result;
-
-        if (this.callback) {
-            this.callback(result);
-        }
-
-    }
-
-    _onFail () {
-        console.log('fail');
-        this._active = false;
-        this._failed = true;
-    }
-
-    isActive () {
-        return this._active;
-    }
-
-    then (callback) {
-        this.callback = callback;
-        if (this._resolved || this._failed) {
-            callback(this._result);
-        }
-    }
-    on (name, cb) {
-        if (!this.eventsHandlers[name]) {
-            this.eventsHandlers[name] = [];
-        }
-
-        this.eventsHandlers[name].push(cb);
-    }
-
-    trigger (name, params) {
-        this.eventsHandlers[name].forEach(cb => cb(params));
-    }
-
-}
-
-let task1 = new QueueTask('task1',
-    function (done, fail) {
-       // done('Результат первой функции');
-        setTimeout(function () {
-            console.log('Первая функция 1500');
-            done('Результат первой функции');
-        }, 200)
-    },
-    function(){console.log('onStart')}
-);
-
-
-task1.then(function (result) {
-    console.log('Таск 1 выполненс с результатом:', result);
-});
+//
+//let task1 = new QueueTask('task1',
+//    function (done, fail) {
+//       // done('Результат первой функции');
+//        setTimeout(function () {
+//            console.log('Первая функция 1500');
+//            done('Результат первой функции');
+//        }, 200)
+//    },
+//    function(){console.log('onStart')}
+//);
+//
+//
+//task1.then(function (result) {
+//    console.log('Таск 1 выполненс с результатом:', result);
+//});
+//
+//let task2 = new QueueTask('task2',
+//    function (done, fail) {
+//        // done('Результат первой функции');
+//        setTimeout(function () {
+//            console.log('Вторая функция 2500');
+//            done('Результат второй функции');
+//        }, 200)
+//    },
+//    function(){console.log('onStart 222')}
+//);
+//
+//
+//task2.then(function (result) {
+//    console.log('Таск 2 выполненс с результатом:', result);
+//});
 
 // create a queue object with concurrency 2
-var q = async.priorityQueue(function(task, callback) {
+var queue = async.priorityQueue(function(task, callback) {
     console.log('hello ' + task.name);
-    task.start().then(
-        (result) => console.log('Success here:', result)
-        //() => console.log('Failure here')
-    ).catch((error)=>console.log('Failure here:', error));
-    callback();
+    task.start()
+        .then((result) => {
+            console.log('Success here:', result);
+            callback();
+        })
+        .catch((error)=>{
+            console.log('Failure here:', error);
+            callback();
+        });
 }, 1);
 
 // assign a callback
-q.drain = function() {
+queue.drain = function() {
     console.log('all items have been processed');
 };
 
+var addUserTask = function(name, action, onStart, onSuccess, onFail){
+    let task = new QueueTask(name, action, onStart, onSuccess, onFail);
+    queue.push(task, 1, function(err){console.log('finished processing user task')});
+};
+var addSystemTask = function(name, action, onStart, onSuccess, onFail){
+    let task = new QueueTask(name, action, onStart, onSuccess, onFail);
+    queue.push(task, 2, function(err){console.log('finished processing ststem task')});
+};
+
 // add some items to the queue
-q.push(task1, 2, function(err){console.log('finished processing first');});
-
-
-export default q;
+//q.push(task1, 2, function(err){console.log('finished processing first');});
+//
+//q.push(task2, 1, function(err){console.log('finished processing second');});
+export {addUserTask, addSystemTask};
