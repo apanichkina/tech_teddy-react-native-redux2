@@ -1,18 +1,13 @@
 import * as types from './actionTypes';
 import Bluetooth from '../BluetoothLib'
+import {alarmIsPlaying} from './alarm'
 import {setError} from './error'
-import { 
-    setBearStories,
-    setConnectedBearName,
-    alarmIsPlaying,
-    downloadedStory
-} from './bear'
-import {
-    playStory,
-    pauseStory
-}from './player'
+import {downloaded} from './bearStory'
+import { setBearStories, setConnectedBearName } from './bear'
+import {playStory,pauseStory}from './player'
 import { pushNewRoute} from './route'
 import {addUserTask, addSystemTask} from '../queue';
+
 var heartBeatID = undefined;
 
 export function enableBluetooth():Action {
@@ -136,7 +131,7 @@ export function heartBeat() {
                 return instance.shortPolling();
             },
             function () {
-                console.log('onStart setBearStories')
+                console.log('onStart heartBeat')
             },
             (array) => {
                 for (var i = 0; i < array.length; ++i) {
@@ -148,35 +143,30 @@ export function heartBeat() {
                             dispatch(alarmIsPlaying());
                             console.log('alarm: ', body);
                         }
-                            ;
                             break;
                         case 's':
                         {
                             //dispatch(playStory(body));
                             console.log('story: ' + body + ' is playing');
                         }
-                            ;
                             break;
                         case 'p':
                         {
                             //dispatch(pauseStory(body));
                             console.log('story: ' + body + ' is paused');
                         }
-                            ;
                             break;
                         case 'r':
                         {
                             // dispatch(speakRole(body));
                             console.log('hero: ' + body + ' is speaking');
                         }
-                            ;
                             break;
                         case 'd':
                         {
-                            dispatch(downloadedStory(body));
+                            dispatch(downloaded(body));
                             console.log('downloaded: ' + body + ' bytes');
                         }
-                            ;
                             break;
                         default:
                             break;

@@ -59,8 +59,6 @@ export function setConnectedBearName(name:string):Action {
 }
 
 export function setBearStories() {
-
-
     return function (dispatch, getState) {
         let stories = getState().userStories.stories;
         dispatch(requestBearStories());
@@ -74,87 +72,6 @@ export function setBearStories() {
             }
         );
 
-    }
-}
-export function uploadStory(id:number):Action {
-    return {
-        type: types.UPLOAD_STORY,
-        id
-    }
-}
-export function downloadedStory(bytes:number):Action {
-    return {
-        type: types.DOWNLOADED_STORY,
-        bytes
-    }
-}
-export function deleteStory(id:number):Action {
-    return {
-        type: types.DELETE_STORY,
-        id
-    }
-}
-
-
-export function alarmIsPlaying():Action {
-    return {
-        type: types.ALARM_IS_PLAYING
-    }
-}
-
-export function uploadStoryToBear(id) {
-    //let instance = Bluetooth.getInstance();
-    //return function (dispatch) {
-    //    return instance.downloadFile(id).then(() => {dispatch(uploadStory(id))}
-    //    ).catch((error) => {
-    //            console.log('upload story error:');
-    //            console.log(error)
-    //        });
-    //}
-    return function (dispatch) {
-        addUserTask('uploadStoryToBear', ()=> {
-                let instance = Bluetooth.getInstance();
-                return instance.downloadFile(id);
-            },
-            function () {
-                console.log('onStart setBearStories')
-            },
-            (array) => {
-                dispatch(uploadStory(id))
-            },
-            (error) => {
-                console.log('upload story error:');
-                console.log(error);
-            }
-        );
-    }
-}
-
-export function deleteStoryFromBear(id) {
-    //let instance = Bluetooth.getInstance();
-    //return function (dispatch) {
-    //    return instance.removeFile(id).then(() => {dispatch(deleteStory(id))}
-    //    ).catch((error) => {
-    //            console.log('delete story error:');
-    //            console.log(error)
-    //        });
-    //}
-    return function (dispatch) {
-        addUserTask('deleteStoryFromBear', ()=> {
-                let instance = Bluetooth.getInstance();
-                return instance.removeFile(id);
-            },
-            function () {
-                console.log('onStart setBearStories')
-            },
-            (array) => {
-                dispatch(deleteStory(id))
-            },
-            (error) => {
-                console.log('delete story error:');
-                console.log(error);
-            }
-        );
     }
 }
 

@@ -1,6 +1,5 @@
 import drawer from './drawer'
 import route from './route'
-import store from './store'
 import storyCategory from './storyCategory.js'
 import story from './story'
 import user from './user'
@@ -27,6 +26,5 @@ export {
     storeStories,
     wifi,
     alarm,
-    drawer,
-    store
+    drawer
     };
