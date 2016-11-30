@@ -26,7 +26,7 @@ export default class StoryCard extends Component {
         onPause,
         isPaused
     } = this.props;
-
+    let storySize = 33000;
     return (
         <Card style={[styles.mb, { flex: 0 }]}>
 
