@@ -67,33 +67,68 @@ export function searchBears() {
 }
 
 export function connectToDevice(id, name) {
-    let instance = Bluetooth.getInstance();
+
     return function (dispatch) {
-        return instance.connect(id).then(() => {
-                // disconnectFromDevice();
-                dispatch(connectBluetooth());
-                dispatch(setConnectedBearName(name));
-                heartBeatID = setTimeout(() => {
-                    //heartBeatID = undefined;
-                    //heartBeat()(dispatch);
+        return new Promise((resolve, reject)=>{
+            addUserTask('connect', ()=>{
+                    let instance = Bluetooth.getInstance();
+                    return instance.connect(id);
+                },
+                function () {
+                    console.log('onStart setBearStories')
+                },
+                function (result) {
+                    resolve(result);
+                    dispatch(connectBluetooth());
+                    dispatch(setConnectedBearName(name));
+                    heartBeatID = setTimeout(() => {
+                        //heartBeatID = undefined;
+                        //heartBeat()(dispatch);
 
-                    //СИНХРОНИЗАЦИЯ ВРЕМЕНИ -------- ЖЕСТЬ КАК ДОЛГО
-                    syncTime()
-                        .then(()=>{
-                            heartBeatID = undefined;
-                            heartBeat()(dispatch)
-                        })
-                        .catch((err)=>{ console.log('syncTime failed', err);})
+                        //СИНХРОНИЗАЦИЯ ВРЕМЕНИ -------- ЖЕСТЬ КАК ДОЛГО
+                        syncTime()
+                            .then(()=>{
+                                heartBeatID = undefined;
+                                heartBeat()(dispatch)
+                            })
+                            .catch((err)=>{ console.log('syncTime failed', err);})
 
-                }, 2000);
-                // dispatch(setBearStories());
-            }
-        ).catch((error) => {
-                dispatch(setError('connect to device fail')); //<-------пример, как кидать пользователю ошибки в Toast
-                console.log('connect ti device error:');
-                console.log(error);
-                throw error;
-            });
+                    }, 2000);
+                },
+                (error) => {
+                    reject(error);
+                    dispatch(setError('connect to device fail')); //<-------пример, как кидать пользователю ошибки в Toast
+                    console.log('connect ti device error:');
+                    console.log(error);
+                    throw error;
+                }
+            );
+        });
+        //  instance.connect(id).then(() => {
+        //         // disconnectFromDevice();
+        //         dispatch(connectBluetooth());
+        //         dispatch(setConnectedBearName(name));
+        //         heartBeatID = setTimeout(() => {
+        //             //heartBeatID = undefined;
+        //             //heartBeat()(dispatch);
+        //
+        //             //СИНХРОНИЗАЦИЯ ВРЕМЕНИ -------- ЖЕСТЬ КАК ДОЛГО
+        //             syncTime()
+        //                 .then(()=>{
+        //                     heartBeatID = undefined;
+        //                     heartBeat()(dispatch)
+        //                 })
+        //                 .catch((err)=>{ console.log('syncTime failed', err);})
+        //
+        //         }, 2000);
+        //         // dispatch(setBearStories());
+        //     }
+        // ).catch((error) => {
+        //         dispatch(setError('connect to device fail')); //<-------пример, как кидать пользователю ошибки в Toast
+        //         console.log('connect ti device error:');
+        //         console.log(error);
+        //         throw error;
+        //     });
     }
 }
 
