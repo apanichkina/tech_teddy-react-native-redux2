@@ -13,7 +13,9 @@ import storeStories from './storeSrories'
 import internet from './internet'
 import error from './error'
 import bearStory from './bearStory'
+import interactiveStories from './interactiveStories'
 export {
+    interactiveStories,
     story,
     bearStory,
     player,

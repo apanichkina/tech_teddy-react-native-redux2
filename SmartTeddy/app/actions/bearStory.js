@@ -2,6 +2,7 @@ import * as types from './actionTypes';
 import Bluetooth from '../BluetoothLib'
 import {addUserTask} from '../queue';
 import {setBearStories} from './bear'
+import {fetchStories} from './interactiveStories'
 function uploadStory(id:number, size:number):Action {
     return {
         type: types.UPLOAD_STORY,
@@ -29,25 +30,29 @@ export function stopDowload():Action {
 
 export function uploadStoryToBear(id) {
     return function (dispatch, getState) {
-        //
         let uploadedStory = getState().userStories.stories[id];
-        let uploadedSize = uploadedStory.size_m;
-
-        addUserTask('uploadStoryToBear', ()=> {
-                let instance = Bluetooth.getInstance();
-                return instance.downloadFile(id);
-            },
-            function () {
-                console.log('onStart uploadStoryToBear')
-            },
-            () => {
-                dispatch(uploadStory(id, uploadedSize))
-            },
-            (error) => {
-                console.log('upload story error:');
-                console.log(error);
-            }
-        );
+        if (uploadedStory.category  == 4) {
+            console.log('find INteractive story name:'+uploadedStory.name);
+            dispatch(fetchStories(uploadedStory.id));
+        }
+        else {
+            let uploadedSize = uploadedStory.size_m;
+            addUserTask('uploadStoryToBear', ()=> {
+                    let instance = Bluetooth.getInstance();
+                    return instance.downloadFile(id);
+                },
+                function () {
+                    console.log('onStart uploadStoryToBear')
+                },
+                () => {
+                    dispatch(uploadStory(id, uploadedSize))
+                },
+                (error) => {
+                    console.log('upload story error:');
+                    console.log(error);
+                }
+            );
+        }
     }
 }
 
