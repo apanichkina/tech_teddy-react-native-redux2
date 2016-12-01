@@ -5,6 +5,7 @@ import {setErrorVisible} from '../../actions/error'
 import { openDrawer, closeDrawer } from '../../actions/drawer';
 import { uploadStoryToBear, deleteStoryFromBear} from '../../actions/bear';
 import { playStoryOnBear, pauseStoryOnBear } from '../../actions/player';
+import Player from '../StoryProfile/Player'
 import styles from './styles';
 import myTheme from '../../themes/base-theme';
 const cards = [
@@ -28,7 +29,6 @@ const cards = [
 ];
 
 class Profile extends Component {
-
     static propTypes = {
         openDrawer: React.PropTypes.func,
         closeDrawer: React.PropTypes.func
@@ -56,7 +56,8 @@ class Profile extends Component {
 
     }
     render() {
-        const { bluetoothEnabled } = this.props;
+
+        const { isConnected } = this.props;
         return (
         <Container theme={myTheme} style={styles.container}>
             <Header>
@@ -79,24 +80,12 @@ class Profile extends Component {
                             </CardItem>
                             <CardItem>
 
-                                    <View style={{ flexDirection:'row',  alignItems:'center',
-                                        justifyContent:'center'}}>
-                                        <Button rounded style={{ margin: 6, marginLeft:0, flex:1, maxWidth:100, height:100}} onPress={this.nowplay.bind(this, "14_" + item.chapterID)} >
-                                            play
-                                        </Button>
-                                        <Button rounded style={{ margin: 6, marginLeft:0, flex:1, maxWidth:100, height:100}} onPress={this.nowplay.bind(this, "14_" + item.chapterID + "_k")} >
-                                            play corrected
-                                        </Button>
-                                        <Button rounded style={{ margin: 6, marginLeft:0, flex:1, maxWidth:100, height:100}} onPress={this.uploadstory.bind(this, "14_" + item.chapterID)} >
-                                            upload
-                                        </Button>
-                                        <Button rounded style={{ margin: 6, marginLeft:0, flex:1, maxWidth:100, height:100}} onPress={this.uploadstory.bind(this, "14_" + item.chapterID + "_k")} >
-                                            upload corrected
-                                        </Button>
-                                        <Button rounded style={{ margin: 6, marginLeft:0, flex:1, maxWidth:100, height:100}} onPress={this.deletestory.bind(this, "14_" + item.chapterID)} >
-                                            delete
-                                        </Button>
-                                    </View>
+                                <View>
+                                    {isConnected ?
+                                        <Player storyId={'14_'+item.chapterID}/>
+                                        : null
+                                    }
+                                </View>
 
                             </CardItem>
 
@@ -110,12 +99,18 @@ class Profile extends Component {
     }
 }
 
+const findElementById = (array, value) => {
+    let result = array.filter(obj => obj.id == value);
+    return !!result.length;
+};
 
 const mapStateToProps = (state) => {
     return {
-        bluetoothEnabled: state.bluetooth.bluetoothEnabled
+        isUpload: findElementById(state.bear.bearStories, state.story.storyId),
+        isConnected: !!state.bluetooth.bluetoothConnected,
     }
 };
+
 const mapDispatchToProps = (dispatch) => {
     return {
         openDrawer: () => dispatch(openDrawer()),
