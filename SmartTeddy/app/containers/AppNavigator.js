@@ -13,7 +13,7 @@ import Bears from '../components/Bears/';
 import Profile from '../components/Profile/';
 import SignIn from '../components/SignIn/';
 import SignUp from '../components/SignUp/';
-import CardTest from '../components/InteractiveStory/';
+import Interactive from '../components/InteractiveStory/';
 import BearProfile from '../components/BearProfile/';
 import StoryProfile from '../components/StoryProfile';
 import SideBar from '../components/SideBar/';
@@ -162,8 +162,6 @@ class AppNavigator extends Component {
                 return <StoryProfile navigator={navigator} />;
             case 'profile':
                 return <Profile navigator={navigator} />;
-            case 'test':
-                return <CardTest navigator={navigator} />;
             case 'bear-profile':
                 return <BearProfile navigator={navigator} />;
             case 'alarm':
@@ -174,6 +172,8 @@ class AppNavigator extends Component {
                 return <SignIn navigator={navigator} />;
             case 'signup':
                 return <SignUp navigator={navigator} />;
+            case 'interactive':
+                return <Interactive navigator={navigator} />;
             default :
                 return <Store navigator={navigator} />;
         }

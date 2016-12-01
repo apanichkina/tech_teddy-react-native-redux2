@@ -72,6 +72,7 @@ class Profile extends Component {
                     dataSource={cards}
                     renderItem={item =>
                         <Card style={{ elevation: 3 }}>
+                        {console.log('see'+item.chapterID)}
                             <CardItem>
                                 <Text>Часть №{item.chapterID}</Text>
                             </CardItem>

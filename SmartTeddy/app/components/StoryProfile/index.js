@@ -41,6 +41,9 @@ class SProfile extends Component {
       else this.props.pushNewRoute('signin')
 
   }
+    goToInteractive(){
+        this.props.pushNewRoute('interactive')
+    }
 
 
   render() {
@@ -83,6 +86,7 @@ class SProfile extends Component {
                 illustration={{uri: 'https://storage.googleapis.com/hardteddy_images/large/'+story.id+'.jpg'}}
                 downloaded={downloaded}
                 isDownloading={isDownloading}
+                goToInteractive={()=>{this.goToInteractive()}}
                 />
 
         </Content>

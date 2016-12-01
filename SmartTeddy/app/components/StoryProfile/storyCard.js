@@ -23,7 +23,9 @@ export default class StoryCard extends Component {
         onConnectBear,
         downloaded,
         isDownloading,
-        id
+        id,
+        category,
+        goToInteractive
     } = this.props;
     return (
         <Card style={[styles.mb, { flex: 0 }]}>
@@ -49,7 +51,11 @@ export default class StoryCard extends Component {
                 </View>
                 <View>
                     {isConnected && isUpload ?
+                        category !== 'РОЛЕВЫЕ' ?
                         <Player storyId={id}/>
+                            : <Button block info onPress={goToInteractive}>
+                            НАЧАТЬ ИНТЕРАКТИВНУЮ СКАЗКУ
+                        </Button>
                         : null
                     }
                 </View>
@@ -93,5 +99,6 @@ StoryCard.propTypes = {
     logo: React.PropTypes.string.isRequired,
     downloaded: React.PropTypes.number,
     isDownloading: React.PropTypes.bool,
-    id: React.PropTypes.number
+    id: React.PropTypes.number,
+    goToInteractive: React.PropTypes.func
 };

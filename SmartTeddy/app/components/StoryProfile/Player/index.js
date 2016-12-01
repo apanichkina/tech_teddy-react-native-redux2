@@ -12,7 +12,7 @@ class PlayerContainer extends Component {
   };
 
   playStory() {
-      console.log('Play custom');
+      console.log('Play custom')
       this.props.playStoryOnBear(this.props.storyId);
 
   }
