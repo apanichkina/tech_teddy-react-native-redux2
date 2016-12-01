@@ -12,7 +12,8 @@ export default function (state = initialState, action={}) {
             return {
                 ...state,
                 downloadingStoryId: action.id,
-                downloadingStorySize: action.size
+                downloadingStorySize: action.size,
+                downloaded: 0.1
             };
         case 'DOWNLOADED_STORY':
             let downloadedPath = 0;
@@ -20,6 +21,11 @@ export default function (state = initialState, action={}) {
             return {
                 ...state,
                 downloaded: downloadedPath
+            };
+        case 'FINISH_PROGRESS':
+            return {
+                ...state,
+                downloaded: 1
             };
         case 'STOP_DOWNLOAD':
             return Object.assign({}, state, {

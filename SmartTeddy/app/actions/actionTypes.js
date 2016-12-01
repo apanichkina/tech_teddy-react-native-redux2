@@ -72,6 +72,7 @@ export const DELETE_STORY = 'DELETE_STORY';
 //Player
 export const PLAY_STORY = 'PLAY_STORY';
 export const PAUSE_STORY = 'PAUSE_STORY';
+export const STOP_STORY = 'STOP_STORY';
 
 //Alarm
 export const SET_ALARM_TIME = 'SET_ALARM_TIME';

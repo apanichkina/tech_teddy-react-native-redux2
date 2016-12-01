@@ -4,7 +4,7 @@ import {alarmIsPlaying} from './alarm'
 import {setError} from './error'
 import {downloaded} from './bearStory'
 import { setBearStories, setConnectedBearName } from './bear'
-import {playStory,pauseStory}from './player'
+import {playStory,pauseStory, stopStory}from './player'
 import { pushNewRoute} from './route'
 import {addUserTask, addSystemTask} from '../queue';
 import {stopDowload} from './bearStory'
@@ -155,7 +155,8 @@ export function heartBeat() {
                         case 's':
                         {
                             //dispatch(playStory(body));
-                            console.log('story: ' + body + ' is playing');
+                            if (body == 'top') dispatch(stopStory());
+                            console.log('story: ' + body +' is playing');
                         }
                             break;
                         case 'p':

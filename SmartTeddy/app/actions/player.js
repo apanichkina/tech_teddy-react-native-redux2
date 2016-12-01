@@ -15,15 +15,14 @@ export function pauseStory():Action {
     }
 }
 
+export function stopStory():Action {
+    return {
+        type: types.STOP_STORY
+    }
+}
+
 export function playStoryOnBear(id) {
-    //let instance = Bluetooth.getInstance();
-    //return function (dispatch) {
-    //    return instance.play(id).then(() => {dispatch(playStory(id))}
-    //    ).catch((error) => {
-    //            console.log('play story error:');
-    //            console.log(error)
-    //        });
-    //}
+
     return function (dispatch) {
         addUserTask('playStoryOnBear', ()=> {
                 let instance = Bluetooth.getInstance();
@@ -43,14 +42,7 @@ export function playStoryOnBear(id) {
     }
 }
 export function pauseStoryOnBear() {
-    //let instance = Bluetooth.getInstance();
-    //return function (dispatch) {
-    //    return instance.pause_unpause().then(() => {dispatch(pauseStory())}
-    //    ).catch((error) => {
-    //            console.log('pause story error:');
-    //            console.log(error)
-    //        });
-    //}
+
     return function (dispatch) {
         addUserTask('pauseStoryOnBear', ()=> {
                 let instance = Bluetooth.getInstance();
