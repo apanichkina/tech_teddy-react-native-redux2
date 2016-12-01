@@ -35,7 +35,8 @@ function receiveStories(allStories,stories):Action {
     arr.forEach(function(item,i,arr){
             item=item.replace(".raw","");
             item_number = parseInt(item,10);
-            if (item_number){
+
+            if (item_number && (bearStories.indexOf(item_number) == -1)) {
             bearStories[index++] = item_number;
             }
         }
