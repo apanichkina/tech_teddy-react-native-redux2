@@ -13,7 +13,7 @@ export default function (state = initialState, action={}) {
                 ...state,
                 downloadingStoryId: action.id,
                 downloadingStorySize: action.size,
-                downloaded: 0.1
+                downloaded: 0.01
             };
         case 'DOWNLOADED_STORY':
             let downloadedPath = 0;

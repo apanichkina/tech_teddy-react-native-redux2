@@ -37,7 +37,8 @@ class SProfile extends Component {
       this.props.pushNewRoute('bears')
   }
   buyStory(id) {
-    this.props.buyStory(id);
+      if (this.props.isAuth) this.props.buyStory(id);
+      else this.props.pushNewRoute('signin')
 
   }
   playStory(id) {
@@ -142,7 +143,8 @@ const mapStateToProps = (state) => {
       isPaused: state.player.isStoryPaused,
       downloaded: state.bearStory.downloaded,
       downloadingStoryId:  state.bearStory.downloadingStoryId,
-      isDownloading: (state.story.storyId == state.bearStory.downloadingStoryId)
+      isDownloading: (state.story.storyId == state.bearStory.downloadingStoryId),
+      isAuth: !!state.user.token
   }
 };
 

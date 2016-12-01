@@ -6,9 +6,11 @@ function requestStories():Action {
     }
 }
 function receiveStories(json):Action {
-    let arr = json.body.stories;
+    let arr = json;
     let storiesArray=[];
-    arr.forEach(function(item,i,arr){storiesArray[item.id] = item});
+    arr.forEach(function(item,i,arr){
+        storiesArray[item.id] = item
+    });
     return {
         type: types.RECEIVE_USER_STORIES,
         stories: storiesArray,
@@ -33,7 +35,7 @@ export function fetchStories() {
                 'Authorization': state.user.token
             }
         }).then((response) => response.json())
-            .then(json => dispatch(receiveStories(json))
+            .then(json => dispatch(receiveStories(json.body.stories))
         ).catch((error) => {
                 dispatch(requestStoriesFail());
                 console.log('fetch user stories error:');

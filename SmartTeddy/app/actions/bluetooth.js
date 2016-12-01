@@ -141,6 +141,7 @@ export function heartBeat() {
                 if (!array.length && isDownloading) {
                     dispatch(setError('Загрузка завешнена'));
                     dispatch(stopDowload());
+                    dispatch(setBearStories());
                 }
                 for (var i = 0; i < array.length; ++i) {
                     var code = array[i][0];
