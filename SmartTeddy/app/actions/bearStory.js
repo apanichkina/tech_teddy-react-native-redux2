@@ -30,6 +30,7 @@ export function stopDowload():Action {
 
 export function uploadStoryToBear(id) {
     return function (dispatch, getState) {
+        //
         let uploadedStory = getState().userStories.stories[id];
         if (uploadedStory.category  == 4) {
             console.log('find INteractive story name:'+uploadedStory.name);

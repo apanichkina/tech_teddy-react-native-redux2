@@ -127,7 +127,6 @@ export function heartBeat() {
     return function (dispatch, getState) {
 
         // console.log('heartBeat me please');
-        let isDownloading = getState().bearStory.downloaded;
         addSystemTask('heartBeat', ()=> {
                 let instance = Bluetooth.getInstance();
                 return instance.shortPolling();
@@ -136,6 +135,7 @@ export function heartBeat() {
                 console.log('onStart heartBeat')
             },
             (array) => {
+                let isDownloading = getState().bearStory.downloaded;
                 console.log("HEARTBEAT ANSWER HERE:");
                 console.log(array);
                 if (!array.length && isDownloading) {
@@ -203,53 +203,7 @@ export function heartBeat() {
                 }
             }
         );
-        //let instance = Bluetooth.getInstance();
-        //return function (dispatch) {
-        //    return instance.shortPolling().then((array) => {
-        //        for (var i = 0; i < array.length; ++i) {
-        //            var code = array[i][0];
-        //            var body = array[i].substring(1);
-        //            switch (code) {
-        //                case 'a': {
-        //                    dispatch(alarmIsPlaying());
-        //                    console.log('alarm: ', body);
-        //                }; break;
-        //                case 's': {
-        //                    //dispatch(playStory(body));
-        //                    console.log('story: '+ body +' is playing');
-        //                }; break;
-        //                case 'p': {
-        //                    //dispatch(pauseStory(body));
-        //                    console.log('story: '+ body +' is paused');
-        //                }; break;
-        //                case 'r': {
-        //                    // dispatch(speakRole(body));
-        //                    console.log('hero: '+ body +' is speaking');
-        //                }; break;
-        //                case 'd': {
-        //                    dispatch(downloadedStory(body));
-        //                    console.log('downloaded: '+ body +' bytes');
-        //                }; break;
-        //                default: break;
-        //            }
-        //        }
-        //    }).catch((error) => {
-        //            console.log('heartBeat error:');
-        //            console.log(error);
-        //            if (error === 'not connected') {
-        //                heartBeatID = 0;
-        //            }
-        //            // throw error;
-        //    })
-        //    .finally(() => {
-        //        if (heartBeatID === undefined) {
-        //            heartBeatID = setTimeout(() => {
-        //                heartBeatID = undefined;
-        //                heartBeat()(dispatch);
-        //            }, 7000);
-        //        }
-        //    })
-        //}
+
     }
 }
 

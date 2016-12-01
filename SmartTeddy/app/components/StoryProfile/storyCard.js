@@ -3,6 +3,7 @@ import {  Button, Icon, Card, CardItem, Text, View } from 'native-base';
 import { Image } from 'react-native';
 import styles from './styles';
 import Player from './Player'
+import DeleteOrUpload from './DeleteOrUpload'
 import {
     MKProgress,
     } from 'react-native-material-kit';
@@ -13,27 +14,17 @@ export default class StoryCard extends Component {
     const {
         name,
         illustration,
-        price,
         description,
         onBuyClick,
-        onUploadClick,
-        onDeleteClick,
         isUpload,
         isBought,
         logo,
-        category,
         isConnected,
         onConnectBear,
-        onPlay,
-        isPlaying,
-        onPause,
-        isPaused,
         downloaded,
         isDownloading,
         id
     } = this.props;
-    let storySize = 33000;
-      console.log(isDownloading);
     return (
         <Card style={[styles.mb, { flex: 0 }]}>
 
@@ -55,73 +46,26 @@ export default class StoryCard extends Component {
                             />
                         : null
                     }
-
                 </View>
-
-
-
-
-
-
-
-                <View style={{ flexDirection:'row'}}>
-
-
+                <View>
                     {isConnected && isUpload ?
-                        !isPlaying ?
-                            <Button info style={{ margin: 6, marginLeft:0, flex:1}} onPress={onPlay}>
-                                <Icon name="ios-play" style={{ color: '#fff', margin: 5 }}/>
-                            </Button>
-                            : isPaused ?
-                                <Button style={{ margin: 6, marginLeft:0, flex:1}} onPress={onPause}>
-                                    <Icon  name="ios-play" style={{ color: '#fff', margin: 5 }}/>
-                                </Button>
-                                    :<Button style={{ margin: 6, marginLeft:0, flex:1}} onPress={onPause}>
-                                        <Icon name='ios-pause' style={{ color: '#fff', margin: 5 }}/>
-                                    </Button>
+                        <Player storyId={id}/>
                         : null
-
                     }
-
-
-                    <View style={{flex:7}}>
-                        {/* <SliderContainer caption=''>
-                            <Slider
-                                value={sliderVal}
-                                onValueChange={(value) => sliderVal={value}}
-                                style={styles.slider_container}
-                                trackStyle={styles.track}
-                                thumbStyle={styles.thumb}
-                                minimumTrackTintColor='#B39DDB'
-                                thumbTouchSize={{width: 50, height: 40}}
-                                />
-                        </SliderContainer>  */}
-                    </View>
-
                 </View>
 
                 <View style={{ flexDirection:'row'  }}>
                     {!isBought ?
                         <Button style={{ margin: 6, marginLeft:0, flex: 2}}
                                 onPress={onBuyClick}>
-                            <Icon name="ios-basket" />
-                            {!!price ?
-                                <Text style={{ color: '#fff'}}>{price} руб.</Text>
-                                : <Text style={{ color: '#fff'}}>Бесплатно</Text>
-                            }
+                            <Icon name="ios-star" />
+                            <Text style={{ color: '#fff'}}>В ИЗБРАННОЕ</Text>
                         </Button>
                         :  !isConnected ?
                             <Button info style={{ margin: 6, marginLeft:0, flex:2}} onPress={onConnectBear}>
                                 ПРИМЕДВЕДИТЬСЯ
                             </Button>
-                        : isUpload ?
-                            <Button bordered style={{ margin: 6, marginLeft:0, flex:2}} onPress={onDeleteClick}>
-                                <Icon name="ios-trash" />
-                            </Button>
-                        :   <Button bordered style={{ margin: 6, marginLeft:0, flex:2}} onPress={onUploadClick}>
-                                <Icon name="ios-cloud-upload" />
-                            </Button>
-
+                        : <DeleteOrUpload storyId={id}/>
                     }
 
                     <Button bordered  style={{ margin: 6, marginLeft:0, marginRight:0, flex: 2}} >
@@ -143,17 +87,10 @@ StoryCard.propTypes = {
     price: React.PropTypes.number.isRequired,
     illustration: React.PropTypes.object.isRequired,
     onBuyClick: React.PropTypes.func,
-    onUploadClick: React.PropTypes.func,
-    onDeleteClick: React.PropTypes.func,
     onConnectBear: React.PropTypes.func,
-    onPlay: React.PropTypes.func,
-    onPause: React.PropTypes.func,
-    isPlaying: React.PropTypes.bool,
-    isUpload: React.PropTypes.bool,
     isBought: React.PropTypes.bool,
     isConnected: React.PropTypes.bool,
     logo: React.PropTypes.string.isRequired,
-    isPaused: React.PropTypes.bool,
     downloaded: React.PropTypes.number,
     isDownloading: React.PropTypes.bool,
     id: React.PropTypes.number
