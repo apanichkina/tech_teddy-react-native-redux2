@@ -1,20 +1,6 @@
 import * as types from './actionTypes';
 import {fetchStories} from './userStories';
 
-export function buyStory(id:number):Action {
-    return {
-        type: types.BUY_STORY,
-        id
-    }
-}
-export function addStory(name:string, id:number, categoryId:number):Action {
-    return {
-        type: types.ADD_STORY,
-        id,
-        name,
-        categoryId
-    }
-}
 export function fetchBuyStory(id) {
     return function (dispatch,getState) {
         fetch('https://hardteddy.ru/api/store/buy', {

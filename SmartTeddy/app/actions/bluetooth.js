@@ -1,18 +1,13 @@
 import * as types from './actionTypes';
 import Bluetooth from '../BluetoothLib'
+import {alarmIsPlaying} from './alarm'
 import {setError} from './error'
-import { 
-    setBearStories,
-    setConnectedBearName,
-    alarmIsPlaying,
-    downloadedStory
-} from './bear'
-import {
-    playStory,
-    pauseStory
-}from './player'
+import {downloaded} from './bearStory'
+import { setBearStories, setConnectedBearName } from './bear'
+import {playStory,pauseStory, stopStory}from './player'
 import { pushNewRoute} from './route'
 import {addUserTask, addSystemTask} from '../queue';
+import {stopDowload} from './bearStory'
 var heartBeatID = undefined;
 
 export function enableBluetooth():Action {
@@ -68,7 +63,7 @@ export function searchBears() {
 
 export function connectToDevice(id, name) {
 
-    return function (dispatch) {
+    return function (dispatch, getState) {
         return new Promise((resolve, reject)=>{
             addUserTask('connect', ()=>{
                     let instance = Bluetooth.getInstance();
@@ -89,7 +84,7 @@ export function connectToDevice(id, name) {
                         syncTime()
                             .then(()=>{
                                 heartBeatID = undefined;
-                                heartBeat()(dispatch)
+                                heartBeat()(dispatch, getState)
                             })
                             .catch((err)=>{ console.log('syncTime failed', err);})
 
@@ -164,16 +159,25 @@ export function disconnectFromDevice() {
 }
 
 export function heartBeat() {
-    return function (dispatch) {
+    return function (dispatch, getState) {
+
         // console.log('heartBeat me please');
+        let isDownloading = getState().bearStory.downloaded;
         addSystemTask('heartBeat', ()=> {
                 let instance = Bluetooth.getInstance();
                 return instance.shortPolling();
             },
             function () {
-                console.log('onStart setBearStories')
+                console.log('onStart heartBeat')
             },
             (array) => {
+                console.log("HEARTBEAT ANSWER HERE:");
+                console.log(array);
+                if (!array.length && isDownloading) {
+                    dispatch(setError('Загрузка завешнена'));
+                    dispatch(stopDowload());
+                    dispatch(setBearStories());
+                }
                 for (var i = 0; i < array.length; ++i) {
                     var code = array[i][0];
                     var body = array[i].substring(1);
@@ -183,35 +187,31 @@ export function heartBeat() {
                             dispatch(alarmIsPlaying());
                             console.log('alarm: ', body);
                         }
-                            ;
                             break;
                         case 's':
                         {
                             //dispatch(playStory(body));
-                            console.log('story: ' + body + ' is playing');
+                            if (body == 'top') dispatch(stopStory());
+                            console.log('story: ' + body +' is playing');
                         }
-                            ;
                             break;
                         case 'p':
                         {
                             //dispatch(pauseStory(body));
                             console.log('story: ' + body + ' is paused');
                         }
-                            ;
                             break;
                         case 'r':
                         {
                             // dispatch(speakRole(body));
                             console.log('hero: ' + body + ' is speaking');
                         }
-                            ;
                             break;
                         case 'd':
                         {
-                            dispatch(downloadedStory(body));
+                            dispatch(downloaded(body));
                             console.log('downloaded: ' + body + ' bytes');
                         }
-                            ;
                             break;
                         default:
                             break;
@@ -220,7 +220,7 @@ export function heartBeat() {
                 if (heartBeatID === undefined) {
                     heartBeatID = setTimeout(() => {
                         heartBeatID = undefined;
-                        heartBeat()(dispatch);
+                        heartBeat()(dispatch, getState);
                     }, 7000);
                 }
             },
@@ -233,7 +233,7 @@ export function heartBeat() {
                 if (heartBeatID === undefined) {
                     heartBeatID = setTimeout(() => {
                         heartBeatID = undefined;
-                        heartBeat()(dispatch);
+                        heartBeat()(dispatch, getState);
                     }, 7000);
                 }
             }

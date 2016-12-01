@@ -19,6 +19,7 @@
     "react-native-button": "^1.7.1",
     "react-native-drawer": "^1.16.7",
     "react-native-easy-grid": "^0.1.6",
+    "react-native-material-kit": "git://github.com/youennPennarun/react-native-material-kit#cc9ac25",
     "react-native-modal-datetime-picker": "^2.0.3",
     "react-native-modalbox": "^1.3.0",
     "react-native-root-toast": "^1.0.3",

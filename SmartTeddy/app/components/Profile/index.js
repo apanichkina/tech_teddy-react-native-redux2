@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Header, Title, Content, Text, List, ListItem, Button, Icon, InputGroup, Input, View } from 'native-base';
-import {setErrorVisible} from '../../actions/error'
+import { Container, Header, Title, Content, Text, List, ListItem, Button, Icon, InputGroup, Input, View} from 'native-base';
 import { openDrawer, closeDrawer } from '../../actions/drawer';
 import styles from './styles';
 import myTheme from '../../themes/base-theme';
@@ -17,6 +16,8 @@ class Profile extends Component {
     }
     render() {
         const { bluetoothEnabled } = this.props;
+
+
         return (
             <Container theme={myTheme} style={styles.container}>
 
@@ -34,7 +35,6 @@ class Profile extends Component {
                     <InputGroup>
                         <Input maxLength={2} keyboardType='numeric' placeholder='Например: 2' />
                     </InputGroup>
-                    <Button onPress={this.props.setErrorVisible}> Error</Button>
                 </Content>
             </Container>
         );
@@ -50,11 +50,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         openDrawer: () => dispatch(openDrawer()),
-        closeDrawer: () => dispatch(closeDrawer()),
-        setErrorVisible: () => dispatch(setErrorVisible())
-
+        closeDrawer: () => dispatch(closeDrawer())
     }
-}
+};
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

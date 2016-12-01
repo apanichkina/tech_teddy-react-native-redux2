@@ -7,7 +7,7 @@ import { Col, Row, Grid } from 'react-native-easy-grid';
 import { openDrawer } from '../../actions/drawer';
 import { popRoute, pushNewRoute } from '../../actions/route';
 import { buyStory } from '../../actions/store';
-import { uploadStoryToBear, deleteStoryFromBear} from '../../actions/bear';
+import { uploadStoryToBear, deleteStoryFromBear} from '../../actions/bearStory';
 import { playStoryOnBear, pauseStoryOnBear } from '../../actions/player';
 import { fetchBuyStory } from '../../actions/store';
 import StoryCard from './storyCard'
@@ -37,7 +37,8 @@ class SProfile extends Component {
       this.props.pushNewRoute('bears')
   }
   buyStory(id) {
-    this.props.buyStory(id);
+      if (this.props.isAuth) this.props.buyStory(id);
+      else this.props.pushNewRoute('signin')
 
   }
   playStory(id) {
@@ -65,7 +66,7 @@ class SProfile extends Component {
   }
 
   render() {
-    const { story, isBought, category, isUpload, isConnected, isPlaying, isPaused} = this.props;
+    const { story, isBought, category, isUpload, isConnected, isPlaying, isPaused, downloaded, downloadingStoryId, isDownloading} = this.props;
       let logo = '';
       switch(category.toLowerCase()) {
           case "сказки":
@@ -108,6 +109,8 @@ class SProfile extends Component {
                 category={category}
                 illustration={{uri: 'https://storage.googleapis.com/hardteddy_images/large/'+story.id+'.jpg'}}
                 isPaused={isPaused}
+                downloaded={downloaded}
+                isDownloading={isDownloading}
                 />
 
         </Content>
@@ -124,16 +127,24 @@ const findElementById = (array, value) => {
 const checkPlaying = (storyId, playingStoryid) => {
     return (storyId === playingStoryid);
 };
+const getStoryFromResource = (storeStories, userStories, id) => {
+    if (storeStories.length) return storeStories[id];
+    else return userStories[id];
+};
 
 const mapStateToProps = (state) => {
   return {
-      story: state.storeStories.stories[state.story.storyId],
+      story: getStoryFromResource(state.storeStories.stories, state.userStories.stories, state.story.storyId),
       isBought: !!state.userStories.stories[state.story.storyId],
       isUpload: findElementById(state.bear.bearStories,state.story.storyId),
       category: state.storyCategory.categoryFilter,
       isConnected: !!state.bluetooth.bluetoothConnected,
       isPlaying: checkPlaying(state.story.storyId, state.player.storyId),
-      isPaused: state.player.isStoryPaused
+      isPaused: state.player.isStoryPaused,
+      downloaded: state.bearStory.downloaded,
+      downloadingStoryId:  state.bearStory.downloadingStoryId,
+      isDownloading: (state.story.storyId == state.bearStory.downloadingStoryId),
+      isAuth: !!state.user.token
   }
 };
 

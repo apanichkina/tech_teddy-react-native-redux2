@@ -104,4 +104,8 @@ export function setAlarm () {
 
 }
 
-
+export function alarmIsPlaying():Action {
+    return {
+        type: types.ALARM_IS_PLAYING
+    }
+}

@@ -1,7 +1,7 @@
 import * as types from './actionTypes';
 import {popRoute, popNRoute} from './route'
 import {fetchStories} from './userStories'
-
+import {setError} from './error'
 export function authSetToken(token){
     return {
         type: types.AUTH_SET_TOKEN,
@@ -40,7 +40,10 @@ export function authRequestFail(){
 
 export function fetchSignIn(name, password) {
 
-    return function (dispatch) {
+    return function (dispatch, getState) {
+        let state = getState();
+        if (!state.internet.isConnected) dispatch(setError('Нет интернета'));
+        else {
         dispatch(requestSignIn());
         let url = 'https://hardteddy.ru/api/user/login';
         return fetch(url, {
@@ -66,20 +69,26 @@ export function fetchSignIn(name, password) {
                     dispatch(popRoute());
                 }
                 else{
+                    dispatch(setError('Неверный логин/пароль'));
                     dispatch(authRequestFail())
                 }
             }
         ).catch((error) => {
+                dispatch(setError('Не удалось войти'));
                 dispatch(authRequestFail());
                 console.log('sign in error:');
                 console.log(error)
             });
     }
+    }
 
 }
 export function fetchSignUp(name, email, password1, password2) {
 
-    return function (dispatch) {
+    return function (dispatch, getState) {
+        let state = getState();
+        if (!state.internet.isConnected) dispatch(setError('Нет интернета'));
+        else {
         dispatch(requestSignUp());
         let url = 'https://hardteddy.ru/api/user/register';
         return fetch(url, {
@@ -109,10 +118,12 @@ export function fetchSignUp(name, email, password1, password2) {
                 }
             }
         ).catch((error) => {
+                dispatch(setError('Не удалось зарегистрироваться'));
                 dispatch(authRequestFail());
                 console.log('sign up error:');
                 console.log(error)
             });
+    }
     }
 
 }

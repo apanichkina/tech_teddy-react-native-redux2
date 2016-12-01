@@ -3,7 +3,8 @@
 const initialState = {
     bearStories: [],
     isFetching: false,
-    connectedBearName: ''
+    connectedBearName: '',
+    downloaded: 0
 };
 
 export default function (state = initialState, action={}) {
@@ -28,10 +29,10 @@ export default function (state = initialState, action={}) {
                 ...state,
                 connectedBearName: action.name
             };
-        case 'UPLOAD_STORY':
+        case 'DOWNLOADED_STORY':
             return {
                 ...state,
-                bearStories: [...state.bearStories, action.id]
+                downloaded: action.bytes
             };
         case 'DELETE_STORY':
             let bearStories = state.bearStories;

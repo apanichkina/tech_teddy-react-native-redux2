@@ -20,6 +20,12 @@ export default function (state = initialState, action={}) {
                 ...state,
                 isStoryPaused: newState
             };
+        case 'STOP_STORY':
+            return {
+                ...state,
+                storyId: -1,
+                isStoryPaused: true
+            };
         default:
             return state
     }
