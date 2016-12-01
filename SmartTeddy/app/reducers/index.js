@@ -12,11 +12,13 @@ import userStories from './userStories'
 import storeStories from './storeSrories'
 import internet from './internet'
 import error from './error'
+import bearStory from './bearStory'
 export {
+    story,
+    bearStory,
     player,
     storyCategory,
     bluetooth,
-    story,
     error,
     internet,
     bear,

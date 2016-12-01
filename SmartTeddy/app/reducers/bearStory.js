@@ -2,7 +2,8 @@
 
 const initialState = {
     downloaded: 0,
-    downloadingStoryId: -1
+    downloadingStoryId: -1,
+    downloadingStorySize: 0
 };
 
 export default function (state = initialState, action={}) {
@@ -10,16 +11,20 @@ export default function (state = initialState, action={}) {
         case 'UPLOAD_STORY':
             return {
                 ...state,
-                downloadingStoryId: action.id
+                downloadingStoryId: action.id,
+                downloadingStorySize: action.size
             };
         case 'DOWNLOADED_STORY':
+            let downloadedPath = 0;
+            if (state.downloadingStorySize) downloadedPath = action.bytes / state.downloadingStorySize;
             return {
                 ...state,
-                downloaded: action.bytes
+                downloaded: downloadedPath
             };
         case 'STOP_DOWNLOAD':
             return Object.assign({}, state, {
                 downloadingStoryId: -1,
+                downloadingStorySize: 0,
                 downloaded: 0
             });
         case 'DELETE_STORY':

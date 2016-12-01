@@ -65,7 +65,7 @@ class SProfile extends Component {
   }
 
   render() {
-    const { story, isBought, category, isUpload, isConnected, isPlaying, isPaused} = this.props;
+    const { story, isBought, category, isUpload, isConnected, isPlaying, isPaused, downloaded, downloadingStoryId, isDownloading} = this.props;
       let logo = '';
       switch(category.toLowerCase()) {
           case "сказки":
@@ -81,6 +81,7 @@ class SProfile extends Component {
               logo = logo_default;
               break;
       }
+      console.log(isDownloading)
     return (
       <Container theme={myTheme} style={styles.container}>
         <Header>
@@ -108,6 +109,8 @@ class SProfile extends Component {
                 category={category}
                 illustration={{uri: 'https://storage.googleapis.com/hardteddy_images/large/'+story.id+'.jpg'}}
                 isPaused={isPaused}
+                downloaded={downloaded}
+                isDownloading={isDownloading}
                 />
 
         </Content>
@@ -137,7 +140,10 @@ const mapStateToProps = (state) => {
       category: state.storyCategory.categoryFilter,
       isConnected: !!state.bluetooth.bluetoothConnected,
       isPlaying: checkPlaying(state.story.storyId, state.player.storyId),
-      isPaused: state.player.isStoryPaused
+      isPaused: state.player.isStoryPaused,
+      downloaded: state.bearStory.downloaded,
+      downloadingStoryId:  state.bearStory.downloadingStoryId,
+      isDownloading: (state.story.storyId == state.bearStory.downloadingStoryId)
   }
 };
 

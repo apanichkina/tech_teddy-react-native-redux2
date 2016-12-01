@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import {  Button, Icon, Card, CardItem, Text, View } from 'native-base';
 import { Image } from 'react-native';
 import styles from './styles';
-
+import {
+    MKProgress,
+    } from 'react-native-material-kit';
 const illustration_default = require('../../../img/illustration2.jpg');
 export default class StoryCard extends Component {
 
@@ -24,9 +26,12 @@ export default class StoryCard extends Component {
         onPlay,
         isPlaying,
         onPause,
-        isPaused
+        isPaused,
+        downloaded,
+        isDownloading
     } = this.props;
     let storySize = 33000;
+      console.log(isDownloading);
     return (
         <Card style={[styles.mb, { flex: 0 }]}>
 
@@ -39,6 +44,17 @@ export default class StoryCard extends Component {
                 <Image style={{ resizeMode: 'cover', width: null}} source={illustration}/>
 
                 <View style={{ flexDirection:'row'}}>
+                    {isDownloading ? 
+                        <MKProgress 
+                            style={{ marginTop: 6}} 
+                            buffer={1} 
+                            progressColor="#00897B" 
+                            bufferColor="#B2DFDB" 
+                            progress={downloaded} 
+                            /> 
+                        :null
+                     }
+
                     {isConnected && isUpload ?
                         !isPlaying ?
                             <Button info style={{ margin: 6, marginLeft:0, flex:1}} onPress={onPlay}>
@@ -125,5 +141,8 @@ StoryCard.propTypes = {
     isBought: React.PropTypes.bool,
     isConnected: React.PropTypes.bool,
     logo: React.PropTypes.string.isRequired,
-    isPaused: React.PropTypes.bool
+    isPaused: React.PropTypes.bool,
+    downloaded: React.PropTypes.number,
+    isDownloading: React.PropTypes.bool,
+    id: React.PropTypes.number
 };

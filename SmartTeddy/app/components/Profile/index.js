@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container, Header, Title, Content, Text, List, ListItem, Button, Icon, InputGroup, Input, View} from 'native-base';
-import {MKProgress} from 'react-native-material-kit';
-import {setErrorVisible} from '../../actions/error'
 import { openDrawer, closeDrawer } from '../../actions/drawer';
 import styles from './styles';
 import myTheme from '../../themes/base-theme';
@@ -15,15 +13,10 @@ class Profile extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            progress: 0
-        }
     }
     render() {
         const { bluetoothEnabled } = this.props;
-        setTimeout((function() {
-            this.setState({ progress: this.state.progress + (0.4 * Math.random())});
-        }).bind(this), 1000);
+
 
         return (
             <Container theme={myTheme} style={styles.container}>
@@ -42,11 +35,6 @@ class Profile extends Component {
                     <InputGroup>
                         <Input maxLength={2} keyboardType='numeric' placeholder='Например: 2' />
                     </InputGroup>
-                    <Button onPress={this.props.setErrorVisible}> Error</Button>
-                    <MKProgress
-                        style={styles.progress}
-                        progress={this.state.progress}
-                        />
                 </Content>
             </Container>
         );
@@ -62,11 +50,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         openDrawer: () => dispatch(openDrawer()),
-        closeDrawer: () => dispatch(closeDrawer()),
-        setErrorVisible: () => dispatch(setErrorVisible())
-
+        closeDrawer: () => dispatch(closeDrawer())
     }
-}
+};
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

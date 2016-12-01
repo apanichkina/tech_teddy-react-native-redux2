@@ -1,11 +1,12 @@
 import * as types from './actionTypes';
 import Bluetooth from '../BluetoothLib'
 import {addUserTask} from '../queue';
-
-function uploadStory(id:number):Action {
+import {setBearStories} from './bear'
+function uploadStory(id:number, size:number):Action {
     return {
         type: types.UPLOAD_STORY,
-        id
+        id,
+        size
     }
 }
 function deleteStory(id:number):Action {
@@ -27,7 +28,11 @@ export function stopDowload():Action {
 }
 
 export function uploadStoryToBear(id) {
-    return function (dispatch) {
+    return function (dispatch, getState) {
+        //
+        let uploadedStory = getState().userStories.stories[id];
+        let uploadedSize = uploadedStory.size_m;
+
         addUserTask('uploadStoryToBear', ()=> {
                 let instance = Bluetooth.getInstance();
                 return instance.downloadFile(id);
@@ -36,7 +41,7 @@ export function uploadStoryToBear(id) {
                 console.log('onStart uploadStoryToBear')
             },
             () => {
-                dispatch(uploadStory(id))
+                dispatch(uploadStory(id, uploadedSize))
             },
             (error) => {
                 console.log('upload story error:');
@@ -56,7 +61,7 @@ export function deleteStoryFromBear(id) {
                 console.log('onStart deleteStoryFromBear')
             },
             () => {
-                dispatch(deleteStory(id))
+                dispatch(setBearStories())
             },
             (error) => {
                 console.log('delete story error:');

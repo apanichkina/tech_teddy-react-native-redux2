@@ -7,7 +7,7 @@ import { setBearStories, setConnectedBearName } from './bear'
 import {playStory,pauseStory}from './player'
 import { pushNewRoute} from './route'
 import {addUserTask, addSystemTask} from '../queue';
-
+import {stopDowload} from './bearStory'
 var heartBeatID = undefined;
 
 export function enableBluetooth():Action {
@@ -63,7 +63,7 @@ export function searchBears() {
 
 export function connectToDevice(id, name) {
     let instance = Bluetooth.getInstance();
-    return function (dispatch) {
+    return function (dispatch, getState) {
         return instance.connect(id).then(() => {
                 // disconnectFromDevice();
                 dispatch(connectBluetooth());
@@ -76,7 +76,7 @@ export function connectToDevice(id, name) {
                     syncTime()
                         .then(()=>{
                             heartBeatID = undefined;
-                            heartBeat()(dispatch)
+                            heartBeat()(dispatch, getState)
                         })
                         .catch((err)=>{ console.log('syncTime failed', err);})
 
@@ -124,8 +124,10 @@ export function disconnectFromDevice() {
 }
 
 export function heartBeat() {
-    return function (dispatch) {
+    return function (dispatch, getState) {
+
         // console.log('heartBeat me please');
+        let isDownloading = getState().bearStory.downloaded;
         addSystemTask('heartBeat', ()=> {
                 let instance = Bluetooth.getInstance();
                 return instance.shortPolling();
@@ -134,6 +136,12 @@ export function heartBeat() {
                 console.log('onStart heartBeat')
             },
             (array) => {
+                console.log("HEARTBEAT ANSWER HERE:");
+                console.log(array);
+                if (!array.length && isDownloading) {
+                    dispatch(setError('Загрузка завешнена'));
+                    dispatch(stopDowload());
+                }
                 for (var i = 0; i < array.length; ++i) {
                     var code = array[i][0];
                     var body = array[i].substring(1);
@@ -175,7 +183,7 @@ export function heartBeat() {
                 if (heartBeatID === undefined) {
                     heartBeatID = setTimeout(() => {
                         heartBeatID = undefined;
-                        heartBeat()(dispatch);
+                        heartBeat()(dispatch, getState);
                     }, 7000);
                 }
             },
@@ -188,7 +196,7 @@ export function heartBeat() {
                 if (heartBeatID === undefined) {
                     heartBeatID = setTimeout(() => {
                         heartBeatID = undefined;
-                        heartBeat()(dispatch);
+                        heartBeat()(dispatch, getState);
                     }, 7000);
                 }
             }
