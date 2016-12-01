@@ -15,6 +15,10 @@ import styles from './styles';
 import myTheme from '../../themes/base-theme';
 var Slider = require('react-native-slider');
 
+import Decker from '../StoryInteractive/index'
+
+//import { ReactNativeAudioStreaming } from 'react-native-audio-streaming';
+
 const logo_fun = 'ios-happy-outline';
 const logo_edu = 'ios-school-outline';
 const logo_night = 'ios-moon-outline';
@@ -98,8 +102,17 @@ class SProfile extends Component {
                 onUploadClick={()=>{this.uploadStory(story.id)}}
                 onDeleteClick={()=>{this.deleteStory(story.id)}}
                 onConnectBear={()=>{this.connectBear()}}
-                onPlay={()=>{this.playStory(story.id)}}
-                onPause={()=>{this.pauseStory()}}
+                onPlay={()=>{
+                    this.playStory(story.id);
+                    //ReactNativeAudioStreaming.pause();
+                    //ReactNativeAudioStreaming.resume();
+                    //ReactNativeAudioStreaming.play(story.url_background, {});
+                    //ReactNativeAudioStreaming.stop();
+                }}
+                onPause={()=>{
+                    //ReactNativeAudioStreaming.pause();
+                    this.pauseStory()
+                }}
                 isPlaying={isPlaying}
                 isUpload={isUpload}
                 isConnected={isConnected}
@@ -110,12 +123,25 @@ class SProfile extends Component {
                 isPaused={isPaused}
                 />
 
+            <Decker cards={cards} />
         </Content>
       </Container>
     );
   }
 }
 
+const cards = [
+    {
+        text: 'Card One',
+        name: 'One',
+        image: 'http://storage.googleapis.com/hardteddy_images/small/1.jpg',
+    },
+    {
+        text: 'Card One',
+        name: 'One',
+        image: 'http://storage.googleapis.com/hardteddy_images/small/1.jpg',
+    },
+];
 
 const findElementById = (array, value) => {
     let result = array.filter(obj => obj.id == value);

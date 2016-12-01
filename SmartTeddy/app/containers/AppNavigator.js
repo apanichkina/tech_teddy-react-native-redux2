@@ -11,6 +11,7 @@ import Store from './Store';
 import UserStories from './UserStories';
 import Bears from '../components/Bears/';
 import Profile from '../components/Profile/';
+import Test from '../components/Test/';
 import SignIn from '../components/SignIn/';
 import SignUp from '../components/SignUp/';
 import BearProfile from '../components/BearProfile/';
@@ -161,6 +162,8 @@ class AppNavigator extends Component {
                 return <StoryProfile navigator={navigator} />;
             case 'profile':
                 return <Profile navigator={navigator} />;
+            case 'test':
+                return <Test navigator={navigator} />;
             case 'bear-profile':
                 return <BearProfile navigator={navigator} />;
             case 'alarm':
