@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {  Button, Icon, Card, CardItem, Text, View } from 'native-base';
 import { Image } from 'react-native';
 import styles from './styles';
+import Player from './Player'
 import {
     MKProgress,
     } from 'react-native-material-kit';
@@ -28,7 +29,8 @@ export default class StoryCard extends Component {
         onPause,
         isPaused,
         downloaded,
-        isDownloading
+        isDownloading,
+        id
     } = this.props;
     let storySize = 33000;
       console.log(isDownloading);
@@ -42,18 +44,28 @@ export default class StoryCard extends Component {
 
             <CardItem cardBody >
                 <Image style={{ resizeMode: 'cover', width: null}} source={illustration}/>
+                <View>
+                    {isDownloading ?
+                        <MKProgress
+                            style={{ marginTop: 6}}
+                            buffer={1}
+                            progressColor="#00897B"
+                            bufferColor="#B2DFDB"
+                            progress={downloaded}
+                            />
+                        : null
+                    }
+
+                </View>
+
+
+
+
+
+
 
                 <View style={{ flexDirection:'row'}}>
-                    {isDownloading ? 
-                        <MKProgress 
-                            style={{ marginTop: 6}} 
-                            buffer={1} 
-                            progressColor="#00897B" 
-                            bufferColor="#B2DFDB" 
-                            progress={downloaded} 
-                            /> 
-                        :null
-                     }
+
 
                     {isConnected && isUpload ?
                         !isPlaying ?

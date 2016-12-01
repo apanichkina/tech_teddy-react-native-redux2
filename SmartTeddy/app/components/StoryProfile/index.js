@@ -81,7 +81,6 @@ class SProfile extends Component {
               logo = logo_default;
               break;
       }
-      console.log(isDownloading)
     return (
       <Container theme={myTheme} style={styles.container}>
         <Header>
