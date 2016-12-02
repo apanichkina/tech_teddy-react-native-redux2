@@ -1,6 +1,8 @@
 import * as types from './actionTypes';
 import Bluetooth from '../BluetoothLib'
 import {addUserTask} from '../queue';
+import {startPlayButton, donePlayButton} from './playerButtons'
+import {setError} from './error'
 
 export function playStory(id:number):Action {
     return {
@@ -29,12 +31,16 @@ export function playStoryOnBear(id) {
                 return instance.play(id);
             },
             function () {
-                console.log('onStart playStoryOnBear')
+                console.log('onStart playStoryOnBear');
+                dispatch(startPlayButton())
             },
             (array) => {
+                dispatch(donePlayButton());
                 dispatch(playStory(id))
             },
             (error) => {
+                dispatch(donePlayButton());
+                dispatch(setError('Ошибка воспроизведения'));
                 console.log('play story error:');
                 console.log(error);
             }

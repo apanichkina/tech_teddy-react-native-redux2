@@ -15,7 +15,9 @@ import error from './error'
 import bearStory from './bearStory'
 import interactiveStories from './interactiveStories'
 import connectToDeviceButton from './connectToDeviceButton'
+import playerButtons from './playerButtons'
 export {
+    playerButtons,
     connectToDeviceButton,
     interactiveStories,
     story,

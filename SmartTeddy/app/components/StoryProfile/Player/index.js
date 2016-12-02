@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { playStoryOnBear, pauseStoryOnBear } from '../../../actions/player';
+import {pressPlayButton} from '../../../actions/playerButtons'
 import Player from './playerBlock'
 import styles from '../styles';
 
@@ -12,7 +13,7 @@ class PlayerContainer extends Component {
   };
 
   playStory() {
-      console.log('Play custom')
+      this.props.pressPlayButton(this.props.storyId);
       this.props.playStoryOnBear(this.props.storyId);
 
   }
@@ -22,7 +23,13 @@ class PlayerContainer extends Component {
   }
 
   render() {
-    const {isPlaying, isPaused} = this.props;
+    const {
+        isPlaying,
+        isPaused,
+        playWaiting,
+        playFetching,
+        isFetchHere
+        } = this.props;
 
     return (
             <Player
@@ -30,6 +37,9 @@ class PlayerContainer extends Component {
                 onPause={()=>{this.pauseStory()}}
                 isPlaying={isPlaying}
                 isPaused={isPaused}
+                playWaiting={playWaiting}
+                playFetching={playFetching}
+                isFetchHere={isFetchHere}
                 />
     );
   }
@@ -42,14 +52,18 @@ const checkPlaying = (storyId, playingStoryid) => {
 const mapStateToProps = (state) => {
   return {
       isPlaying: checkPlaying(state.story.storyId, state.player.storyId),
-      isPaused: state.player.isStoryPaused
+      isPaused: state.player.isStoryPaused,
+      playWaiting: state.playerButtons.isWaiting,
+      playFetching: state.playerButtons.isFetching,
+      isFetchHere: (state.story.storyId == state.playerButtons.id)
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
       playStoryOnBear: id => dispatch(playStoryOnBear(id)),
-      pauseStoryOnBear: () => dispatch(pauseStoryOnBear())
+      pauseStoryOnBear: () => dispatch(pauseStoryOnBear()),
+      pressPlayButton: (id) => dispatch(pressPlayButton(id))
   }
 };
 
