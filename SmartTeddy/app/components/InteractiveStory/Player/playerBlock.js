@@ -29,9 +29,6 @@ export default class PlayerComponent extends Component {
                                     </Button>
                     }
                     <View style={{flex:7}}>
-                        <Button info style={{ margin: 6, marginLeft:0, flex:6}} onPress={()=>this.play()}>
-                            <Icon name="ios-play" style={{ color: '#fff', margin: 5 }}/>
-                        </Button>
                         {/* <SliderContainer caption=''>
                          <Slider
                          value={sliderVal}

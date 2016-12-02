@@ -67,32 +67,27 @@ class Profile extends Component {
                 <Title>Профиль</Title>
             </Header>
 
+            <Content>
             <View padder >
-                <DeckSwiper
-                    dataSource={cards}
-                    renderItem={item =>
-                        <Card style={{ elevation: 3 }}>
+                <Card dataArray={cards}
+                      renderRow={(item) =>
                             <CardItem>
                                 <Text>Часть №{item.chapterID}</Text>
-                            </CardItem>
-                            <CardItem>
+
                                 <Text>{item.text}</Text>
-                            </CardItem>
-                            <CardItem>
-                                <Button onPress={() => console.log('Press///////////')}>Кнопка</Button>
+
+
                                 <View>
                                     {isConnected ?
-                                        <Player storyId={'14_'+item.chapterID}/>
+                                        <Player storyLooking='14_+item.chapterID' storyId={'14_'+item.chapterID}/>
                                         : null
                                     }
                                 </View>
-
                             </CardItem>
-
-                        </Card>
-                    }
-                />
+                        }>
+                </Card>
             </View>
+                </Content>
         </Container>
 
         );
