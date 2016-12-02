@@ -5,7 +5,7 @@ import {setErrorVisible} from '../../actions/error'
 import { openDrawer, closeDrawer } from '../../actions/drawer';
 import { uploadStoryToBear, deleteStoryFromBear} from '../../actions/bear';
 import { playStoryOnBear, pauseStoryOnBear } from '../../actions/player';
-import Player from '../StoryProfile/Player'
+import Player from './Player'
 import styles from './styles';
 import myTheme from '../../themes/base-theme';
 const cards = [
@@ -83,7 +83,7 @@ class Profile extends Component {
 
                                 <View>
                                     {isConnected ?
-                                        <Player storyId={'14_'+item.chapterID}/>
+                                        <Player storyLooking='14_+item.chapterID' storyId={'14_'+item.chapterID}/>
                                         : null
                                     }
                                 </View>
