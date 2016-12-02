@@ -72,7 +72,6 @@ class Profile extends Component {
                     dataSource={cards}
                     renderItem={item =>
                         <Card style={{ elevation: 3 }}>
-                        {console.log('see'+item.chapterID)}
                             <CardItem>
                                 <Text>Часть №{item.chapterID}</Text>
                             </CardItem>
@@ -80,10 +79,10 @@ class Profile extends Component {
                                 <Text>{item.text}</Text>
                             </CardItem>
                             <CardItem>
-
+                                <Button onPress={() => console.log('Press///////////')}>Кнопка</Button>
                                 <View>
                                     {isConnected ?
-                                        <Player storyLooking='14_+item.chapterID' storyId={'14_'+item.chapterID}/>
+                                        <Player storyId={'14_'+item.chapterID}/>
                                         : null
                                     }
                                 </View>

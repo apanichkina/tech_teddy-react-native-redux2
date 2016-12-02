@@ -4,6 +4,9 @@ import { Image } from 'react-native';
 import styles from '../styles';
 
 export default class PlayerComponent extends Component {
+    play(){
+        console.log('----------------play')
+    }
   render() {
     const {
         onPlay,
@@ -34,6 +37,9 @@ export default class PlayerComponent extends Component {
                             <Spinner/>
                             : null
                         }
+                        <Button info style={{ margin: 6, marginLeft:0, flex:6}} onPress={()=>this.play()}>
+                            <Icon name="ios-play" style={{ color: '#fff', margin: 5 }}/>
+                        </Button>
                     </View>
 
                 </View>

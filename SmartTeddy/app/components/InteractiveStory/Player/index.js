@@ -20,16 +20,16 @@ class PlayerContainer extends Component {
       this.props.pauseStoryOnBear();
 
   }
-  checkPlaying (playingID) {
-    return (this.props.storyId === playingID);
+  checkPlaying () {
+    return (this.props.storyId === this.props.playingStory);
 };
   render() {
     const {playingStory, isPaused} = this.props;
     return (
             <Player
-                onPlay={()=>{this.playStory()}}
+                onPlay={this.playStory.bind(this)}
                 onPause={()=>{this.pauseStory()}}
-                isPlaying={this.checkPlaying(playingStory)}
+                isPlaying={this.checkPlaying()}
                 isPaused={isPaused}
                 />
     );
