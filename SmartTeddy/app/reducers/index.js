@@ -14,7 +14,9 @@ import internet from './internet'
 import error from './error'
 import bearStory from './bearStory'
 import interactiveStories from './interactiveStories'
+import connectToDeviceButton from './connectToDeviceButton'
 export {
+    connectToDeviceButton,
     interactiveStories,
     story,
     bearStory,

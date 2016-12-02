@@ -322,7 +322,8 @@ class BlueManager {
         return process(timeout)
     }
     list(){
-        return BluetoothSerial.list()
+        return BluetoothSerial.list();
+
     }
     discoverUnpairedDevices(){
         return BluetoothSerial.discoverUnpairedDevices();
