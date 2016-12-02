@@ -8,6 +8,7 @@ import { playStoryOnBear, pauseStoryOnBear } from '../../actions/player';
 import Player from './Player'
 import styles from './styles';
 import myTheme from '../../themes/base-theme';
+import { popRoute, pushNewRoute } from '../../actions/route';
 const cards = [
     {
         chapterID: 1,
@@ -55,23 +56,26 @@ class Profile extends Component {
         //this.props.buyStory(id);
 
     }
+    popRoute() {
+        this.props.popRoute();
+    }
     render() {
 
         const { isConnected } = this.props;
         return (
         <Container theme={myTheme} style={styles.container}>
             <Header>
-                <Button transparent onPress={this.props.openDrawer}>
-                    <Icon name="ios-menu" />
+                <Button transparent onPress={()=>this.popRoute()}>
+                    <Icon name="md-arrow-back" />
                 </Button>
-                <Title>Профиль</Title>
+                <Title>Солнце и ветер</Title>
             </Header>
 
-            <Content>
-            <View padder >
+            <Content padder>
+
                 <Card dataArray={cards}
                       renderRow={(item) =>
-                            <CardItem>
+                            <CardItem style={{paddingBottom: 6}}>
                                 <Text>Часть №{item.chapterID}</Text>
 
                                 <Text>{item.text}</Text>
@@ -86,7 +90,7 @@ class Profile extends Component {
                             </CardItem>
                         }>
                 </Card>
-            </View>
+
                 </Content>
         </Container>
 
@@ -113,7 +117,8 @@ const mapDispatchToProps = (dispatch) => {
         setErrorVisible: () => dispatch(setErrorVisible()),
         goDownload:id=>dispatch(uploadStoryToBear(id)),
         goPlay:id=>dispatch(playStoryOnBear(id)),
-        goDelete:id=>dispatch(deleteStoryFromBear(id))
+        goDelete:id=>dispatch(deleteStoryFromBear(id)),
+        popRoute: () => dispatch(popRoute())
 
     }
 }
