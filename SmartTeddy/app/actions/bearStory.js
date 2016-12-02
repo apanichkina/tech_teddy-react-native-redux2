@@ -22,11 +22,23 @@ export function downloaded(bytes:number):Action {
         bytes
     }
 }
-export function stopDowload():Action {
+export function stopDowloadState():Action {
     return {
         type: types.STOP_DOWNLOAD
     }
 }
+export function finishProgress():Action {
+    return {
+        type: types.FINISH_PROGRESS
+    }
+}
+export function stopDowload():Action {
+    return function (dispatch) {
+        dispatch(finishProgress());
+        setTimeout(() =>  dispatch(stopDowloadState()), 1000)
+    }
+}
+
 
 export function uploadStoryToBear(id) {
     return function (dispatch, getState) {

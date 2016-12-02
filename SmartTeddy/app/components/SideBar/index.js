@@ -79,14 +79,7 @@ class SideBar extends Component {
                                 <Text style={styles.text}>Мои сказки</Text>
                             </View>
                         </ListItem>
-                        <ListItem button iconLeft onPress={() => this.navigateTo('profile')} >
-                            <View style={styles.listItemContainer}>
-                                <View style={styles.iconContainer}>
-                                    <Icon name="ios-person" style={styles.sidebarIcon} />
-                                </View>
-                                <Text style={styles.text}>Профиль</Text>
-                            </View>
-                        </ListItem>
+
 
                         <ListItem button iconLeft onPress={() => this.navigateTo('bears')} >
                             <View style={styles.listItemContainer}>

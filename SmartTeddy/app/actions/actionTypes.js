@@ -68,6 +68,7 @@ export const UPLOAD_STORY = 'UPLOAD_STORY';
 export const DOWNLOADED_STORY = 'DOWNLOADED_STORY';
 export const STOP_DOWNLOAD = 'STOP_DOWNLOAD';
 export const DELETE_STORY = 'DELETE_STORY';
+export const FINISH_PROGRESS = 'FINISH_PROGRESS';
 
 //Player
 export const PLAY_STORY = 'PLAY_STORY';
