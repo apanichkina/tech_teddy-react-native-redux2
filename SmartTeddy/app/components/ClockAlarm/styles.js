@@ -37,20 +37,8 @@ module.exports = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 44
     },
-    active: {
-        color: '#00cc00'
-    },
-    inactive: {
-        color: '#cccccc'
-    },
     days: {
         fontWeight: 'bold',
         fontSize: 24
-    },
-    activeImg: {
-        tintColor: '#00cc00'
-    },
-    inactiveImg: {
-        tintColor: '#cccccc'
     }
 });

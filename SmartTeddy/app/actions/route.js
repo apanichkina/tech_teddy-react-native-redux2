@@ -29,9 +29,17 @@ export function popRoute():Action {
     };
 }
 
-export function popToRoute(route:string):Action {
+export function popNRoute(count:number):Action {
     return {
-        type: types.POP_TO_ROUTE,
-        route
+        type: types.POP_N_ROUTE,
+        count
     };
 }
+
+export function popToTop():Action {
+    return {
+        type: types.POP_TO_TOP
+    };
+}
+
+

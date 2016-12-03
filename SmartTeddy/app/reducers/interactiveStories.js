@@ -1,26 +1,17 @@
-
-
 const initialState = {
     isFetching: false,
-    didInvalidate: false,
     stories: []
 };
 
 function stories(state = initialState, action={}) {
     switch (action.type) {
-        case 'INVALIDATE_PURPOSE':
+        case 'REQUEST_INTERACTIVE_STORIES':
             return Object.assign({}, state, {
-                didInvalidate: true
+                isFetching: true
             });
-        case 'REQUEST_STORIES':
-            return Object.assign({}, state, {
-                isFetching: true,
-                didInvalidate: false
-            });
-        case 'RECEIVE_STORIES':
+        case 'RECEIVE_INTERACTIVE_STORIES':
             return Object.assign({}, state, {
                 isFetching: false,
-                didInvalidate: false,
                 stories: action.stories,
                 lastUpdated: action.receivedAt
             });
@@ -42,21 +33,13 @@ function addInnerState(state = initialState, action={}, newStory={}) {
     }
 }
 
-function storiesByPurpose(state = {}, action={}) {
+function storiesById(state = {}, action={}) {
     switch (action.type) {
-        case 'INVALIDATE_PURPOSE':
-        case 'RECEIVE_STORIES':
-        case 'REQUEST_STORIES':
+        case 'RECEIVE_INTERACTIVE_STORIES':
+        case 'REQUEST_INTERACTIVE_STORIES':
             return Object.assign({}, state, {
-                [action.purpose]: stories(state[action.purpose], action)
+                [action.id]: stories(state[action.id], action)
             });
-        case 'BUY_STORY':
-            let boughtStory= state.SHOP.stories[action.id];
-            if (!boughtStory) break;
-            return Object.assign({}, state, {
-                ['USER']: addInnerState(state['USER'], action, boughtStory)
-            });
-
         default:
             return state
     }
@@ -64,4 +47,4 @@ function storiesByPurpose(state = {}, action={}) {
 
 
 
-export default storiesByPurpose
+export default storiesById

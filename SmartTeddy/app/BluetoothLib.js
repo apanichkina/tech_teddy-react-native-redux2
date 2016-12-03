@@ -3,8 +3,10 @@ import BluetoothSerial from 'react-native-bluetooth-hc05'
 class BlueManager {
     isFetching = false;
 
-    story = false
-    storyList = []
+    story = false;
+    storyList = [];
+
+    requestStack = [];
 
     stop = function (func) {
         BluetoothSerial.off('data', func);
@@ -38,10 +40,11 @@ class BlueManager {
                 var endmsg = bear_endmsg;
                 var temp = read(endmsg, delimeter, resolve, reject, this.stop);
                 if (this.isFetching == true) {
+                    // requestStack.push();
                     reject(this.errors.isFetching)
                 }
                 else {
-                    this.isFetching = true;
+                   // this.isFetching = true;
                     BluetoothSerial.isConnected().then(
                             result => {
                             if (result) {
@@ -319,7 +322,8 @@ class BlueManager {
         return process(timeout)
     }
     list(){
-        return BluetoothSerial.list()
+        return BluetoothSerial.list();
+
     }
     discoverUnpairedDevices(){
         return BluetoothSerial.discoverUnpairedDevices();
@@ -329,6 +333,23 @@ class BlueManager {
     }
     disconnect(){
         return BluetoothSerial.disconnect()
+    }
+
+    shortPolling(timeout = 2000) {
+        var process = this.talkToBear(
+            'poll\r\n',
+            '\r\n',
+            (endmsg, delimeter, resolve, reject, data)=> {
+                var datastr = data.data.toString().replace(endmsg, '');
+                var templist = datastr.split(delimeter);
+                var len = templist.length;
+                if (len > 0) {
+                    templist.splice(len - 1, 1)
+                }
+                resolve(templist);
+            },
+            'h\n');
+        return process(timeout)
     }
 
 }

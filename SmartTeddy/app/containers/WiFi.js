@@ -15,7 +15,8 @@ import { connect } from 'react-redux';
 import { Container, Header, Title, Content, List, ListItem, Button, Icon, InputGroup, Input, View, Text, } from 'native-base';
 import myTheme from '../themes/base-theme';
 import { popRoute } from '../actions/route';
-import TeddyBluetooth from '../BluetoothLib'
+import TeddyBluetooth from '../BluetoothLib';
+import { openDrawer } from '../actions/drawer';
 
 var strings = {
   title: 'Настройки',
@@ -30,6 +31,10 @@ var strings = {
 
 class Settings extends Component {
 
+  static propTypes = {
+    openDrawer: React.PropTypes.func
+  };
+
   constructor (props) {
     super(props);
     this.state = {
@@ -39,12 +44,15 @@ class Settings extends Component {
   }
 
   render() {
-
+    const { openDrawer } = this.props;
       return (
       <Container theme={myTheme} style={styles.container}>
         <Header>
-          <Button transparent onPress={()=>this.props.popRoute()}>
+          {/* <Button transparent onPress={()=>this.props.popRoute()}>
             <Icon name="ios-arrow-back" />
+          </Button> */}
+          <Button transparent onPress={openDrawer}>
+            <Icon name="ios-menu" />
           </Button>
           <Title> {strings.title}</Title>
         </Header>
@@ -79,7 +87,7 @@ class Settings extends Component {
             <Button
                 style={{alignSelf: 'flex-end', margin: 6}}
                 onPress={() => this.props.setWiFi(this.state.wifiSSID, this.state.wifiPassword)}>
-              Применить
+              ПРИМЕНИТЬ
             </Button>
           </List>
 
@@ -110,7 +118,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     toggleWiFi: () => dispatch(toggleWiFi()),
     setWiFi: (ssid, pass) => dispatch(setWiFi(ssid, pass)),
-    popRoute: () => dispatch(popRoute())
+    popRoute: () => dispatch(popRoute()),
+    openDrawer: () => dispatch(openDrawer())
   }
 };
 

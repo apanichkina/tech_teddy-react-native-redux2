@@ -1,15 +1,46 @@
+import {REHYDRATE} from 'redux-persist/constants'
+
 const initialState = {
-    userToken: ''
+    token: null,
+    user: null,
+    isSignInFetching: false,
+    isSignUpFetching: false
 };
 
 
 export default function (state = initialState, action={}) {
     switch (action.type) {
-        case 'SET_USER_TOKEN':
+        case 'REQUEST_SIGN_IN':
             return {
-                userToken: action.token
-
+                ...state,
+                isSignInFetching: true
             };
+        case 'REQUEST_SIGN_UP':
+            return {
+                ...state,
+                isSignUpFetching: true
+            };
+        case 'AUTH_SET_TOKEN':
+            return Object.assign({}, state, {
+                isSignInFetching: false,
+                isSignUpFetching: false,
+                token: action.token
+            });
+        case 'AUTH_DISCARD_TOKEN':
+            return Object.assign({}, state, {
+                token: null,
+                user: null
+            });
+        case 'AUTH_SET_USER':
+            return {
+                ...state,
+                user: action.user
+            };
+        case 'AUTH_REQUEST_FAIL':
+            return Object.assign({}, state, {
+                isSignInFetching: false,
+                isSignUpFetching: false
+            });
         default:
             return state
     }

@@ -1,5 +1,8 @@
 import * as types from './actionTypes';
 import Bluetooth from '../BluetoothLib'
+import {addUserTask} from '../queue';
+import {startPlayButton, donePlayButton} from './playerButtons'
+import {setError} from './error'
 
 export function playStory(id:number):Action {
     return {
@@ -14,23 +17,53 @@ export function pauseStory():Action {
     }
 }
 
+export function stopStory():Action {
+    return {
+        type: types.STOP_STORY
+    }
+}
+
 export function playStoryOnBear(id) {
-    let instance = Bluetooth.getInstance();
+
     return function (dispatch) {
-        return instance.play(id).then(() => {dispatch(playStory(id))}
-        ).catch((error) => {
+        addUserTask('playStoryOnBear', ()=> {
+                let instance = Bluetooth.getInstance();
+                return instance.play(id);
+            },
+            function () {
+                console.log('onStart playStoryOnBear');
+                dispatch(startPlayButton())
+            },
+            (array) => {
+                dispatch(donePlayButton());
+                dispatch(playStory(id))
+            },
+            (error) => {
+                dispatch(donePlayButton());
+                dispatch(setError('Ошибка воспроизведения'));
                 console.log('play story error:');
-                console.log(error)
-            });
+                console.log(error);
+            }
+        );
     }
 }
 export function pauseStoryOnBear() {
-    let instance = Bluetooth.getInstance();
+
     return function (dispatch) {
-        return instance.pause_unpause().then(() => {dispatch(pauseStory())}
-        ).catch((error) => {
+        addUserTask('pauseStoryOnBear', ()=> {
+                let instance = Bluetooth.getInstance();
+                return instance.pause_unpause();
+            },
+            function () {
+                console.log('onStart pauseStoryOnBear')
+            },
+            (array) => {
+                dispatch(pauseStory())
+            },
+            (error) => {
                 console.log('pause story error:');
-                console.log(error)
-            });
+                console.log(error);
+            }
+        );
     }
 }

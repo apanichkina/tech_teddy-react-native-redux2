@@ -1,28 +1,38 @@
-import counter from './counter';
 import drawer from './drawer'
 import route from './route'
-import store from './store'
 import storyCategory from './storyCategory.js'
 import story from './story'
 import user from './user'
-import storyFromServer from './storyFromServer'
 import bluetooth from './bluetooth'
 import bear from './bear'
 import alarm from './alarm'
 import wifi from './wifi'
 import player from './player'
+import userStories from './userStories'
+import storeStories from './storeSrories'
+import internet from './internet'
+import error from './error'
+import bearStory from './bearStory'
+import interactiveStories from './interactiveStories'
+import connectToDeviceButton from './connectToDeviceButton'
+import playerButtons from './playerButtons'
 export {
+    playerButtons,
+    connectToDeviceButton,
+    interactiveStories,
+    story,
+    bearStory,
     player,
+    storyCategory,
+    bluetooth,
+    error,
+    internet,
+    bear,
+    user,
+    route,
+    userStories,
+    storeStories,
     wifi,
     alarm,
-    counter,
-    drawer,
-    route,
-    store,
-    storyCategory,
-    story,
-    storyFromServer,
-    user,
-    bluetooth,
-    bear
+    drawer
     };

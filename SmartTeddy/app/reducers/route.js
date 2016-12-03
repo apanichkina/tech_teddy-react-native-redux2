@@ -10,7 +10,6 @@ const initialState = {
 export default function (state = initialState, action={}) {
     switch (action.type) {
         case "PUSH_NEW_ROUTE":
-            console.log('push'+action.route)
             globalNav.navigator.push({id: action.route});
             return {
                 routes: [...state.routes, action.route]
@@ -49,22 +48,38 @@ export default function (state = initialState, action={}) {
             };}
         case "POP_ROUTE":
         {
-            globalNav.navigator.pop();
             const routes = state.routes;
-            routes.pop();
-            return {
-                routes
-            };}
-        case "POP_TO_ROUTE":
+            if (routes.length > 1) {
+                globalNav.navigator.pop();
+
+                routes.pop();
+                return {
+                    routes
+                };
+            }
+            return state;
+        }
+        case "POP_N_ROUTE":
         {
-            globalNav.navigator.popToRoute({id: action.route});
+            globalNav.navigator.popN(action.count);
             const routes = state.routes;
-            while (routes.pop() !== action.route) {
-                // keep popping till you get to the route
+            const count = action.count;
+            for (let i = 0; i < count; ++i) {
+                routes.pop();
             }
             return {
-                routes: [...routes, action.route]
-            };}
+                routes
+            };
+        }
+        case "POP_TO_TOP":
+        {
+            globalNav.navigator.popToTop();
+            const routes = state.routes;
+            let new_routes = routes.slice(0,1);
+            return {
+                routes: new_routes
+            };
+        }
         default:
             return state;
     }

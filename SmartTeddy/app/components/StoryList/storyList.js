@@ -7,8 +7,9 @@ export default class StorePagePresentational extends Component {
 
   render() {
     const { stories, onStoryClick  } = this.props;
+
     return (
-      <Container style={styles.container}>
+        <Container style={styles.container}>
         <Content padder>
           {stories.length ?
               <Card>
@@ -24,7 +25,7 @@ export default class StorePagePresentational extends Component {
               : <Text>Упс, пока ничего нет =(</Text>
           }
         </Content>
-      </Container>
+            </Container>
     );
   }
 }
