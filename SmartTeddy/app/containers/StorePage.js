@@ -1,13 +1,13 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Content, Header, Title, View, Button, Icon, Tabs, Spinner, Text } from 'native-base';
+import { Container, Content, Header, Title, View, Button, Icon, Spinner, Text } from 'native-base';
 import { openDrawer } from '../actions/drawer';
 import { popRoute } from '../actions/route';
 import myTheme from '../themes/base-theme';
 import StorePage from './StoryList';
 import { PossiblePurposes } from '../actions/actionTypes'
-
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 class Store extends Component {
 
@@ -39,15 +39,20 @@ class Store extends Component {
                   <Spinner style={{ alignSelf: 'center' }} />
               </Content>
               :<View>
-                <Tabs locked >
-                    {categories.map(category =>
-                        <StorePage
-                            key={category.id}
-                            tabLabel={category.name.toUpperCase()}
-                            filter={category.id}
-                            stories={stories}
-                            />)}
-                </Tabs>
+                  <ScrollableTabView
+                      tabBarBackgroundColor={myTheme.btnPrimaryBg}
+                      tabBarActiveTextColor={myTheme.headerTextColor}
+                      tabBarInactiveTextColor={myTheme.headerInactiveTextColor}
+                      tabBarUnderlineStyle={{backgroundColor:myTheme.btnInfoBg}}
+                      >
+                      {categories.map(category =>
+                          <StorePage
+                              key={category.id}
+                              tabLabel={category.name.toUpperCase()}
+                              filter={category.id}
+                              stories={stories}
+                              />)}
+                  </ScrollableTabView>
                 </View>
 
           }

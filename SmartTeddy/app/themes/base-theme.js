@@ -121,10 +121,17 @@ export default {
   toolbarInputColor: '#CECDD2',
   toolbarInverseBg: '#222',
   toolbarTextColor: (Platform.OS === 'ios') ? '#000' : '#fff',
+  toolbarInactiveTextColor: (Platform.OS === 'ios') ? '#000' : '#E0F2F1',
   get statusBarColor() {
     return color(this.toolbarDefaultBg).darken(0.2).hexString();
   },
+  get headerTextColor() {
+    return this.toolbarTextColor;
+  },
 
+  get headerInactiveTextColor() {
+    return this.toolbarInactiveTextColor;
+  },
 
   // Icon
   iconFamily: 'Ionicons',
