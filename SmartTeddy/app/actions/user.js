@@ -109,11 +109,17 @@ export function fetchSignUp(name, email, password1, password2) {
                     // Все хорошо
                     let userToken = responseJson.body.userToken;
                     dispatch(authSetToken(userToken));
-                    dispatch(authSetUser(name));
+                    dispatch(authSetUser(email));
                     dispatch(fetchStories());
                     dispatch(popNRoute(2));
-                }
-                else{
+                } else {
+                    //////////
+                    let body = responseJson.body;
+                    console.log(body);
+                    if(body.login) {
+                        dispatch(setError('Эл. адрес уже зарегистрирован'));
+                    }
+                    ////////
                     dispatch(authRequestFail());
                 }
             }
