@@ -16,24 +16,20 @@ module.exports = StyleSheet.create({
     },
     buttonText: {
         fontSize: 18,
-        color: '#ffffff',
-        alignSelf: 'center'
+        alignSelf: 'center',
+        color: '#212121'
     },
     preloader: {
         alignSelf: 'center'
     },
     button: {
-        height: 36,
-        backgroundColor: '#8e44ad',
-        borderColor: '#8e44ad',
-        borderWidth: 1,
-        borderRadius: 3,
+        height: 38,
         marginBottom: 10,
         alignSelf: 'stretch',
         justifyContent: 'center'
     },
     contentContainerStyle: {
-        padding: 20,
+        padding: 10,
         backgroundColor: '#ffffff',
         justifyContent: 'center'
     }

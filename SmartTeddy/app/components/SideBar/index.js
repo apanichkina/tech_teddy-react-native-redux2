@@ -56,6 +56,14 @@ class SideBar extends Component {
                             <Text style={styles.text}>Магазин сказок</Text>
                         </View>
                     </ListItem>
+                    <ListItem button iconLeft onPress={() => this.navigateTo('test')} >
+                        <View style={styles.listItemContainer}>
+                            <View style={styles.iconContainer}>
+                                <Icon name="ios-log-in-outline" style={styles.sidebarIcon} />
+                            </View>
+                            <Text style={styles.text}>Test</Text>
+                        </View>
+                    </ListItem>
                     {!isAuth ?
                         <ListItem button iconLeft onPress={() => this.navigateTo('signin')} >
                             <View style={styles.listItemContainer}>

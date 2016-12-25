@@ -1,11 +1,14 @@
 'use strict';
 import React, { Component } from 'react';
-import { Container, Content, Header, Text, Title, Button, Icon, View, Spinner } from 'native-base';
+import { Container, Content, Header, Text, Title, Button as ButtonNB, Icon, View, Spinner } from 'native-base';
 import styles from './styles';
 import myTheme from '../../themes/base-theme';
 import { popRoute, pushNewRoute } from '../../actions/route';
 import { fetchSignIn } from '../../actions/user';
 import { connect } from 'react-redux';
+import SmartScrollView from 'react-native-smart-scroll-view';
+import Button from 'react-native-button';
+import dismissKeyboard from 'react-native-dismiss-keyboard';
 
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
@@ -13,11 +16,11 @@ var Form = t.form.Form;
 var regExpLogin = new RegExp("^[a-z0-9_-]{3,16}$", 'i');
 
 var Name = t.refinement(t.String, function (str) { return str.length >= 3 &&  str.length <= 16 && regExpLogin.test(str)});
-Name.getValidationErrorMessage = function (value, path, context) {
+Name.getValidationErrorMessage = function () {
     return 'неверный формат логина';
 };
 var Password = t.refinement(t.String, function (str) { return str.length >= 6});
-Password.getValidationErrorMessage = function (value, path, context) {
+Password.getValidationErrorMessage = function () {
     return 'слишком мало символов';
 };
 
@@ -57,14 +60,16 @@ class SignIn extends Component {
         this.props.pushNewRoute(route);
     }
     fetchSignIn() {
+        dismissKeyboard();
         var value = this.refs.form.getValue();
         if (value) {
             this.props.fetchSignIn(value.name, value.password);
-            //this.props.popRoute();
         }
     }
-
-
+    goToSignUp() {
+        dismissKeyboard();
+        this.pushNewRoute('signup')
+    }
     onChange(value) {
         this.setState({ value });
     }
@@ -73,13 +78,15 @@ class SignIn extends Component {
         return (
         <Container theme={myTheme} style={styles.container}>
             <Header>
-                <Button transparent onPress={()=>this.popRoute()}>
+                <ButtonNB transparent onPress={()=>this.popRoute()}>
                     <Icon name="md-arrow-back" />
-                </Button>
+                </ButtonNB>
                 <Title>Авторизация</Title>
             </Header>
-            <Content padder>
-                <View>
+            <View style={{flex:1, backgroundColor:'#ffffff'}}>
+                <SmartScrollView
+                    contentContainerStyle = { styles.contentContainerStyle }
+                    scrollPadding         = { 10 }>
                     <Form
                         ref="form"
                         type={Person}
@@ -88,18 +95,30 @@ class SignIn extends Component {
                         onChange={this.onChange.bind(this)}
                         />
                     <View>
-                        {(isFetching ? <Spinner></Spinner>
-                            :  <Button block info onPress={() => this.fetchSignIn()}>
-                                        ВОЙТИ
-                                </Button>
+                        {(isFetching ? <Spinner style={{height:38, marginBottom: 10}}></Spinner>
+                            :   <Button
+                            containerStyle={[styles.button, {backgroundColor:myTheme.btnInfoBg, borderColor:myTheme.btnInfoBg, borderRadius: myTheme.borderRadiusBase}]}
+                            style = {[styles.buttonText, {fontFamily:myTheme.btnFontFamily, fontSize:myTheme.btnTextSize, lineHeight:myTheme.btnLineHeight, color:myTheme.btnPrimaryColor}]}
+                            onPress={() => this.fetchSignIn()}>
+                            ВОЙТИ
+                        </Button>
                         )}
                     </View>
-                    <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                        <Button  transparent  onPress={() => this.pushNewRoute('signup')}>Еще нет учетной записи?</Button>
-                        <Button  transparent   textStyle={{fontWeight: 'bold'}}  onPress={() => this.pushNewRoute('signup')}>Зарегистрироваться</Button>
+
+                    <View style={{flexDirection: 'row', justifyContent: 'flex-end' }}>
+                        <Button
+                            style = {[styles.buttonText, {paddingHorizontal:5, fontWeight:'normal',fontFamily:myTheme.textFontFamily, fontSize:myTheme.btnTextSize, lineHeight:myTheme.btnLineHeight}]}
+                            onPress={()=>this.goToSignUp()}>
+                            Еще нет учетной записи?
+                        </Button>
+                        <Button
+                            style = {[styles.buttonText, {paddingHorizontal:5,fontFamily:myTheme.btnFontFamily, fontSize:myTheme.btnTextSize, lineHeight:myTheme.btnLineHeight}]}
+                            onPress={()=>this.goToSignUp()}>
+                            Зарегистрироваться
+                        </Button>
                     </View>
-                </View>
-            </Content>
+                </SmartScrollView>
+            </View>
         </Container>
         );
     }

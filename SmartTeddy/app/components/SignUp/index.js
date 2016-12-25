@@ -129,12 +129,12 @@ class SignUp extends Component {
                             onChange={this.onChange.bind(this)}
                             />
                         <View>
-                            {(isFetching ? <Spinner></Spinner>
+                            {(isFetching ? <Spinner style={{height:38, marginBottom: 10}}></Spinner>
                                 :   <Button
                                         containerStyle={[styles.button, {backgroundColor:myTheme.btnInfoBg, borderColor:myTheme.btnInfoBg, borderRadius: myTheme.borderRadiusBase}]}
                                         style = {[styles.buttonText, {fontFamily:myTheme.btnFontFamily, fontSize:myTheme.btnTextSize, lineHeight:myTheme.btnLineHeight, color:myTheme.btnPrimaryColor}]}
                                         onPress={() => this.fetchSignUp()}>
-                                        ВОЙТИ
+                                        ЗАРЕГИСТРИРОВАТЬСЯ
                                     </Button>
                             )}
                         </View>

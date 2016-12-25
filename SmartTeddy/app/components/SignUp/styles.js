@@ -23,7 +23,6 @@ module.exports = StyleSheet.create({
     },
     button: {
         height: 38,
-        borderWidth: 3,
         marginBottom: 10,
         alignSelf: 'stretch',
         justifyContent: 'center'
