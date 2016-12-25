@@ -92,7 +92,9 @@ export default {
   // Font
   fontFamily: (Platform.OS === 'ios') ? 'HelveticaNeue' : 'Roboto',
   fontSizeBase: 15,
-
+  get textFontFamily() {
+    return this.fontFamily;
+  },
   get fontSizeH1() {
     return this.fontSizeBase * 1.8;
   },
@@ -210,6 +212,7 @@ export default {
   // Text
   textColor: '#212121',
   inverseTextColor: '#fff',
+
 
 
   // Title

@@ -26,7 +26,7 @@ module.exports = StyleSheet.create({
         height: 36,
         backgroundColor: '#8e44ad',
         borderColor: '#8e44ad',
-        borderWidth: 3,
+        borderWidth: 1,
         borderRadius: 3,
         marginBottom: 10,
         alignSelf: 'stretch',
