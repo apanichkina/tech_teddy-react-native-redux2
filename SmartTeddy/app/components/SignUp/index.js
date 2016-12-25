@@ -9,16 +9,13 @@ import {fetchSignUp} from '../../actions/user'
 import { connect } from 'react-redux';
 import SmartScrollView from 'react-native-smart-scroll-view';
 import Button from 'react-native-button';
-import {
-    MKColor,
-    MKButton,
-    } from 'react-native-material-kit'
+import dismissKeyboard from 'react-native-dismiss-keyboard';
+
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
 
 var regExpLogin = new RegExp("^[a-z0-9_-]{3,16}$", 'i');
 var regExpEmail = new RegExp(/.+@.+\..+/i);
-var regExpPassword = new RegExp("^.{6,}$", 'i');
 
 var Name = t.refinement(t.String, function (str) { return str.length >= 3 &&  str.length <= 16 && regExpLogin.test(str)});
 Name.getValidationErrorMessage = function () {
@@ -37,18 +34,17 @@ Password2.getValidationErrorMessage = function () {
     return 'пароли должны совпадать';
 };
 
-// here we are: define your domain model
 var Person = t.struct({
-    name: Name,              // a required string
-    email: Email,  // an optional string
-    password1: Password,               // a required number
+    name: Name,
+    email: Email,
+    password1: Password,
     password2: Password
 });
-
 
 function samePasswords(x) {
     return x.password1 === x.password2;
 }
+
 var Type = t.subtype(Person, samePasswords);
 Type.getValidationErrorMessage = function (value) {
     if (!samePasswords(value)) {
@@ -57,7 +53,6 @@ Type.getValidationErrorMessage = function (value) {
 };
 
 var options = {
-
     fields: {
         name: {
             label: 'Логин:',
@@ -87,8 +82,6 @@ var options = {
     }
 };
 
-
-
 class SignUp extends Component {
 
     constructor(props) {
@@ -103,11 +96,15 @@ class SignUp extends Component {
         this.setState({ value });
     }
     fetchSignUp() {
+        dismissKeyboard();
         var value = this.refs.form.getValue();
         if (value) {
             this.props.fetchSignUp(value.name, value.email,value.password1, value.password2);
-            //this.props.popNRoute(2);
         }
+    }
+    goToSignIn() {
+        dismissKeyboard();
+        this.popRoute()
     }
     render() {
         const {isFetching} = this.props;
@@ -144,12 +141,12 @@ class SignUp extends Component {
                         <View style={{flexDirection: 'row', justifyContent: 'flex-end' }}>
                             <Button
                                 style = {[styles.buttonText, {paddingHorizontal:5, fontWeight:'normal',fontFamily:myTheme.textFontFamily, fontSize:myTheme.btnTextSize, lineHeight:myTheme.btnLineHeight}]}
-                                onPress={()=>this.popRoute()}>
+                                onPress={()=>this.goToSignIn()}>
                                 Есть учетная запись?
                             </Button>
                             <Button
                                 style = {[styles.buttonText, {paddingHorizontal:5,fontFamily:myTheme.btnFontFamily, fontSize:myTheme.btnTextSize, lineHeight:myTheme.btnLineHeight}]}
-                                onPress={()=>this.popRoute()}>
+                                onPress={()=>this.goToSignIn()}>
                                 Войти
                             </Button>
                         </View>
