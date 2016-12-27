@@ -15,7 +15,8 @@ class Store extends Component {
     openDrawer: React.PropTypes.func,
       title: React.PropTypes.string.isRequired,
       stories: React.PropTypes.array.isRequired,
-      isFetching: React.PropTypes.bool.isRequired
+      isFetching: React.PropTypes.bool.isRequired,
+      getStories:React.PropTypes.func
   };
   render() {
     const { openDrawer, title, stories, categories, isFetching, isInternet} = this.props;
@@ -38,7 +39,9 @@ class Store extends Component {
               <Content>
                   <Spinner style={{ alignSelf: 'center' }} />
               </Content>
-              :<View>
+              :!stories.length ?
+                <View><Text>Упс, ничего нет =(</Text><Button onPress={() => this.props.getStories()}>Попробовать снова</Button></View>
+                  :<View>
                   <ScrollableTabView
                       tabBarBackgroundColor={myTheme.btnPrimaryBg}
                       tabBarActiveTextColor={myTheme.headerTextColor}
@@ -54,7 +57,6 @@ class Store extends Component {
                               />)}
                   </ScrollableTabView>
                 </View>
-
           }
 
       </Container>
@@ -71,7 +73,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    openDrawer: () => dispatch(openDrawer())
+      openDrawer: () => dispatch(openDrawer())
   }
 };
 
