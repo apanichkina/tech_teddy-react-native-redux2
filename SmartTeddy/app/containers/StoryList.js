@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { pushNewRoute } from '../actions/route';
 import { seeStory } from '../actions/story';
 import { setCategoryFilter } from '../actions/storyCategory';
-import { fetchStories } from '../actions/storeStories';
 import StorePage from '../components/StoryList/storyList'
 
 class StorePageContainer extends Component {
@@ -32,15 +31,13 @@ class StorePageContainer extends Component {
   }
 //TODO проверить работает ли список сказок на мишке без case
   render() {
-    const { storiesBear, storiesShop, storiesUser, isInternet, getStories, isRefreshing} = this.props;
+    const { storiesBear, storiesShop, storiesUser, isInternet} = this.props;
 
     return (
             <StorePage
                 stories={this.getFilteredStories(this.props.stories)}
                 onStoryClick={this.onClick}
                 isInternet={isInternet}
-                onRefresh={getStories}
-                isRefreshing={isRefreshing}
                 />
     )
   }
@@ -57,8 +54,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onStoryClick: id => dispatch(seeStory(id)),
     setCategoryFilter: (name) => dispatch(setCategoryFilter(name)),
-    pushNewRoute: route => dispatch(pushNewRoute(route)),
-    getStories: () => dispatch(fetchStories())
+    pushNewRoute: route => dispatch(pushNewRoute(route))
   }
 };
 

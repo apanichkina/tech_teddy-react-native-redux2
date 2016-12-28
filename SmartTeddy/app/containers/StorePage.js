@@ -16,33 +16,26 @@ class Store extends Component {
       title: React.PropTypes.string.isRequired,
       stories: React.PropTypes.array.isRequired,
       isFetching: React.PropTypes.bool.isRequired,
-      getStories:React.PropTypes.func
+      getStories:React.PropTypes.func,
+      isEmpty:React.PropTypes.bool
   };
   render() {
-    const { openDrawer, title, stories, categories, isFetching, isInternet} = this.props;
+    const { openDrawer, title, stories, categories, isFetching, isInternet, isEmpty} = this.props;
     return (
       <Container theme={myTheme}>
         <Header style={{shadowOffset: {width: 0, height: 0}, elevation: 0 }} >
           <Title>{title}</Title>
-
-          <Button transparent onPress={openDrawer}>
-            <Icon name="ios-menu" />
-          </Button>
+            <Button transparent onPress={openDrawer}>
+                <Icon name="ios-menu" />
+            </Button>
         </Header>
-
-          {!isInternet && !stories.length?
-              <Content>
-                <Text>Отсутствует соединение с интернетом</Text>
-              </Content>
-              :
-              isFetching ?
-              <Content>
+          <View>
+            {!isInternet ?
+                  <View><Text>Нет интернета ВАЩЕ</Text></View>
+                  : isFetching?
                   <Spinner style={{ alignSelf: 'center' }} />
-              </Content>
-              :!stories.length ?
-                <View><Text>Упс, ничего нет =(</Text><Button onPress={() => this.props.getStories()}>Попробовать снова</Button></View>
-                  :<View>
-                  <ScrollableTabView
+                  :stories.length ?
+                      <ScrollableTabView
                       tabBarBackgroundColor={myTheme.btnPrimaryBg}
                       tabBarActiveTextColor={myTheme.headerTextColor}
                       tabBarInactiveTextColor={myTheme.headerInactiveTextColor}
@@ -56,8 +49,11 @@ class Store extends Component {
                               stories={stories}
                               />)}
                   </ScrollableTabView>
-                </View>
-          }
+                  : isEmpty ? <Text>Нету совсем сказок</Text>
+                  :<View><Text>Нет интернета</Text><Button onPress={() => this.props.getStories()}>Попробовать снова</Button></View>
+            }
+          </View>
+
 
       </Container>
     );

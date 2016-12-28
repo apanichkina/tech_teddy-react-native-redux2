@@ -1,5 +1,5 @@
 import * as types from './actionTypes';
-
+import timeout from '../FetchTimeout';
 
 export function setCategoryFilter(category:string):Action {
     return {
@@ -27,13 +27,13 @@ export function fetchCategories() {
 
     return function (dispatch) {
         let url = 'https://hardteddy.ru/api/store/categories';
-                return fetch(url, {
+                return timeout(3000,fetch(url, {
                     method: 'GET',
                     headers: {}
-                }).then(response => response.json())
+                })).then(response => response.json())
                     .then(json => dispatch(receiveCategories(json))
                 ).catch((error) => {
-                        console.log('category error:')
+                        console.log('category error:');
                         console.log(error)
                     });
     }

@@ -36,6 +36,7 @@ module.exports = StyleSheet.create({
     },
     headline: {
         padding: 16,
+        fontSize: 18,
         textAlign: 'center',
         backgroundColor: 'rgba(0,0,0,0)',
         color: 'white'

@@ -36,9 +36,12 @@ export default function (state = initialState, action={}) {
                 ...state,
                 user: action.user
             };
-        case 'AUTH_REQUEST_FAIL':
+        case 'AUTH_SIGN_IN_REQUEST_FAIL':
             return Object.assign({}, state, {
                 isSignInFetching: false,
+            });
+        case 'AUTH_SIGN_UP_REQUEST_FAIL':
+            return Object.assign({}, state, {
                 isSignUpFetching: false
             });
         default:

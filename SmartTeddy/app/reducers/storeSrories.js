@@ -2,7 +2,8 @@
 
 const initialState = {
     isFetching: false,
-    stories: []
+    stories: [],
+    isEmpty: false
 };
 
 export default function(state = initialState, action={}) {
@@ -11,12 +12,23 @@ export default function(state = initialState, action={}) {
             return Object.assign({}, state, {
                 isFetching: true
             });
+        case 'SET_IS_EMPTY':
+            return Object.assign({}, state, {
+                isEmpty: action.isEmptyValue
+            });
         case 'RECEIVE_STORE_STORIES':
+            let isEmptyValue = false;
+            if (action.stories.length == 0) {
+                isEmptyValue = true;
+            }
             return Object.assign({}, state, {
                 isFetching: false,
                 stories: action.stories,
+                isEmpty:isEmptyValue,
                 lastUpdated: action.receivedAt
-            });
+                });
+
+
         case 'REQUEST_STORE_STORIES_FAIL':
             return Object.assign({}, state, {
                 isFetching: false

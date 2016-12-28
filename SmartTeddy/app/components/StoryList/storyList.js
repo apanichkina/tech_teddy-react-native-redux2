@@ -6,7 +6,7 @@ import Story from './storyListItem'
 export default class StorePagePresentational extends Component {
 
   render() {
-    const { stories, onStoryClick  } = this.props;
+    const { stories, onStoryClick, onRefresh } = this.props;
 
     return (
         <Container style={styles.container}>
@@ -31,8 +31,8 @@ export default class StorePagePresentational extends Component {
 }
 
 StorePagePresentational.propTypes = {
-  stories: React.PropTypes.arrayOf(React.PropTypes.shape({
-    id: React.PropTypes.number.isRequired
-  }).isRequired).isRequired,
-  onStoryClick: React.PropTypes.func
+    stories: React.PropTypes.arrayOf(React.PropTypes.shape({
+        id: React.PropTypes.number.isRequired
+    }).isRequired).isRequired,
+    onStoryClick: React.PropTypes.func
 };
