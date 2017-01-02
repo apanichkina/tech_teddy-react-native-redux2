@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Content, Header, Title, View, Button, Icon, Spinner, Text } from 'native-base';
+import { Container, Content, Header, Title, View, Button, Icon, Spinner, Text, Thumbnail } from 'native-base';
 import { openDrawer } from '../actions/drawer';
 import { popRoute } from '../actions/route';
 import myTheme from '../themes/base-theme';
@@ -31,26 +31,37 @@ class Store extends Component {
         </Header>
           <View>
             {!isInternet ?
-                  <View><Text>Нет интернета ВАЩЕ</Text></View>
+                    <View style={{padding:10, flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}} >
+                        <Thumbnail style={{tintColor:'#9E9E9E',marginTop:-30}} square size={130} source={require('../../img/no-wifi-signal.png')}/>
+                        <Text style={{ alignSelf: 'center',color:'#9E9E9E', marginBottom:20}}>Нет подключения к интернету</Text>
+                    </View>
                   : isFetching?
                   <Spinner style={{ alignSelf: 'center' }} />
                   :stories.length ?
                       <ScrollableTabView
-                      tabBarBackgroundColor={myTheme.btnPrimaryBg}
-                      tabBarActiveTextColor={myTheme.headerTextColor}
-                      tabBarInactiveTextColor={myTheme.headerInactiveTextColor}
-                      tabBarUnderlineStyle={{backgroundColor:myTheme.btnInfoBg}}
-                      >
-                      {categories.map(category =>
-                          <StorePage
-                              key={category.id}
-                              tabLabel={category.name.toUpperCase()}
-                              filter={category.id}
-                              stories={stories}
-                              />)}
-                  </ScrollableTabView>
-                  : isEmpty ? <Text>Нету совсем сказок</Text>
-                  :<View><Text>Нет интернета</Text><Button onPress={() => this.props.getStories()}>Попробовать снова</Button></View>
+                          tabBarBackgroundColor={myTheme.btnPrimaryBg}
+                          tabBarActiveTextColor={myTheme.headerTextColor}
+                          tabBarInactiveTextColor={myTheme.headerInactiveTextColor}
+                          tabBarUnderlineStyle={{backgroundColor:myTheme.btnInfoBg}}
+                          >
+                          {categories.map(category =>
+                              <StorePage
+                                  key={category.id}
+                                  tabLabel={category.name.toUpperCase()}
+                                  filter={category.id}
+                                  stories={stories}
+                                  />)}
+                    </ScrollableTabView>
+                  : isEmpty ?
+                        <View style={{padding:10, flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}} >
+                            <Thumbnail style={{tintColor:'#9E9E9E',marginTop:-30}} square size={130} source={require('../../img/empty_folder.png')}/>
+                            <Text style={{ alignSelf: 'center',color:'#9E9E9E', marginBottom:20}}>Пока нет сказок</Text>
+                        </View>
+                  :<View style={{padding:10, flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}} >
+                    <Thumbnail style={{tintColor:'#9E9E9E',marginTop:-30}} square size={130} source={require('../../img/low-wifi-signal.png')}/>
+                    <Text style={{ alignSelf: 'center',color:'#9E9E9E', marginBottom:20}}>Проблемы со связью</Text>
+                    <Button style={{ alignSelf: 'center', margin:6 }} info onPress={() => this.props.getStories()}>ПОПРОБОВАТЬ СНОВА</Button>
+                  </View>
             }
           </View>
 
