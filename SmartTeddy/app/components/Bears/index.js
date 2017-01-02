@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Container, Header, Title, Content, Text, List, ListItem, Card, CardItem, Radio, Button, Icon } from 'native-base';
+import { View, Container, Header, Title, Content, Text, List, ListItem, Card, CardItem, Radio, Button, Icon, Thumbnail } from 'native-base';
 import Bluetooth from '../../BluetoothLib'
 import { openDrawer } from '../../actions/drawer';
 import { pushNewRoute, replaceRoute} from '../../actions/route';
@@ -21,13 +21,12 @@ class Bears extends Component {
         setBearStories: React.PropTypes.func,
         pressConnectToDeviceButton: React.PropTypes.func
     };
-
     constructor(props) {
         super(props);
         this.props.searchBears();
     }
     refresh(){
-        this.props.searchBears();
+       this.props.searchBears();
     }
     onBearClick(name, id) {
         this.props.pressConnectToDeviceButton(id);
@@ -55,46 +54,39 @@ class Bears extends Component {
             connectToDeviceFetching } = this.props;
         return (
             <Container theme={myTheme} style={styles.container}>
-
                 <Header>
                     <Button transparent onPress={this.props.openDrawer}>
                         <Icon name="ios-menu" />
                     </Button>
                     <Title>Примедведиться</Title>
                 </Header>
-                <Content>
                     {!bluetoothEnabled ?
-                        <View>
-                            <Text>Блютус не подключен</Text>
-                            <Button block info onPress={()=>this.enableBluetooth()}>Подключиться</Button>
+                        <View style={{padding:10, flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}} >
+                            <Thumbnail style={{tintColor:'#9E9E9E',marginTop:-30}} square size={130} source={require('../../../img/bluetooth.png')}/>
+                            <Text style={{ alignSelf: 'center',color:'#9E9E9E', marginBottom:20}}>Блютус выключен</Text>
+                            <Button style={{ alignSelf: 'center', margin:6 }} info onPress={() => this.enableBluetooth()}>ВКЛЮЧИТЬ</Button>
                         </View>
-                        :devicesCount ? <List dataArray={bears}
-                                renderRow={(item) =>
-                                <ListItem button disabled={connectToDeviceButtonWaiting} onPress={()=>{this.onBearClick(item.name, item.id)}}>
-                                    <Content>
-                                        <View style={{ flexDirection:'row', flex: 3}}>
-                                        <View style={{ flex: 2  }}>
-                                        <Text style={styles.header} >{item.name}</Text>
-                                        <Text style={styles.help} >{item.id}</Text>
-                                        </View>
-                                        <View style={{ flex: 1  }}>
-                                      {connectToDeviceFetching && id == item.id ? <Text style={{color: '#00897B'}}>Подключение...</Text> : null}
-                                        </View>
-
-                                        </View>
-                                    </Content>
-                                </ListItem>
-                            }>
-                    </List>
-                        : this.refresh()
-
+                        :devicesCount ?
+                            <Content>
+                                <List dataArray={bears}
+                                        renderRow={(item) =>
+                                        <ListItem button disabled={connectToDeviceButtonWaiting} onPress={()=>{this.onBearClick(item.name, item.id)}}>
+                                                <View>
+                                                    <Text style={styles.header} >{item.name}</Text>
+                                                    <Text style={styles.help} >{item.id}</Text>
+                                                    <Text style={styles.status}>{connectToDeviceFetching && id == item.id ? 'Подключение...' : ' '}</Text>
+                                                </View>
+                                        </ListItem>
+                                    }>
+                                </List>
+                            </Content>
+                        :  <View style={{padding:10, flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}} >
+                            <Thumbnail style={{marginTop:-30}} square size={130} source={require('../../../img/tumbleweed.png')}/>
+                            <Text style={{ alignSelf: 'center'}}>Нет соединенных устройств</Text>
+                            <Text style={{ alignSelf: 'center',color:'#9E9E9E', marginBottom:20, width:300}}>Подключитесь к устройству в настройках</Text>
+                            <Button style={{ alignSelf: 'center', margin:6 }} info onPress={() => this.refresh()}>ОБНОВИТЬ СПИСОК</Button>
+                           </View>
                     }
-
-                    {/* <Button style={styles.btn_search} onPress={searchBears}>
-                        <Icon name='ios-search' />
-                        Найти
-                    </Button> */}
-                </Content>
             </Container>
         );
     }
