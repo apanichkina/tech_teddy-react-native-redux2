@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import SmartScrollView from 'react-native-smart-scroll-view';
 import Button from 'react-native-button';
 import dismissKeyboard from 'react-native-dismiss-keyboard';
-
+import { Col, Row, Grid } from "react-native-easy-grid";
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
 
@@ -104,19 +104,18 @@ class SignIn extends Component {
                         </Button>
                         )}
                     </View>
-
-                    <View style={{flexDirection: 'row', justifyContent: 'flex-end' }}>
-                        <Button
-                            style = {[styles.buttonText, {paddingHorizontal:5, fontWeight:'normal',fontFamily:myTheme.textFontFamily, fontSize:myTheme.btnTextSize, lineHeight:myTheme.btnLineHeight}]}
+                    <Grid>
+                        <Col size={1}><Button
+                            style = {[styles.buttonText, {fontWeight:'normal',fontFamily:myTheme.textFontFamily, fontSize:myTheme.btnTextSize, lineHeight:myTheme.btnLineHeight}]}
                             onPress={()=>this.goToSignUp()}>
                             Еще нет учетной записи?
-                        </Button>
-                        <Button
-                            style = {[styles.buttonText, {paddingHorizontal:5,fontFamily:myTheme.btnFontFamily, fontSize:myTheme.btnTextSize, lineHeight:myTheme.btnLineHeight}]}
+                        </Button></Col>
+                        <Col size={1}><Button
+                            style = {[styles.buttonText, {fontFamily:myTheme.btnFontFamily, fontSize:myTheme.btnTextSize, lineHeight:myTheme.btnLineHeight}]}
                             onPress={()=>this.goToSignUp()}>
                             Зарегистрироваться
-                        </Button>
-                    </View>
+                        </Button></Col>
+                    </Grid>
                 </SmartScrollView>
             </View>
         </Container>

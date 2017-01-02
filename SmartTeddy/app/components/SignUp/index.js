@@ -138,9 +138,9 @@ class SignUp extends Component {
                                     </Button>
                             )}
                         </View>
-                        <View style={{flexDirection: 'row', justifyContent: 'flex-end' }}>
+                        <View style={{flexDirection: 'row' }}>
                             <Button
-                                style = {[styles.buttonText, {paddingHorizontal:5, fontWeight:'normal',fontFamily:myTheme.textFontFamily, fontSize:myTheme.btnTextSize, lineHeight:myTheme.btnLineHeight}]}
+                                style = {[styles.buttonText, {paddingRight:5, fontWeight:'normal',fontFamily:myTheme.textFontFamily, fontSize:myTheme.btnTextSize, lineHeight:myTheme.btnLineHeight}]}
                                 onPress={()=>this.goToSignIn()}>
                                 Есть учетная запись?
                             </Button>
