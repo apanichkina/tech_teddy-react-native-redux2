@@ -2,6 +2,8 @@ import * as types from './actionTypes';
 import {popRoute, popNRoute} from './route'
 import {fetchStories} from './userStories'
 import {setError} from './error'
+import timeout from '../FetchTimeout';
+import {isConnectedInternet} from './internet'
 export function authSetToken(token){
     return {
         type: types.AUTH_SET_TOKEN,
@@ -32,11 +34,18 @@ export function requestSignUp():Action {
         type: types.REQUEST_SIGN_UP
     }
 }
-export function authRequestFail(){
+export function authSignUpRequestFail(){
     return {
-        type: types.AUTH_REQUEST_FAIL
+        type: types.AUTH_SIGN_UP_REQUEST_FAIL
     };
 }
+
+export function authSignInRequestFail(){
+    return {
+        type: types.AUTH_SIGN_IN_REQUEST_FAIL
+    };
+}
+
 
 export function fetchSignIn(name, password) {
 
@@ -46,7 +55,7 @@ export function fetchSignIn(name, password) {
         else {
         dispatch(requestSignIn());
         let url = 'https://hardteddy.ru/api/user/login';
-        return fetch(url, {
+        return timeout(3000,fetch(url, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -55,10 +64,9 @@ export function fetchSignIn(name, password) {
             body: JSON.stringify({
                 'name': name,
                 'password': password
-            }),
-            timeout: 2000
+            })
 
-        }).then(response => response.json())
+        })).then(response => response.json())
             .then(responseJson => {
                 if(responseJson.status == 0){
                     // Все хорошо
@@ -70,14 +78,19 @@ export function fetchSignIn(name, password) {
                 }
                 else{
                     dispatch(setError('Неверный логин/пароль'));
-                    dispatch(authRequestFail())
+                    dispatch(authSignInRequestFail())
                 }
             }
         ).catch((error) => {
-                dispatch(setError('Не удалось войти'));
-                dispatch(authRequestFail());
                 console.log('sign in error:');
-                console.log(error)
+                console.log(error);
+                if (error instanceof TypeError && (error.message == 'Network request failed' || error.message == 'timeout')){
+                    console.log('Запрос закрашился');
+                    dispatch(setError('Нет интернета'));
+                }else {
+                    dispatch(setError('Не удалось войти'));
+                }
+                dispatch(authSignInRequestFail());
             });
     }
     }
@@ -91,7 +104,7 @@ export function fetchSignUp(name, email, password1, password2) {
         else {
         dispatch(requestSignUp());
         let url = 'https://hardteddy.ru/api/user/register';
-        return fetch(url, {
+        return timeout(5000,fetch(url, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -103,25 +116,37 @@ export function fetchSignUp(name, email, password1, password2) {
                 password1: password1,
                 password2: password2
             })
-        }).then(response => response.json())
+        })).then(response => response.json())
             .then(responseJson => {
                 if(responseJson.status == 0){
                     // Все хорошо
                     let userToken = responseJson.body.userToken;
                     dispatch(authSetToken(userToken));
-                    dispatch(authSetUser(name));
+                    dispatch(authSetUser(email));
                     dispatch(fetchStories());
                     dispatch(popNRoute(2));
-                }
-                else{
-                    dispatch(authRequestFail());
+                } else {
+                    //////////
+                    dispatch(setError('Ошибка регистрации'));
+                    let body = responseJson.body;
+                    console.log(body);
+                    if(body.login) {
+                        dispatch(setError('Эл. адрес уже зарегистрирован'));
+                    }
+                    ////////
+                    dispatch(authSignUpRequestFail());
                 }
             }
         ).catch((error) => {
-                dispatch(setError('Не удалось зарегистрироваться'));
-                dispatch(authRequestFail());
                 console.log('sign up error:');
                 console.log(error)
+                if (error instanceof TypeError && (error.message == 'Network request failed' || error.message == 'timeout')){
+                    console.log('Запрос закрашился');
+                    dispatch(setError('Нет интернета'));
+                }else {
+                    dispatch(setError('Не удалось зарегистрироваться'));
+                }
+                dispatch(authSignUpRequestFail());
             });
     }
     }

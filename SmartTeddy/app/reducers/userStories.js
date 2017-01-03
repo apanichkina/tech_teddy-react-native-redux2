@@ -2,7 +2,8 @@
 
 const initialState = {
     isFetching: false,
-    stories: []
+    stories: [],
+    isEmpty: false
 };
 
 export default function(state = initialState, action={}) {
@@ -12,9 +13,15 @@ export default function(state = initialState, action={}) {
                 isFetching: true
             });
         case 'RECEIVE_USER_STORIES':
+            let isEmptyValue = false;
+            console.log(action.stories);
+            if (action.stories.length == 0) {
+                isEmptyValue = true;
+            }
             return Object.assign({}, state, {
                 isFetching: false,
                 stories: action.stories,
+                isEmpty:isEmptyValue,
                 lastUpdated: action.receivedAt
             });
         case 'REQUEST_USER_STORIES_FAIL':

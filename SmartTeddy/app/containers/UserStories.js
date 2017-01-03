@@ -12,18 +12,20 @@ class Store extends Component {
 
     }
     componentWillMount(){
-      //this.getStories();
+    this.getStories();
     }
     getStories(){
         this.props.getStories();
     }
   render() {
-      const { stories, isFetching } = this.props;
+      const { stories, isFetching, getStories,isEmpty } = this.props;
     return (
       <StorePage
           stories={stories}
           title={'Мои сказки'}
           isFetching={isFetching}
+          getStories={getStories}
+          isEmpty={isEmpty}
           />
     );
   }
@@ -32,7 +34,8 @@ class Store extends Component {
 const mapStateToProps = (state) => {
   return {
       stories: state.userStories.stories.filter(function(n){ return n != undefined }),
-      isFetching: state.userStories.isFetching
+      isFetching: state.userStories.isFetching,
+      isEmpty: state.userStories.isEmpty
   }
 };
 

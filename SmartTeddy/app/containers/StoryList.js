@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { pushNewRoute } from '../actions/route';
 import { seeStory } from '../actions/story';
 import { setCategoryFilter } from '../actions/storyCategory';
-
 import StorePage from '../components/StoryList/storyList'
 
 class StorePageContainer extends Component {
@@ -40,14 +39,14 @@ class StorePageContainer extends Component {
                 onStoryClick={this.onClick}
                 isInternet={isInternet}
                 />
-
     )
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    isInternet: state.internet.isConnected
+    isInternet: state.internet.isConnected,
+    isRefreshing: state.storeStories.isFetching
   }
 };
 

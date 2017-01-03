@@ -13,11 +13,15 @@ module.exports = StyleSheet.create({
     },
     help: {
     	fontSize: 10,
-    	height: 20,
     	lineHeight: 15
     },
     header: {
     	fontSize: 24,
-    	height: 35
+        lineHeight: 30
+    },
+    status:{
+        color: '#00897B',
+        fontSize: 13,
+        lineHeight: 15
     }
 });

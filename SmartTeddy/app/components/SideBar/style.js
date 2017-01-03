@@ -36,6 +36,7 @@ module.exports = StyleSheet.create({
     },
     headline: {
         padding: 16,
+        fontSize: 18,
         textAlign: 'center',
         backgroundColor: 'rgba(0,0,0,0)',
         color: 'white'
@@ -68,7 +69,7 @@ module.exports = StyleSheet.create({
         backgroundColor: '#CCCCCC'
     },
     connectedBear: {
-        color: '#FFB74D', //Accent
+        color: '#00897B', //Accent #FFB74D
         fontWeight: '500',
         fontSize: 16
     }

@@ -1,49 +1,50 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { Container, Content, Header, Text, Title, Button, Icon, View, Spinner } from 'native-base';
+import { Container, Content, Header, Text, Title, Button as ButtonNB, Icon, View, Spinner } from 'native-base';
 import styles from './styles';
 import myTheme from '../../themes/base-theme';
 import { popRoute, popNRoute } from '../../actions/route';
 import {fetchSignUp} from '../../actions/user'
 import { connect } from 'react-redux';
+import SmartScrollView from 'react-native-smart-scroll-view';
+import Button from 'react-native-button';
+import dismissKeyboard from 'react-native-dismiss-keyboard';
 
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
 
 var regExpLogin = new RegExp("^[a-z0-9_-]{3,16}$", 'i');
 var regExpEmail = new RegExp(/.+@.+\..+/i);
-var regExpPassword = new RegExp("^.{6,}$", 'i');
 
 var Name = t.refinement(t.String, function (str) { return str.length >= 3 &&  str.length <= 16 && regExpLogin.test(str)});
-Name.getValidationErrorMessage = function (value, path, context) {
+Name.getValidationErrorMessage = function () {
     return 'неверный формат логина';
 };
 var Email = t.refinement(t.String, function (str) { return regExpEmail.test(str)});
-Email.getValidationErrorMessage = function (value, path, context) {
+Email.getValidationErrorMessage = function () {
     return 'неверный формат почты';
 };
 var Password = t.refinement(t.String, function (str) { return str.length >= 6});
-Password.getValidationErrorMessage = function (value, path, context) {
+Password.getValidationErrorMessage = function () {
     return 'слишком мало символов';
 };
 var Password2 = t.refinement(t.String, function (str) { return str == Form.password1});
-Password2.getValidationErrorMessage = function (value, path, context) {
+Password2.getValidationErrorMessage = function () {
     return 'пароли должны совпадать';
 };
 
-// here we are: define your domain model
 var Person = t.struct({
-    name: Name,              // a required string
-    email: Email,  // an optional string
-    password1: Password,               // a required number
+    name: Name,
+    email: Email,
+    password1: Password,
     password2: Password
 });
-
 
 function samePasswords(x) {
     return x.password1 === x.password2;
 }
+
 var Type = t.subtype(Person, samePasswords);
 Type.getValidationErrorMessage = function (value) {
     if (!samePasswords(value)) {
@@ -52,7 +53,6 @@ Type.getValidationErrorMessage = function (value) {
 };
 
 var options = {
-
     fields: {
         name: {
             label: 'Логин:',
@@ -82,8 +82,6 @@ var options = {
     }
 };
 
-
-
 class SignUp extends Component {
 
     constructor(props) {
@@ -98,48 +96,62 @@ class SignUp extends Component {
         this.setState({ value });
     }
     fetchSignUp() {
+        dismissKeyboard();
         var value = this.refs.form.getValue();
         if (value) {
             this.props.fetchSignUp(value.name, value.email,value.password1, value.password2);
-            //this.props.popNRoute(2);
         }
+    }
+    goToSignIn() {
+        dismissKeyboard();
+        this.popRoute()
     }
     render() {
         const {isFetching} = this.props;
         return (
             <Container theme={myTheme} style={styles.container}>
                 <Header>
-                    <Button transparent onPress={()=>this.popRoute()}>
+                    <ButtonNB transparent onPress={()=>this.popRoute()}>
                         <Icon name="md-arrow-back" />
-                    </Button>
+                    </ButtonNB>
                     <Title>Регистрация</Title>
                 </Header>
-                <Content padder>
-            <View >
 
-
-                    <Form
-                        ref="form"
-                        type={Type}
-                        options={options}
-                        value={this.state.value}
-                        onChange={this.onChange.bind(this)}/>
-
-                <View>
-                    {(isFetching ? <Spinner></Spinner>
-                        :  <Button block info
-                                   onPress={() => this.fetchSignUp()}>
-                        ЗАРЕГИСТРИРОВАТЬСЯ
-                    </Button>
-                    )}
+                <View style={{flex:1, backgroundColor:'#ffffff'}}>
+                    <SmartScrollView
+                        contentContainerStyle = { styles.contentContainerStyle }
+                        scrollPadding         = { 10 }>
+                        <Form
+                            ref="form"
+                            type={Type}
+                            options={options}
+                            value={this.state.value}
+                            onChange={this.onChange.bind(this)}
+                            />
+                        <View>
+                            {(isFetching ? <Spinner style={{height:38, marginBottom: 10}}></Spinner>
+                                :   <Button
+                                        containerStyle={[styles.button, {backgroundColor:myTheme.btnInfoBg, borderColor:myTheme.btnInfoBg, borderRadius: myTheme.borderRadiusBase}]}
+                                        style = {[styles.buttonText, {fontFamily:myTheme.btnFontFamily, fontSize:myTheme.btnTextSize, lineHeight:myTheme.btnLineHeight, color:myTheme.btnPrimaryColor}]}
+                                        onPress={() => this.fetchSignUp()}>
+                                        ЗАРЕГИСТРИРОВАТЬСЯ
+                                    </Button>
+                            )}
+                        </View>
+                        <View style={{flexDirection: 'row' }}>
+                            <Button
+                                style = {[styles.buttonText, {paddingRight:5, fontWeight:'normal',fontFamily:myTheme.textFontFamily, fontSize:myTheme.btnTextSize, lineHeight:myTheme.btnLineHeight}]}
+                                onPress={()=>this.goToSignIn()}>
+                                Есть учетная запись?
+                            </Button>
+                            <Button
+                                style = {[styles.buttonText, {paddingHorizontal:5,fontFamily:myTheme.btnFontFamily, fontSize:myTheme.btnTextSize, lineHeight:myTheme.btnLineHeight}]}
+                                onPress={()=>this.goToSignIn()}>
+                                Войти
+                            </Button>
+                        </View>
+                    </SmartScrollView>
                 </View>
-                <View style={{flexDirection: 'row', justifyContent: 'flex-end' }}>
-                    <Button  transparent  onPress={()=>this.popRoute()}>Есть учетная запись?</Button>
-                    <Button  transparent   textStyle={{fontWeight: 'bold'}}  onPress={()=>this.popRoute()}>Войти</Button>
-                </View>
-
-            </View>
-                </Content>
             </Container>
         );
     }

@@ -1,5 +1,5 @@
 import * as types from './actionTypes';
-
+import timeout from '../FetchTimeout';
 function requestStories():Action {
     return {
         type: types.REQUEST_USER_STORIES
@@ -29,12 +29,12 @@ export function fetchStories() {
         dispatch(requestStories());
         let url = 'https://hardteddy.ru/api/user/mystories';
         let state = getState();
-        return fetch(url, {
+        return timeout(5000,fetch(url, {
             method: 'GET',
             headers: {
                 'Authorization': state.user.token
             }
-        }).then((response) => response.json())
+        })).then((response) => response.json())
             .then(json => dispatch(receiveStories(json.body.stories))
         ).catch((error) => {
                 dispatch(requestStoriesFail());

@@ -7,7 +7,7 @@ import styles from './styles';
 import myTheme from '../../themes/base-theme';
 import ActionButton from 'react-native-action-button';
 import StoryList from '../../containers/StoryList';
-
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { setBearStories } from '../../actions/bear';
 import { heartBeat } from '../../actions/bluetooth';
 class BProfile extends Component {
@@ -50,15 +50,21 @@ class BProfile extends Component {
                         <Spinner style={{ alignSelf: 'center' }} />
                     </Content>
                     :<View>
-                    <Tabs locked >
+                    <ScrollableTabView
+                        tabBarBackgroundColor={myTheme.btnPrimaryBg}
+                        tabBarActiveTextColor={myTheme.headerTextColor}
+                        tabBarInactiveTextColor={myTheme.headerInactiveTextColor}
+                        tabBarUnderlineStyle={{backgroundColor:myTheme.btnInfoBg}}
+                        >
                         {categories.map(category =>
-                                <StoryList 
+                                <StoryList
                                     key={category.id}
-                                    tabLabel={category.name.toUpperCase()} 
-                                    filter={category.id} 
+                                    tabLabel={category.name.toUpperCase()}
+                                    filter={category.id}
                                     stories={storiesBear}/>
                         )}
-                    </Tabs>
+                    </ScrollableTabView>
+
                 </View>}
 
             </Container>

@@ -38,7 +38,6 @@ class SideBar extends Component {
                 theme={sidebarTheme}
                 style={styles.sidebar}
                 >
-
                 <Image
                     style={styles.drawerCover}
                     source={drawerImage}>
@@ -47,7 +46,6 @@ class SideBar extends Component {
                     </View>
                 </Image>
                 <List>
-
                     <ListItem button iconLeft onPress={() => this.navigateTo('home')} >
                         <View style={styles.listItemContainer}>
                             <View style={styles.iconContainer}>
@@ -56,6 +54,7 @@ class SideBar extends Component {
                             <Text style={styles.text}>Магазин сказок</Text>
                         </View>
                     </ListItem>
+
                     {!isAuth ?
                         <ListItem button iconLeft onPress={() => this.navigateTo('signin')} >
                             <View style={styles.listItemContainer}>
@@ -98,6 +97,7 @@ class SideBar extends Component {
                                 <Text style={styles.text}>Выйти</Text>
                             </View>
                         </ListItem>
+
                         <ListItem itemDivider>
                             <Text style={!!bearname ? styles.connectedBear : styles.text} >{bearname || 'Игрушка не подключена'}</Text>
                         </ListItem>
@@ -110,6 +110,7 @@ class SideBar extends Component {
                                 <Text style={[styles.text, !bearname ? {color:'#BDBDBD'}:null]}>Сказки на мишке</Text>
                             </View>
                         </ListItem>
+
                         <ListItem button disabled={!bearname} iconLeft onPress={() => this.navigateTo('alarm')}>
                             <View style={styles.listItemContainer}>
                                 <View style={styles.iconContainer}>
@@ -127,22 +128,13 @@ class SideBar extends Component {
                                 <Text style={[styles.text, !bearname ? {color:'#BDBDBD'}:null]}>WiFi</Text>
                             </View>
                         </ListItem>
-
                     </List>
                     : null
-
                 }
-
-
-
-
             </Content>
-
         );
     }
 }
-
-
 
 const mapStateToProps = state => ({
     drawerState: state.drawer.drawerState,
