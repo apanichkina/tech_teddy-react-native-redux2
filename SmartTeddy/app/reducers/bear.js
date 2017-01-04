@@ -4,6 +4,7 @@ const initialState = {
     bearStories: [],
     isFetching: false,
     connectedBearName: '',
+    connectedBearId: '',
     downloaded: 0
 };
 
@@ -24,10 +25,11 @@ export default function (state = initialState, action={}) {
                 ...state,
                 isFetching: false
             };
-        case 'SET_CONNECTED_BEAR_NAME':
+        case 'SET_CONNECTED_BEAR':
             return {
                 ...state,
-                connectedBearName: action.name
+                connectedBearName: action.name,
+                connectedBearId: action.id
             };
         case 'DOWNLOADED_STORY':
             return {

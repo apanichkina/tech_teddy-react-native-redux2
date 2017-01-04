@@ -3,7 +3,7 @@ import Bluetooth from '../BluetoothLib'
 import {alarmIsPlaying} from './alarm'
 import {setError} from './error'
 import {downloaded} from './bearStory'
-import { setBearStories, setConnectedBearName } from './bear'
+import { setBearStories, setConnectedBear } from './bear'
 import {playStory,pauseStory, stopStory}from './player'
 import { pushNewRoute} from './route'
 import {addUserTask, addSystemTask} from '../queue';
@@ -72,12 +72,12 @@ export function connectToDevice(id, name) {
                     return instance.connect(id);
                 },
                 function () {
-                    console.log('onStart connectToDevice')
+                    console.log('onStart connectToDevice');
                     dispatch(startConnectToDeviceButton())
                 },
                 function (result) {
                     dispatch(connectBluetooth());
-                    dispatch(setConnectedBearName(name));
+                    dispatch(setConnectedBear(name,id));
                     heartBeatID = setTimeout(() => {
                         //heartBeatID = undefined;
                         //heartBeat()(dispatch);
@@ -86,7 +86,7 @@ export function connectToDevice(id, name) {
                         syncTime()
                             .then(()=>{
                                 heartBeatID = undefined;
-                                heartBeat()(dispatch, getState)
+                                heartBeat()(dispatch, getState);
                                 dispatch(doneConnectToDeviceButton());
                                 dispatch(replaceRoute('bear-profile'));
                             })
@@ -131,7 +131,7 @@ export function disconnectFromDevice() {
                 // }
                 dispatch(unconnectBluetooth());
                 console.log('disconnectFromDevice');
-                dispatch(setConnectedBearName(''));
+                dispatch(setConnectedBear('',''));
             }
         ).catch((error) => {
                 console.log('disconnect from device error:');

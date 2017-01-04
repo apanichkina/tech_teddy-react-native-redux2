@@ -51,11 +51,12 @@ function receiveStories(allStories,stories):Action {
         stories: result
     }
 }
-export function setConnectedBearName(name:string):Action {
+export function setConnectedBear(name:string, id:string):Action {
     console.log('setConnectedBearName', name);
     return {
-        type: types.SET_CONNECTED_BEAR_NAME,
-        name
+        type: types.SET_CONNECTED_BEAR,
+        name,
+        id
     }
 }
 

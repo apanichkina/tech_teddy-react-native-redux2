@@ -57,9 +57,9 @@ class SideBar extends Component {
                     <ListItem button iconLeft onPress={() => this.navigateTo('home')} >
                         <View style={styles.listItemContainer}>
                             <View style={styles.iconContainer}>
-                                <Icon name="ios-cart" style={styles.sidebarIcon} />
+                                <Icon name="ios-albums" style={styles.sidebarIcon} />
                             </View>
-                            <Text style={styles.text}>Магазин сказок</Text>
+                            <Text style={styles.text}>Каталог сказок</Text>
                         </View>
                     </ListItem>
 
@@ -91,9 +91,9 @@ class SideBar extends Component {
                         <ListItem button iconLeft onPress={() => this.navigateTo('bears')} >
                             <View style={styles.listItemContainer}>
                                 <View style={styles.iconContainer}>
-                                    <Icon name="ios-flash" style={styles.sidebarIcon} />
+                                    <Icon name="ios-search" style={styles.sidebarIcon} />
                                 </View>
-                                <Text style={styles.text}>{'Подключиться'}</Text>
+                                <Text style={styles.text}>{'Поиск устройств'}</Text>
                             </View>
                         </ListItem>
 
