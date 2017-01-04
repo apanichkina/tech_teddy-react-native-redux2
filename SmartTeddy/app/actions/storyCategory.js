@@ -26,7 +26,7 @@ export function receiveCategories(json):Action {
 export function fetchCategories() {
 
     return function (dispatch) {
-        let url = 'https://hardteddy.ru/api/store/categories';
+        let url = 'https://magicbackpack.ru/api/store/categories';
                 return timeout(3000,fetch(url, {
                     method: 'GET',
                     headers: {}

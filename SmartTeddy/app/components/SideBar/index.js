@@ -152,7 +152,7 @@ class SideBar extends Component {
                     : null
                 }
             </Content>
-                { storyId != -1 &&
+                { isAuth && storyId != -1 &&
                     <Footer theme={footerTheme} style={{ elevation: 3}}>
                         <ListItem button style={{backgroundColor: '#BDBDBD', paddingLeft:0, marginLeft:0, paddingTop:0, marginTop:0}} onPress={() => this.onClick(storyId)}>
                             <Thumbnail square size={55}  source={{uri: 'https://storage.googleapis.com/hardteddy_images/small/'+storyId+'.jpg'}} />
@@ -177,7 +177,7 @@ const mapStateToProps = state => ({
     isAuth: !!state.user.token,
     username: state.user.user,
     storyId: state.player.storyId,
-    story: state.userStories.stories[state.player.storyId]
+    story: state.userStories.stories[parseInt(state.player.storyId.toString().split("_")[0])] //Берем название сказки, которая может быть интерактивной
 });
 
 const mapDispatchToProps = (dispatch) =>{

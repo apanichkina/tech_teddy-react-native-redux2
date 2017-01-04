@@ -83,7 +83,6 @@ class SProfile extends Component {
                 isBought={isBought}
                 logo={logo}
                 category={category}
-                illustration={{uri: 'https://storage.googleapis.com/hardteddy_images/large/'+story.id+'.jpg'}}
                 downloaded={downloaded}
                 isDownloading={isDownloading}
                 goToInteractive={()=>{this.goToInteractive()}}

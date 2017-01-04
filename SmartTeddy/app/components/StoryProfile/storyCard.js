@@ -13,7 +13,7 @@ export default class StoryCard extends Component {
   render() {
     const {
         name,
-        illustration,
+        img_urls,
         description,
         onBuyClick,
         isUpload,
@@ -25,7 +25,8 @@ export default class StoryCard extends Component {
         isDownloading,
         id,
         category,
-        goToInteractive
+        goToInteractive,
+        duration_splitted
     } = this.props;
     return (
         <Card style={[styles.mb, { flex: 0 }]}>
@@ -36,7 +37,7 @@ export default class StoryCard extends Component {
             </CardItem>
 
             <CardItem cardBody >
-                <Image style={{ resizeMode: 'cover', width: null}} source={illustration}/>
+                <Image style={{ resizeMode: 'cover', width: null}} source={{uri: img_urls.large}}/>
                 <View>
                     {isDownloading ?
                         <MKProgress
@@ -90,8 +91,14 @@ StoryCard.propTypes = {
     category: React.PropTypes.string.isRequired,
     name: React.PropTypes.string.isRequired,
     description: React.PropTypes.string.isRequired,
+    duration_splitted: React.PropTypes.shape({
+        minutes: React.PropTypes.number,
+        seconds: React.PropTypes.number
+    }),
     price: React.PropTypes.number.isRequired,
-    illustration: React.PropTypes.object.isRequired,
+    img_urls: React.PropTypes.shape({
+        large: React.PropTypes.string
+    }),
     onBuyClick: React.PropTypes.func,
     onConnectBear: React.PropTypes.func,
     isBought: React.PropTypes.bool,
