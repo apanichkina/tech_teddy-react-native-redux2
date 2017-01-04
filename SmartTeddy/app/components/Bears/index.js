@@ -58,7 +58,7 @@ class Bears extends Component {
                     <Button transparent onPress={this.props.openDrawer}>
                         <Icon name="ios-menu" />
                     </Button>
-                    <Title>Примедведиться</Title>
+                    <Title>Подключиться</Title>
                 </Header>
                     {!bluetoothEnabled ?
                         <View style={{padding:10, flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}} >

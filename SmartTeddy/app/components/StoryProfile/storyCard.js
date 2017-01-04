@@ -54,8 +54,8 @@ export default class StoryCard extends Component {
                         category !== 'РОЛЕВЫЕ' ?
                         <Player storyId={id}/>
                             : <Button block info onPress={goToInteractive}>
-                            НАЧАТЬ ИНТЕРАКТИВНУЮ СКАЗКУ
-                        </Button>
+                                НАЧАТЬ ИНТЕРАКТИВНУЮ СКАЗКУ
+                              </Button>
                         : null
                     }
                 </View>
