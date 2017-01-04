@@ -27,7 +27,7 @@ export default class StorePagePresentational extends Component {
             :
             <View style={{padding:10, flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}} >
                 <Thumbnail style={{tintColor:'#9E9E9E',marginTop:-30}} square size={130} source={require('../../../img/empty_folder.png')}/>
-                <Text style={{ alignSelf: 'center',color:'#9E9E9E', marginBottom:20}}>Пока нет сказок выбранной категории</Text>
+                <Text style={{  textAlign: 'center',color:'#9E9E9E', marginBottom:20}}>Пока нет сказок выбранной категории</Text>
                 <Button style={{ alignSelf: 'center', margin:6 }} info onPress={goToStore}>КАТАЛОГ</Button>
             </View>
           }

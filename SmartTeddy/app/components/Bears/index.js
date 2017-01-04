@@ -63,7 +63,7 @@ class Bears extends Component {
                     {!bluetoothEnabled ?
                         <View style={{padding:10, flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}} >
                             <Thumbnail style={{tintColor:'#9E9E9E',marginTop:-30}} square size={130} source={require('../../../img/bluetooth.png')}/>
-                            <Text style={{ alignSelf: 'center',color:'#9E9E9E', marginBottom:20}}>Блютус выключен</Text>
+                            <Text style={{  textAlign: 'center',color:'#9E9E9E', marginBottom:20}}>Блютус выключен</Text>
                             <Button style={{ alignSelf: 'center', margin:6 }} info onPress={() => this.enableBluetooth()}>ВКЛЮЧИТЬ</Button>
                         </View>
                         :devicesCount ?
@@ -94,8 +94,8 @@ class Bears extends Component {
                                 </Content>
                         :  <View style={{padding:10, flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}} >
                             <Thumbnail style={{marginTop:-30}} square size={130} source={require('../../../img/tumbleweed.png')}/>
-                            <Text style={{ alignSelf: 'center'}}>Нет соединенных устройств</Text>
-                            <Text style={{ alignSelf: 'center',color:'#9E9E9E', marginBottom:20, width:300}}>Подключитесь к устройству в настройках</Text>
+                            <Text style={{  textAlign: 'center'}}>Нет соединенных устройств</Text>
+                            <Text style={{  textAlign: 'center',color:'#9E9E9E', marginBottom:20}}>Подключитесь к устройству в настройках</Text>
                             <Button style={{ alignSelf: 'center', margin:6 }} info onPress={() => this.refresh()}>ОБНОВИТЬ СПИСОК</Button>
                            </View>
                     }

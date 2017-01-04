@@ -30,7 +30,7 @@ class StorePageContainer extends Component {
     this.props.pushNewRoute('story-profile')
   }
 
-//TODO проверить работает ли список сказок на мишке без case
+
   render() {
     const { storiesBear, storiesShop, storiesUser, isInternet} = this.props;
 
