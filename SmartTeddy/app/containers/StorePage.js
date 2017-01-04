@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container, Content, Header, Title, View, Button, Icon, Spinner, Text, Thumbnail } from 'native-base';
 import { openDrawer } from '../actions/drawer';
-import { popRoute } from '../actions/route';
+import { popRoute, pushNewRoute } from '../actions/route';
 import myTheme from '../themes/base-theme';
 import StorePage from './StoryList';
 import { PossiblePurposes } from '../actions/actionTypes'
@@ -56,6 +56,7 @@ class Store extends Component {
                         <View style={{padding:10, flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}} >
                             <Thumbnail style={{tintColor:'#9E9E9E',marginTop:-30}} square size={130} source={require('../../img/empty_folder.png')}/>
                             <Text style={{ alignSelf: 'center',color:'#9E9E9E', marginBottom:20}}>Пока нет сказок</Text>
+                            <Button style={{ alignSelf: 'center', margin:6 }} info onPress={() => this.props.pushNewRoute('home')}>КАТАЛОГ</Button>
                         </View>
                   :<View style={{padding:10, flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}} >
                     <Thumbnail style={{tintColor:'#9E9E9E',marginTop:-30}} square size={130} source={require('../../img/low-wifi-signal.png')}/>
@@ -80,7 +81,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-      openDrawer: () => dispatch(openDrawer())
+      openDrawer: () => dispatch(openDrawer()),
+      pushNewRoute: route => dispatch(pushNewRoute(route))
   }
 };
 
