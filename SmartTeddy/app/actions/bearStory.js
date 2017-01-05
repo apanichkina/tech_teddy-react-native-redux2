@@ -38,13 +38,32 @@ export function stopDowload():Action {
         setTimeout(() =>  dispatch(stopDowloadState()), 1000)
     }
 }
+export function uploadHardcodeStoryToBear(id) {
+    return function (dispatch, getState) {
 
+            addUserTask('uploadStoryToBear', ()=> {
+                    let instance = Bluetooth.getInstance();
+                    return instance.downloadFile(id);
+                },
+                function () {
+                    console.log('onStart uploadStoryToBear')
+                },
+                () => {
+                    dispatch(uploadStory(id, 100000))
+                },
+                (error) => {
+                    console.log('upload story error:');
+                    console.log(error);
+                }
+            );
+    }
+}
 
 export function uploadStoryToBear(id) {
     return function (dispatch, getState) {
         //
         let uploadedStory = getState().userStories.stories[id];
-        if (uploadedStory.category  == 4) {
+        if (uploadedStory.category  == 14) {
             console.log('find INteractive story name:'+uploadedStory.name);
             dispatch(fetchStories(uploadedStory.id));
         }

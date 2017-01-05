@@ -13,7 +13,7 @@ import Bears from '../components/Bears/';
 import Profile from '../components/Profile/';
 import SignIn from '../components/SignIn/';
 import SignUp from '../components/SignUp/';
-import Interactive from '../components/InteractiveStory/';
+import Interactive from '../components/InteractiveStory2/';
 import BearProfile from '../components/BearProfile/';
 import StoryProfile from '../components/StoryProfile';
 import SideBar from '../components/SideBar/';

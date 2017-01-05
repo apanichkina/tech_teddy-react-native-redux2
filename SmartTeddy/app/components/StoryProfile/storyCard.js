@@ -4,6 +4,7 @@ import { Image } from 'react-native';
 import styles from './styles';
 import Player from './Player'
 import DeleteOrUpload from './DeleteOrUpload'
+import Upload from './Upload'
 import {
     MKProgress,
     } from 'react-native-material-kit';
@@ -55,7 +56,7 @@ export default class StoryCard extends Component {
                         category !== 'РОЛЕВЫЕ' ?
                         <Player storyId={id}/>
                             : <Button block info onPress={goToInteractive}>
-                                НАЧАТЬ ИНТЕРАКТИВНУЮ СКАЗКУ
+                                К ИНТЕРАКТИВНОЙ СКАЗКЕ
                               </Button>
                         : null
                     }
@@ -80,6 +81,12 @@ export default class StoryCard extends Component {
                         <Text>ПОДЕЛИТЬСЯ</Text>
                     </Button>
                 </View>
+                {/*
+                 <View style={{ flexDirection:'row'  }}>
+                 <Upload storyId={'14_2'}/>
+                 </View>
+                */}
+
                 <Text>{description}</Text>
             </CardItem>
         </Card>

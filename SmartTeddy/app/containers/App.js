@@ -33,7 +33,7 @@ const storyCategoryTransform = createFilter(
     ['categories']
 );
 const loggerMiddleware = createLogger();
-const createStoreWithMiddleware = applyMiddleware(thunk, loggerMiddleware)(createStore);
+const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 const reducer = combineReducers(reducers);
 const store = createStoreWithMiddleware(reducer, undefined, autoRehydrate());
 persistStore(store, {whitelist: ['user', 'userStories','storyCategory'],transforms: [userTransform, userStoriesTransform, storyCategoryTransform],storage: AsyncStorage}, () => {

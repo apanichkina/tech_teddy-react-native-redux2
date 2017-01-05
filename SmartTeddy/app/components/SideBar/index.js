@@ -32,14 +32,19 @@ class SideBar extends Component {
         this.props.closeDrawer();
         this.props.replaceOrPushRoute(route);
     }
-    onClick(id) {
+    onClick(id, isRoled) {
         this.props.onStoryClick(id);
         this.props.closeDrawer();
-        this.props.pushNewRoute('story-profile')
+        if ( isRoled ) {
+            this.props.pushNewRoute('interactive')
+        } else {
+            this.props.pushNewRoute('story-profile')
+        }
+
         //this.navigateTo('story-profile')
     }
     render() {
-        const { bearname, isAuth, username, storyId, story } = this.props;
+        const { bearname, isAuth, username, storyId, story, subId } = this.props;
         return (
             <Container>
             <Content
@@ -154,11 +159,14 @@ class SideBar extends Component {
             </Content>
                 { isAuth && storyId != -1 &&
                     <Footer theme={footerTheme} style={{ elevation: 3}}>
-                        <ListItem button style={{backgroundColor: '#BDBDBD', paddingLeft:0, marginLeft:0, paddingTop:0, marginTop:0}} onPress={() => this.onClick(storyId)}>
-                            <Thumbnail square size={55}  source={{uri: 'https://storage.googleapis.com/hardteddy_images/small/'+storyId+'.jpg'}} />
+                        <ListItem button style={{backgroundColor: '#BDBDBD', paddingLeft:0, marginLeft:0, paddingTop:0, marginTop:0}} onPress={() => this.onClick(story.id, story.roled)}>
+                            <Thumbnail square size={55}  source={{uri: story.img_urls.small}} />
                             <View style={{flexDirection: 'row'}}>
                                 <View>
                                     <Text style={{color: '#212121'}}>{story.name.toUpperCase()}</Text>
+                                    {story.roled &&
+                                    <Text note>{story.story_parts[subId].title}</Text>
+                                    }
                                 </View>
                                 <Player storyId={storyId}/>
                             </View>
@@ -177,7 +185,9 @@ const mapStateToProps = state => ({
     isAuth: !!state.user.token,
     username: state.user.user,
     storyId: state.player.storyId,
-    story: state.userStories.stories[parseInt(state.player.storyId.toString().split("_")[0])] //Берем название сказки, которая может быть интерактивной
+    story: state.userStories.stories[parseInt(state.player.storyId)],
+    subId: parseInt(state.player.storyId.toString().split("_")[1])-1
+    //story: state.userStories.stories[parseInt(state.player.storyId.toString().split("_")[0])] //Берем название сказки, которая может быть интерактивной
 });
 
 const mapDispatchToProps = (dispatch) =>{
