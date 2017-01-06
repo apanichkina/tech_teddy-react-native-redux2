@@ -63,45 +63,45 @@ export function uploadStoryToBear(id) {
     return function (dispatch, getState) {
         //
         let uploadedStory = getState().userStories.stories[id];
-        if (uploadedStory.category  == 14) {
-            console.log('find INteractive story name:'+uploadedStory.name);
-            dispatch(fetchStories(uploadedStory.id));
-        }
-        else {
-            let uploadedSize = uploadedStory.size_m;
+        let count = uploadedStory.roled ? uploadedStory.story_parts.length : 1;
+        //let uploadedSize = uploadedStory.size;
+        let uploadedSize = 3000000;
             addUserTask('uploadStoryToBear', ()=> {
                     let instance = Bluetooth.getInstance();
-                    return instance.downloadFile(id);
+                    return instance.downloadFile(id, count);
                 },
                 function () {
-                    console.log('onStart uploadStoryToBear')
+                    console.log('onStart uploadStoryToBear'+id)
                 },
                 () => {
                     dispatch(uploadStory(id, uploadedSize))
                 },
                 (error) => {
-                    console.log('upload story error:');
+                    console.log('upload story error:'+id);
                     console.log(error);
                 }
             );
-        }
+
     }
 }
 
 export function deleteStoryFromBear(id) {
-    return function (dispatch) {
+    return function (dispatch, getState) {
+        let uploadedStory = getState().userStories.stories[id];
+        let count = uploadedStory.roled ? uploadedStory.story_parts.length : 1;
+        console.log(count);
         addUserTask('deleteStoryFromBear', ()=> {
                 let instance = Bluetooth.getInstance();
-                return instance.removeFile(id);
+                return instance.removeFile(id, count);
             },
             function () {
-                console.log('onStart deleteStoryFromBear')
+                console.log('onStart deleteStoryFromBear'+id)
             },
             () => {
                 dispatch(setBearStories())
             },
             (error) => {
-                console.log('delete story error:');
+                console.log('delete story error:'+id);
                 console.log(error);
             }
         );

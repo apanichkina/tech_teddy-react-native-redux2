@@ -37,7 +37,6 @@ import QueueTask from './QueueTask'
 
 // create a queue object with concurrency 2
 var queue = async.priorityQueue(function(task, callback) {
-    console.log('hello ' + task.name);
     task.start()
         .then((result) => {
             console.log('Success here:', result);
@@ -51,16 +50,16 @@ var queue = async.priorityQueue(function(task, callback) {
 
 // assign a callback
 queue.drain = function() {
-    console.log('all items have been processed');
+
 };
 
 var addUserTask = function(name, action, onStart, onSuccess, onFail){
     let task = new QueueTask(name, action, onStart, onSuccess, onFail);
-    queue.push(task, 1, function(err){console.log('finished processing user task')});
+    queue.push(task, 1, function(err){});
 };
 var addSystemTask = function(name, action, onStart, onSuccess, onFail){
     let task = new QueueTask(name, action, onStart, onSuccess, onFail);
-    queue.push(task, 2, function(err){console.log('finished processing ststem task')});
+    queue.push(task, 2, function(err){});
 };
 
 // add some items to the queue
