@@ -38,7 +38,6 @@ class Root extends React.Component  {
         );
     }
     componentDidUpdate(){
-        console.log("DidUpdate");
         if (this.props.isErrorVisible) this.show();
     }
 

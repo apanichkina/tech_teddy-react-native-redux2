@@ -22,10 +22,11 @@ class Store extends Component {
     return (
       <StorePage
           stories={stories}
-          title={'Магазин сказок'}
+          title={'Каталог сказок'}
           isFetching={isFetching}
           getStories={getStories}
           isEmpty={isEmpty}
+          inMemory={false}
           />
     );
   }

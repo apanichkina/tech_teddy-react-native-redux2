@@ -16,6 +16,9 @@ class Profile extends Component {
     seeSubStory(id) {
         this.props.seeSubStory(id);
     }
+    static firstLetterUp(s) {
+        return s.charAt(0).toUpperCase() + s.substr(1).toLowerCase();
+    }
     render() {
         console.log(this.props.storyId);
         const { isConnected, story, subStoryId } = this.props;
@@ -25,7 +28,7 @@ class Profile extends Component {
                 <Button transparent onPress={()=>this.popRoute()}>
                     <Icon name="md-arrow-back" />
                 </Button>
-                <Title>{story.name.toUpperCase()}</Title>
+                <Title>{Profile.firstLetterUp(story.name)}</Title>
             </Header>
 
             <Content padder>

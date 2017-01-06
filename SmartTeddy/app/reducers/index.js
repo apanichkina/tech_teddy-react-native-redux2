@@ -18,6 +18,7 @@ import connectToDeviceButton from './connectToDeviceButton'
 import playerButtons from './playerButtons'
 import subStory from './subStory'
 export {
+    storyCategory,
     subStory,
     story,
     player,
@@ -28,7 +29,6 @@ export {
     storeStories,
     connectToDeviceButton,
     interactiveStories,
-    storyCategory,
     bluetooth,
     error,
     internet,

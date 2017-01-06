@@ -68,16 +68,21 @@ export function fetchSignIn(email, password) {
 
         })).then(response => response.json())
             .then(responseJson => {
-                if(responseJson.status == 0){
+                let body = responseJson.body;
+                if(responseJson.status == 0) {
                     // Все хорошо
-                    let userToken = responseJson.body.userToken;
+                    let userToken = body.userToken;
                     dispatch(authSetToken(userToken));
                     dispatch(authSetUser(email));
                     dispatch(fetchStories());
                     dispatch(popRoute());
                 }
-                else{
-                    dispatch(setError('Неверный адрес/пароль'));
+                else {
+                     if (body.request == 1 ){
+                         dispatch(setError('Неверный адрес/пароль'));
+                     } else {
+                         dispatch(setError('Не удалось войти'));
+                     }
                     dispatch(authSignInRequestFail())
                 }
             }
@@ -118,35 +123,50 @@ export function fetchSignUp(name, email, password1, password2) {
             })
         })).then(response => response.json())
             .then(responseJson => {
+                console.log(responseJson);
+                let body = responseJson.body;
                 if(responseJson.status == 0){
                     // Все хорошо
-                    let userToken = responseJson.body.userToken;
+                    let userToken = body.userToken;
                     dispatch(authSetToken(userToken));
                     dispatch(authSetUser(email));
                     dispatch(fetchStories());
                     dispatch(popNRoute(2));
                 } else {
-                    //////////
-                    dispatch(setError('Ошибка регистрации'));
-                    let body = responseJson.body;
-                    console.log(body);
-                    if(body.login) {
-                        dispatch(setError('Эл. адрес уже зарегистрирован'));
-                    }
-                    ////////
+                    let email = body.email;
+                    if(email) {
+                        if (email == 1) {
+                            dispatch(setError('Эл. адрес уже зарегистрирован'));
+                        } else {
+                            dispatch(setError('Невалидная почта'));
+                        }
+                    } else {
+                        let password = body.password;
+                        if(password) {
+                            if (password == 1) {
+                                dispatch(setError('Пароли не совпадают'));
+                            } else {
+                                dispatch(setError('Невалидный пароль'));
+                            }
+                        } else {
+                            let request = body.request;
+                            if (request)  {
+                                dispatch(setError('Не удалось зарегистрироваться'));
+                                }
+                            }
+                        }
                     dispatch(authSignUpRequestFail());
-                }
-            }
-        ).catch((error) => {
-                console.log('sign up error:');
-                console.log(error)
-                if (error instanceof TypeError && (error.message == 'Network request failed' || error.message == 'timeout')){
-                    console.log('Запрос закрашился');
-                    dispatch(setError('Нет интернета'));
-                }else {
-                    dispatch(setError('Не удалось зарегистрироваться'));
-                }
-                dispatch(authSignUpRequestFail());
+                    }
+                }).catch((error) => {
+                    console.log('sign up error:');
+                    console.log(error)
+                    if (error instanceof TypeError && (error.message == 'Network request failed' || error.message == 'timeout')){
+                        console.log('Запрос закрашился');
+                        dispatch(setError('Нет интернета'));
+                    }else {
+                        dispatch(setError('Не удалось зарегистрироваться'));
+                    }
+                    dispatch(authSignUpRequestFail());
             });
     }
     }

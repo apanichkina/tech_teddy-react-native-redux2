@@ -8,7 +8,7 @@ import Upload from './Upload'
 import {
     MKProgress,
     } from 'react-native-material-kit';
-const illustration_default = require('../../../img/illustration2.jpg');
+const illustration_default = require('../../../img/no-image-box.png');
 export default class StoryCard extends Component {
 
   render() {
@@ -38,7 +38,7 @@ export default class StoryCard extends Component {
             </CardItem>
 
             <CardItem cardBody >
-                <Image style={{ resizeMode: 'cover', width: null}} source={{uri: img_urls.large}}/>
+                <Image style={{ resizeMode: 'cover', width: null}} defaultSource={illustration_default} source={{uri: img_urls.large}}/>
                 <View>
                     {isDownloading ?
                         <MKProgress
@@ -54,7 +54,7 @@ export default class StoryCard extends Component {
                 <View>
                     {isConnected && isUpload ?
                         category !== 'РОЛЕВЫЕ' ?
-                        <Player storyId={id}/>
+                        <Player storyId={id+''}/>
                             : <Button block info onPress={goToInteractive}>
                                 К ИНТЕРАКТИВНОЙ СКАЗКЕ
                               </Button>
