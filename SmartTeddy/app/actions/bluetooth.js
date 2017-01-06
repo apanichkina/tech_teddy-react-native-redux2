@@ -149,17 +149,15 @@ export function heartBeat() {
                 return instance.shortPolling();
             },
             function () {
-                console.log('onStart heartBeat')
+
             },
             (array) => {
-                let isDownloading = getState().bearStory.downloaded;
-                console.log("HEARTBEAT ANSWER HERE:");
-                console.log(array);
-                if (!array.length && isDownloading) {
-                    dispatch(setError('Загрузка завешнена'));
-                    dispatch(stopDowload());
-                    dispatch(setBearStories());
-                }
+                //let isDownloading = getState().bearStory.downloaded;
+                //if (!array.length && isDownloading) {
+                //    dispatch(setError('Загрузка завешнена'));
+                //    dispatch(stopDowload());
+                //    dispatch(setBearStories());
+                //}
                 for (var i = 0; i < array.length; ++i) {
                     var code = array[i][0];
                     var body = array[i].substring(1);
@@ -167,20 +165,20 @@ export function heartBeat() {
                         case 'a':
                         {
                             dispatch(alarmIsPlaying());
-                            console.log('alarm: ', body);
+                            //console.log('alarm: ', body);
                         }
                             break;
                         case 's':
                         {
                             //dispatch(playStory(body));
                             if (body == 'top') dispatch(stopStory());
-                            console.log('story: ' + body +' is playing');
+                            //console.log('story: ' + body +' is playing');
                         }
                             break;
                         case 'p':
                         {
                             //dispatch(pauseStory(body));
-                            console.log('story: ' + body + ' is paused');
+                            //console.log('story: ' + body + ' is paused');
                         }
                             break;
                         case 'r':
@@ -191,8 +189,19 @@ export function heartBeat() {
                             break;
                         case 'd':
                         {
-                            dispatch(downloaded(body));
-                            console.log('downloaded: ' + body + ' bytes');
+                            let commands = body.split(':');
+                            let id = commands[0];
+                            let bytes = commands[1];
+                            dispatch(downloaded(bytes));
+                            //console.log('downloaded: ' + body + ' bytes');
+                        }
+                            break;
+                        case 'f':
+                        {
+                            dispatch(setError('Загрузка завешнена'));
+                            dispatch(stopDowload());
+                            dispatch(setBearStories());
+                            //console.log('downloaded: ' + body + ' bytes');
                         }
                             break;
                         default:
@@ -203,7 +212,7 @@ export function heartBeat() {
                     heartBeatID = setTimeout(() => {
                         heartBeatID = undefined;
                         heartBeat()(dispatch, getState);
-                    }, 7000);
+                    }, 2000);
                 }
             },
             (error) => {
@@ -216,7 +225,7 @@ export function heartBeat() {
                     heartBeatID = setTimeout(() => {
                         heartBeatID = undefined;
                         heartBeat()(dispatch, getState);
-                    }, 7000);
+                    }, 2000);
                 }
             }
         );

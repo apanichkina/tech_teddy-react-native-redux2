@@ -41,6 +41,7 @@ export default class StoryCard extends Component {
                 <Image style={{ resizeMode: 'cover', width: null}} defaultSource={require('../../../img/no-image-box.png')} source={{uri: img_urls.large}}/>
                 <View>
                     {isDownloading ?
+                        downloaded > 0.05 ?
                         <MKProgress
                             style={{ marginTop: 6}}
                             buffer={1}
@@ -48,7 +49,13 @@ export default class StoryCard extends Component {
                             bufferColor="#B2DFDB"
                             progress={downloaded}
                             />
-                        : null
+                            : <MKProgress.Indeterminate
+                                style={{ marginTop: 6}}
+                                progressColor="#00897B"
+                                bufferColor="#B2DFDB"
+                                buffer={1}
+                            />
+                        :null
                     }
                 </View>
                 <View>
