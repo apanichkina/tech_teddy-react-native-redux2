@@ -4,7 +4,7 @@ import {addUserTask} from '../queue';
 import {startPlayButton, donePlayButton} from './playerButtons'
 import {setError} from './error'
 
-export function playStory(id:number):Action {
+export function playStory(id):Action {
     return {
         type: types.PLAY_STORY,
         id

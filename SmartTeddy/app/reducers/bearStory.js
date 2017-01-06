@@ -33,14 +33,6 @@ export default function (state = initialState, action={}) {
                 downloadingStorySize: 0,
                 downloaded: 0
             });
-        case 'DELETE_STORY':
-            let bearStories = state.bearStories;
-            let index = bearStories.indexOf(action.id);
-            if (index >= 0) bearStories.splice(index,1);
-            return {
-                ...state,
-                bearStories: bearStories
-            };
         default:
             return state
     }

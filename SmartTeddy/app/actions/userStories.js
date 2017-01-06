@@ -27,7 +27,7 @@ export function fetchStories() {
 
     return function (dispatch,getState) {
         dispatch(requestStories());
-        let url = 'https://hardteddy.ru/api/user/mystories';
+        let url = 'https://magicbackpack.ru/api/user/mystories';
         let state = getState();
         return timeout(5000,fetch(url, {
             method: 'GET',

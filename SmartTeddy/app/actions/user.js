@@ -47,14 +47,14 @@ export function authSignInRequestFail(){
 }
 
 
-export function fetchSignIn(name, password) {
+export function fetchSignIn(email, password) {
 
     return function (dispatch, getState) {
         let state = getState();
         if (!state.internet.isConnected) dispatch(setError('Нет интернета'));
         else {
         dispatch(requestSignIn());
-        let url = 'https://hardteddy.ru/api/user/login';
+        let url = 'https://magicbackpack.ru/api/user/login';
         return timeout(3000,fetch(url, {
             method: 'POST',
             headers: {
@@ -62,7 +62,7 @@ export function fetchSignIn(name, password) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                'name': name,
+                'email': email,
                 'password': password
             })
 
@@ -72,12 +72,12 @@ export function fetchSignIn(name, password) {
                     // Все хорошо
                     let userToken = responseJson.body.userToken;
                     dispatch(authSetToken(userToken));
-                    dispatch(authSetUser(name));
+                    dispatch(authSetUser(email));
                     dispatch(fetchStories());
                     dispatch(popRoute());
                 }
                 else{
-                    dispatch(setError('Неверный логин/пароль'));
+                    dispatch(setError('Неверный адрес/пароль'));
                     dispatch(authSignInRequestFail())
                 }
             }
@@ -103,7 +103,7 @@ export function fetchSignUp(name, email, password1, password2) {
         if (!state.internet.isConnected) dispatch(setError('Нет интернета'));
         else {
         dispatch(requestSignUp());
-        let url = 'https://hardteddy.ru/api/user/register';
+        let url = 'https://magicbackpack.ru/api/user/signup';
         return timeout(5000,fetch(url, {
             method: 'POST',
             headers: {

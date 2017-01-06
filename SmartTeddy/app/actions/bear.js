@@ -62,6 +62,7 @@ export function setConnectedBear(name:string, id:string):Action {
 
 export function setBearStories() {
     return function (dispatch, getState) {
+        console.log('setBearStories calling');
         let stories = getState().userStories.stories;
         dispatch(requestBearStories());
         addUserTask('setBearStories',()=>{ let instance = Bluetooth.getInstance(); return instance.getStoryList(); },
