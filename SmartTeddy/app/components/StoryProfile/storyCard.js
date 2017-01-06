@@ -38,7 +38,7 @@ export default class StoryCard extends Component {
             </CardItem>
 
             <CardItem cardBody >
-                <Image style={{ resizeMode: 'cover', width: null}} defaultSource={illustration_default} source={{uri: img_urls.large}}/>
+                <Image style={{ resizeMode: 'cover', width: null}} defaultSource={require('../../../img/no-image-box.png')} source={{uri: img_urls.large}}/>
                 <View>
                     {isDownloading ?
                         <MKProgress

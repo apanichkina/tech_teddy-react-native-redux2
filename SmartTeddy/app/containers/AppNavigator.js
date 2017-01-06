@@ -19,7 +19,7 @@ import StoryProfile from '../components/StoryProfile';
 import SideBar from '../components/SideBar/';
 import Alarm from './ClockAlarm'
 import WiFi from './WiFi'
-
+import SplashPage from '../components/Splashscreen/';
 import { enableBluetooth, disableBluetooth, disconnectFromDevice } from '../actions/bluetooth';
 import BluetoothSerial from 'react-native-bluetooth-hc05'
 import statusBarColor from '../themes/base-theme';
@@ -174,6 +174,8 @@ class AppNavigator extends Component {
                 return <SignUp navigator={navigator} />;
             case 'interactive':
                 return <Interactive navigator={navigator} />;
+            case 'splashscreen':
+                return <SplashPage navigator={navigator} />;
             default :
                 return <Store navigator={navigator} />;
         }
