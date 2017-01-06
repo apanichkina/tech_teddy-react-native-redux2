@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {  Button, Icon, Text, View, Spinner } from 'native-base';
 import { Image } from 'react-native';
 import styles from '../styles';
-
+import myTheme from '../../../themes/base-theme.js';
 export default class PlayerComponent extends Component {
 
   render() {
@@ -16,26 +16,31 @@ export default class PlayerComponent extends Component {
         isFetchHere
     } = this.props;
     return (
-                <View style={{ flexDirection:'row'}}>
+                <View theme={myTheme} style={{ flexDirection:'row'}}>
                     {!isPlaying ?
-                            <Button info disabled={playWaiting} style={{ margin: 6, marginLeft:0, flex:1}} onPress={onPlay}>
-                                <Icon name="ios-play" style={{ color: '#fff', margin: 5 }}/>
+                            <Button info disabled={playWaiting} style={{ width: 60, margin: 6, marginLeft:0}} onPress={onPlay}>
+                                {playFetching && isFetchHere?
+                                    <Spinner color='#fff' style={{margin:0, padding:0}}/>
+                                    : <Icon name="ios-play" style={{ color: '#fff', margin: 5 }}/>
+                                }
                             </Button>
                             : isPaused ?
-                                <Button style={{ margin: 6, marginLeft:0, flex:1}} onPress={onPause}>
+                                <Button style={{  width: 60,margin: 6, marginLeft:0}} onPress={onPause}>
                                     <Icon  name="ios-play" style={{ color: '#fff', margin: 5 }}/>
                                 </Button>
-                                    :<Button style={{ margin: 6, marginLeft:0, flex:1}} onPress={onPause}>
+                                    :<Button style={{  width: 60,margin: 6, marginLeft:0}} onPress={onPause}>
                                         <Icon name='ios-pause' style={{ color: '#fff', margin: 5 }}/>
                                     </Button>
                     }
-
-                    <View style={{flex:7}}>
+                    {/*
+                        <View style={{flex:1}}>
                         {playFetching && isFetchHere?
-                            <Spinner/>
+                            null
                             : null
                         }
-                    </View>
+                        </View>
+                        */}
+
 
                 </View>
     );

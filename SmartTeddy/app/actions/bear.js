@@ -51,16 +51,18 @@ function receiveStories(allStories,stories):Action {
         stories: result
     }
 }
-export function setConnectedBearName(name:string):Action {
+export function setConnectedBear(name:string, id:string):Action {
     console.log('setConnectedBearName', name);
     return {
-        type: types.SET_CONNECTED_BEAR_NAME,
-        name
+        type: types.SET_CONNECTED_BEAR,
+        name,
+        id
     }
 }
 
 export function setBearStories() {
     return function (dispatch, getState) {
+        console.log('setBearStories calling');
         let stories = getState().userStories.stories;
         dispatch(requestBearStories());
         addUserTask('setBearStories',()=>{ let instance = Bluetooth.getInstance(); return instance.getStoryList(); },

@@ -47,14 +47,14 @@ export function authSignInRequestFail(){
 }
 
 
-export function fetchSignIn(name, password) {
+export function fetchSignIn(email, password) {
 
     return function (dispatch, getState) {
         let state = getState();
         if (!state.internet.isConnected) dispatch(setError('Нет интернета'));
         else {
         dispatch(requestSignIn());
-        let url = 'https://hardteddy.ru/api/user/login';
+        let url = 'https://magicbackpack.ru/api/user/login';
         return timeout(3000,fetch(url, {
             method: 'POST',
             headers: {
@@ -62,22 +62,27 @@ export function fetchSignIn(name, password) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                'name': name,
+                'email': email,
                 'password': password
             })
 
         })).then(response => response.json())
             .then(responseJson => {
-                if(responseJson.status == 0){
+                let body = responseJson.body;
+                if(responseJson.status == 0) {
                     // Все хорошо
-                    let userToken = responseJson.body.userToken;
+                    let userToken = body.userToken;
                     dispatch(authSetToken(userToken));
-                    dispatch(authSetUser(name));
+                    dispatch(authSetUser(email));
                     dispatch(fetchStories());
                     dispatch(popRoute());
                 }
-                else{
-                    dispatch(setError('Неверный логин/пароль'));
+                else {
+                     if (body.request == 1 ){
+                         dispatch(setError('Неверный адрес/пароль'));
+                     } else {
+                         dispatch(setError('Не удалось войти'));
+                     }
                     dispatch(authSignInRequestFail())
                 }
             }
@@ -103,7 +108,7 @@ export function fetchSignUp(name, email, password1, password2) {
         if (!state.internet.isConnected) dispatch(setError('Нет интернета'));
         else {
         dispatch(requestSignUp());
-        let url = 'https://hardteddy.ru/api/user/register';
+        let url = 'https://magicbackpack.ru/api/user/signup';
         return timeout(5000,fetch(url, {
             method: 'POST',
             headers: {
@@ -118,35 +123,50 @@ export function fetchSignUp(name, email, password1, password2) {
             })
         })).then(response => response.json())
             .then(responseJson => {
+                console.log(responseJson);
+                let body = responseJson.body;
                 if(responseJson.status == 0){
                     // Все хорошо
-                    let userToken = responseJson.body.userToken;
+                    let userToken = body.userToken;
                     dispatch(authSetToken(userToken));
                     dispatch(authSetUser(email));
                     dispatch(fetchStories());
                     dispatch(popNRoute(2));
                 } else {
-                    //////////
-                    dispatch(setError('Ошибка регистрации'));
-                    let body = responseJson.body;
-                    console.log(body);
-                    if(body.login) {
-                        dispatch(setError('Эл. адрес уже зарегистрирован'));
-                    }
-                    ////////
+                    let email = body.email;
+                    if(email) {
+                        if (email == 1) {
+                            dispatch(setError('Эл. адрес уже зарегистрирован'));
+                        } else {
+                            dispatch(setError('Невалидная почта'));
+                        }
+                    } else {
+                        let password = body.password;
+                        if(password) {
+                            if (password == 1) {
+                                dispatch(setError('Пароли не совпадают'));
+                            } else {
+                                dispatch(setError('Невалидный пароль'));
+                            }
+                        } else {
+                            let request = body.request;
+                            if (request)  {
+                                dispatch(setError('Не удалось зарегистрироваться'));
+                                }
+                            }
+                        }
                     dispatch(authSignUpRequestFail());
-                }
-            }
-        ).catch((error) => {
-                console.log('sign up error:');
-                console.log(error)
-                if (error instanceof TypeError && (error.message == 'Network request failed' || error.message == 'timeout')){
-                    console.log('Запрос закрашился');
-                    dispatch(setError('Нет интернета'));
-                }else {
-                    dispatch(setError('Не удалось зарегистрироваться'));
-                }
-                dispatch(authSignUpRequestFail());
+                    }
+                }).catch((error) => {
+                    console.log('sign up error:');
+                    console.log(error)
+                    if (error instanceof TypeError && (error.message == 'Network request failed' || error.message == 'timeout')){
+                        console.log('Запрос закрашился');
+                        dispatch(setError('Нет интернета'));
+                    }else {
+                        dispatch(setError('Не удалось зарегистрироваться'));
+                    }
+                    dispatch(authSignUpRequestFail());
             });
     }
     }

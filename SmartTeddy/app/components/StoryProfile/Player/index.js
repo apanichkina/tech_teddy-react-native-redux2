@@ -9,7 +9,7 @@ import styles from '../styles';
 class PlayerContainer extends Component {
 
   static propTypes = {
-      storyId: React.PropTypes.number
+      storyId: React.PropTypes.string
   };
 
   playStory() {
@@ -23,15 +23,17 @@ class PlayerContainer extends Component {
   }
 
   render() {
-    const {
-        isPlaying,
-        isPaused,
-        playWaiting,
-        playFetching,
-        isFetchHere
-        } = this.props;
-
-    return (
+      const {
+            isPaused,
+            playWaiting,
+            playFetching,
+            playStoryId,
+            storyId,
+            playerButtonId
+            } = this.props;
+      let isPlaying = (storyId == playStoryId);
+      let isFetchHere = (storyId == playerButtonId);
+      return (
             <Player
                 onPlay={()=>{this.playStory()}}
                 onPause={()=>{this.pauseStory()}}
@@ -45,17 +47,13 @@ class PlayerContainer extends Component {
   }
 }
 
-const checkPlaying = (storyId, playingStoryid) => {
-    return (storyId === playingStoryid);
-};
-
 const mapStateToProps = (state) => {
   return {
-      isPlaying: checkPlaying(state.story.storyId, state.player.storyId),
+      playStoryId: state.player.storyId,
       isPaused: state.player.isStoryPaused,
       playWaiting: state.playerButtons.isWaiting,
       playFetching: state.playerButtons.isFetching,
-      isFetchHere: (state.story.storyId == state.playerButtons.id)
+      playerButtonId: state.playerButtons.id
   }
 };
 

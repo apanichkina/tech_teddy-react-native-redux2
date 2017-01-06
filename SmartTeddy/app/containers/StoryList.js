@@ -29,7 +29,8 @@ class StorePageContainer extends Component {
     this.props.onStoryClick(id);
     this.props.pushNewRoute('story-profile')
   }
-//TODO проверить работает ли список сказок на мишке без case
+
+
   render() {
     const { storiesBear, storiesShop, storiesUser, isInternet} = this.props;
 
@@ -38,6 +39,7 @@ class StorePageContainer extends Component {
                 stories={this.getFilteredStories(this.props.stories)}
                 onStoryClick={this.onClick}
                 isInternet={isInternet}
+                goToStore={()=>this.props.pushNewRoute('home')}
                 />
     )
   }

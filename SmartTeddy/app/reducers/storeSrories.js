@@ -12,10 +12,6 @@ export default function(state = initialState, action={}) {
             return Object.assign({}, state, {
                 isFetching: true
             });
-        case 'SET_IS_EMPTY':
-            return Object.assign({}, state, {
-                isEmpty: action.isEmptyValue
-            });
         case 'RECEIVE_STORE_STORIES':
             let isEmptyValue = false;
             if (action.stories.length == 0) {

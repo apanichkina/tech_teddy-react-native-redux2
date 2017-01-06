@@ -16,22 +16,24 @@ import bearStory from './bearStory'
 import interactiveStories from './interactiveStories'
 import connectToDeviceButton from './connectToDeviceButton'
 import playerButtons from './playerButtons'
+import subStory from './subStory'
 export {
+    storyCategory,
+    subStory,
+    story,
+    player,
     playerButtons,
+    bearStory,
+    bear,
+    userStories,
+    storeStories,
     connectToDeviceButton,
     interactiveStories,
-    story,
-    bearStory,
-    player,
-    storyCategory,
     bluetooth,
     error,
     internet,
-    bear,
     user,
     route,
-    userStories,
-    storeStories,
     wifi,
     alarm,
     drawer
