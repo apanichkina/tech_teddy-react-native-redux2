@@ -203,7 +203,7 @@ export function heartBeat() {
                     heartBeatID = setTimeout(() => {
                         heartBeatID = undefined;
                         heartBeat()(dispatch, getState);
-                    }, 7000);
+                    }, 1000);
                 }
             },
             (error) => {

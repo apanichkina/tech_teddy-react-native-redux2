@@ -26,7 +26,7 @@ class BlueManager {
     };
 
     talkToBear(bear_endmsg, bear_delimeter, onAnswer, message) {
-        return function (timeout = 10000) {
+        return function (timeout = 3000) {
             var read = function (endmsg, delimeter, resolve, reject, stop) {
                 var temp = function (data) {
                     onAnswer(endmsg, delimeter, resolve, reject, data);
@@ -323,7 +323,6 @@ class BlueManager {
     }
     list(){
         return BluetoothSerial.list();
-
     }
     discoverUnpairedDevices(){
         return BluetoothSerial.discoverUnpairedDevices();
