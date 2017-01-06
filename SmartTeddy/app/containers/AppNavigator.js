@@ -17,6 +17,7 @@ import Interactive from '../components/InteractiveStory/';
 import BearProfile from '../components/BearProfile/';
 import StoryProfile from '../components/StoryProfile';
 import SideBar from '../components/SideBar/';
+import Social from '../components/Social/socialWebview';
 import Alarm from './ClockAlarm'
 import WiFi from './WiFi'
 
@@ -174,6 +175,10 @@ class AppNavigator extends Component {
                 return <SignUp navigator={navigator} />;
             case 'interactive':
                 return <Interactive navigator={navigator} />;
+            case 'vk':
+                return <Social url="207.154.202.242/api/social/vk" navigator={navigator} />;
+            case 'odnoklassniki':
+                return <Social url="" navigator={navigator} />;
             default :
                 return <Store navigator={navigator} />;
         }
