@@ -7,6 +7,7 @@ import { Col, Row, Grid } from 'react-native-easy-grid';
 import { openDrawer } from '../../actions/drawer';
 import { popRoute, pushNewRoute } from '../../actions/route';
 import { buyStory } from '../../actions/store';
+import { seeSubStory } from '../../actions/subStory'
 import { uploadStoryToBear, deleteStoryFromBear} from '../../actions/bearStory';
 import { playStoryOnBear, pauseStoryOnBear } from '../../actions/player';
 import { fetchBuyStory } from '../../actions/store';
@@ -23,25 +24,24 @@ const logo_default = 'ios-book-outline';
 
 
 class SProfile extends Component {
+    static propTypes = {
+        popRoute: React.PropTypes.func,
+        pushNewRoute: React.PropTypes.func,
+        openDrawer: React.PropTypes.func
+    };
 
-  static propTypes = {
-    popRoute: React.PropTypes.func,
-      pushNewRoute: React.PropTypes.func,
-    openDrawer: React.PropTypes.func
-  };
-
-  popRoute() {
-    this.props.popRoute();
-  }
-  connectBear() {
-      this.props.pushNewRoute('bears')
-  }
-  buyStory(id) {
-      if (this.props.isAuth) this.props.buyStory(id);
-      else this.props.pushNewRoute('signin')
-
-  }
-    goToInteractive(){
+    popRoute() {
+        this.props.popRoute();
+    }
+    connectBear() {
+        this.props.pushNewRoute('bears')
+    }
+    buyStory(id) {
+        if (this.props.isAuth) this.props.buyStory(id);
+        else this.props.pushNewRoute('signin')
+    }
+    goToInteractive(id){
+        this.props.seeSubStory(id);
         this.props.pushNewRoute('interactive')
     }
 
@@ -85,7 +85,7 @@ class SProfile extends Component {
                 category={category}
                 downloaded={downloaded}
                 isDownloading={isDownloading}
-                goToInteractive={()=>{this.goToInteractive()}}
+                goToInteractive={()=>{this.goToInteractive(story.story_parts[0].id)}}
                 />
 
         </Content>
@@ -123,7 +123,8 @@ const mapDispatchToProps = (dispatch) => {
       buyStory: id => dispatch(fetchBuyStory(id)),
       openDrawer: () => dispatch(openDrawer()),
       popRoute: () => dispatch(popRoute()),
-      pushNewRoute: route => dispatch(pushNewRoute(route))
+      pushNewRoute: route => dispatch(pushNewRoute(route)),
+      seeSubStory: id => dispatch(seeSubStory(id))
   }
 };
 

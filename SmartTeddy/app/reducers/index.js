@@ -16,7 +16,9 @@ import bearStory from './bearStory'
 import interactiveStories from './interactiveStories'
 import connectToDeviceButton from './connectToDeviceButton'
 import playerButtons from './playerButtons'
+import subStory from './subStory'
 export {
+    subStory,
     story,
     player,
     playerButtons,
