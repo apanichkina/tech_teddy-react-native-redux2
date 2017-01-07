@@ -12,7 +12,6 @@ class DOUContainer extends Component {
   };
 
     uploadStory() {
-        console.log('upload custom')
         this.props.uploadStoryToBear(this.props.storyId);
 
     }
@@ -21,13 +20,16 @@ class DOUContainer extends Component {
     }
 
   render() {
-    const {isUpload} = this.props;
-    console.log('111111111isUpload: '+isUpload);
+    const {isUpload,  downloadingStoryId, storyId, downloaded} = this.props;
+    let isWaitingDownload = (storyId == downloadingStoryId) && (downloaded <= 0.05);
+      let isDownloading = (storyId == downloadingStoryId) && (downloaded > 0.05);
     return (
             <DOU
                 onUploadClick={()=>{this.uploadStory()}}
                 onDeleteClick={()=>{this.deleteStory()}}
                 isUpload={isUpload}
+                isWaitingDownload={isWaitingDownload}
+                isDownloading={isDownloading}
                 />
     );
   }
@@ -40,7 +42,9 @@ const findElementById = (array, value) => {
 
 const mapStateToProps = (state) => {
   return {
-      isUpload: findElementById(state.bear.bearStories,state.story.storyId)
+      isUpload: findElementById(state.bear.bearStories,state.story.storyId),
+      downloadingStoryId : state.bearStory.downloadingStoryId,
+      downloaded: state.bearStory.downloaded
   }
 };
 

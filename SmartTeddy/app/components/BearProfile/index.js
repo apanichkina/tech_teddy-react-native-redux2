@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Container, Header, Title, Content, Text, List, ListItem, Button, Icon, InputGroup, Input, View, Tabs, Footer, Spinner } from 'native-base';
 import { TouchableHighlight, Image} from "react-native";
 import { openDrawer } from '../../actions/drawer';
+import {popToTop} from '../../actions/route'
 import styles from './styles';
 import myTheme from '../../themes/base-theme';
 import ActionButton from 'react-native-action-button';
@@ -22,6 +23,9 @@ class BProfile extends Component {
         //    console.log('BProfile:setTimeout done');
         //    this.props.setBearStories()
         //}, 300);
+    }
+    componentWillUpdate(nextProps, nextState){
+        if (!this.props.name) this.props.popToTop();
     }
 
     constructor(props) {
@@ -86,7 +90,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         openDrawer: () => dispatch(openDrawer()),
         setBearStories: () => dispatch(setBearStories()),
-        heartBeat: () => dispatch(heartBeat())
+        heartBeat: () => dispatch(heartBeat()),
+        popToTop: () => dispatch(popToTop())
     }
 };
 

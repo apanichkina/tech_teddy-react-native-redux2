@@ -5,6 +5,7 @@ import styles from './styles';
 import Player from './Player'
 import DeleteOrUpload from './DeleteOrUpload'
 import Upload from './Upload'
+import myTheme from '../../themes/base-theme';
 import {
     MKProgress,
     } from 'react-native-material-kit';
@@ -30,7 +31,7 @@ export default class StoryCard extends Component {
         duration_splitted
     } = this.props;
     return (
-        <Card style={[styles.mb, { flex: 0 }]}>
+        <Card theme={myTheme} style={[styles.mb, { flex: 0 }]}>
 
             <CardItem>
                 <Icon name={logo}/>
@@ -38,26 +39,8 @@ export default class StoryCard extends Component {
             </CardItem>
 
             <CardItem cardBody >
-                <Image style={{ resizeMode: 'cover', width: null}} defaultSource={require('../../../img/no-image-box.png')} source={{uri: img_urls.large}}/>
-                <View>
-                    {isDownloading ?
-                        downloaded > 0.05 ?
-                        <MKProgress
-                            style={{ marginTop: 6}}
-                            buffer={1}
-                            progressColor="#00897B"
-                            bufferColor="#B2DFDB"
-                            progress={downloaded}
-                            />
-                            : <MKProgress.Indeterminate
-                                style={{ marginTop: 6}}
-                                progressColor="#00897B"
-                                bufferColor="#B2DFDB"
-                                buffer={1}
-                            />
-                        :null
-                    }
-                </View>
+                <Image style={{ resizeMode: 'cover', width: null, marginBottom:6}} defaultSource={require('../../../img/no-image-box.png')} source={{uri: img_urls.large}}/>
+
                 <View>
                     {isConnected && isUpload ?
                         category !== 'РОЛЕВЫЕ' ?
@@ -68,7 +51,18 @@ export default class StoryCard extends Component {
                         : null
                     }
                 </View>
-
+                <View>
+                    {isDownloading && (downloaded > 0.05) ?
+                        <MKProgress
+                            style={{ marginTop: 6}}
+                            buffer={1}
+                            progressColor="#00897B"
+                            bufferColor="#B2DFDB"
+                            progress={downloaded}
+                            />
+                        :null
+                    }
+                </View>
                 <View style={{ flexDirection:'row'  }}>
                     {!isBought ?
                         <Button style={{ margin: 6, marginLeft:0, flex: 2}}
@@ -78,7 +72,7 @@ export default class StoryCard extends Component {
                         </Button>
                         :  !isConnected ?
                             <Button info style={{ margin: 6, marginLeft:0, flex:2}} onPress={onConnectBear}>
-                                ПРИМЕДВЕДИТЬСЯ
+                                ПОДКЛЮЧИТЬСЯ
                             </Button>
                         : <DeleteOrUpload storyId={id}/>
                     }

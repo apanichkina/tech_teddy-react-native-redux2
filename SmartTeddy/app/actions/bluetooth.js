@@ -198,8 +198,8 @@ export function heartBeat() {
                             break;
                         case 'f':
                         {
-                            dispatch(setError('Загрузка завешнена'));
                             dispatch(stopDowload());
+                            dispatch(setError('Загрузка завешнена'));
                             dispatch(setBearStories());
                             //console.log('downloaded: ' + body + ' bytes');
                         }

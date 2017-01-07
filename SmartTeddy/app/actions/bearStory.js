@@ -3,6 +3,7 @@ import Bluetooth from '../BluetoothLib'
 import {addUserTask} from '../queue';
 import {setBearStories} from './bear'
 import {fetchStories} from './interactiveStories'
+import {setError} from './error'
 function uploadStory(id:number, size:number):Action {
     return {
         type: types.UPLOAD_STORY,
@@ -52,6 +53,7 @@ export function uploadHardcodeStoryToBear(id) {
                     dispatch(uploadStory(id, 100000))
                 },
                 (error) => {
+                    dispatch(setError('Ошибка. Попробуйте снова'));
                     console.log('upload story error:');
                     console.log(error);
                 }
@@ -65,7 +67,7 @@ export function uploadStoryToBear(id) {
         let uploadedStory = getState().userStories.stories[id];
         let count = uploadedStory.roled ? uploadedStory.story_parts.length : 1;
         //let uploadedSize = uploadedStory.size;
-        let uploadedSize = 3000000;
+        let uploadedSize = uploadedStory.story_parts[0].size;
             addUserTask('uploadStoryToBear', ()=> {
                     let instance = Bluetooth.getInstance();
                     return instance.downloadFile(id, count);
@@ -77,6 +79,7 @@ export function uploadStoryToBear(id) {
                     dispatch(uploadStory(id, uploadedSize))
                 },
                 (error) => {
+                    dispatch(setError('Ошибка. Повторите попытку'));
                     console.log('upload story error:'+id);
                     console.log(error);
                 }
@@ -101,6 +104,7 @@ export function deleteStoryFromBear(id) {
                 dispatch(setBearStories())
             },
             (error) => {
+                dispatch(setError('Ошибка. Повторите попытку'));
                 console.log('delete story error:'+id);
                 console.log(error);
             }
