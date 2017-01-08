@@ -37,7 +37,6 @@ export function playStoryOnBear(id) {
                 return instance.play(id);
             },
             function () {
-                console.log('onStart playStoryOnBear');
                 dispatch(startPlayButton())
             },
             (array) => {
@@ -61,7 +60,7 @@ export function pauseStoryOnBear() {
                 return instance.pause_unpause();
             },
             function () {
-                console.log('onStart pauseStoryOnBear')
+
             },
             (array) => {
                 dispatch(pauseStory())

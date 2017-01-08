@@ -40,7 +40,6 @@ persistStore(store, {whitelist: ['user', 'userStories','storyCategory'],transfor
     console.log('rehydration complete')});
 //TODO disable landscape orientation http://stackoverflow.com/questions/32176548/how-to-disable-rotation-in-react-native
 
-//store.dispatch(fetchCategories());
 
 export default class App extends React.Component  {
 

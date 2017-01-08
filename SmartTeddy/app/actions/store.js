@@ -23,8 +23,8 @@ export function fetchBuyStory(id) {
                 console.log('buy failed')
             }
         }).catch((error) => {
-                console.log('buy error:')
-            console.log(error)
+                console.log('buy error:');
+                console.log(error)
         });
     }
 }

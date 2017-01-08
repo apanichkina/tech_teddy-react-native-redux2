@@ -27,8 +27,6 @@ function getFullStoryInformation(stories, indexes){
 }
 function receiveStories(allStories,stories):Action {
     let arr = stories;
-    console.log('dirty stories: ');
-    console.log(arr);
     let bearStories=[];
     let index = 0;
     let item_number = 0;
@@ -41,18 +39,13 @@ function receiveStories(allStories,stories):Action {
             }
         }
     );
-    console.log('clear stories: ');
-    console.log(bearStories);
     let result = getFullStoryInformation(allStories,bearStories);
-    console.log('|||||||||');
-    console.log(result);
     return {
         type: types.SET_BEAR_STORIES,
         stories: result
     }
 }
 export function setConnectedBear(name:string, id:string):Action {
-    console.log('setConnectedBearName', name);
     return {
         type: types.SET_CONNECTED_BEAR,
         name,
@@ -62,11 +55,10 @@ export function setConnectedBear(name:string, id:string):Action {
 
 export function setBearStories() {
     return function (dispatch, getState) {
-        console.log('setBearStories calling');
         let stories = getState().userStories.stories;
         dispatch(requestBearStories());
         addUserTask('setBearStories',()=>{ let instance = Bluetooth.getInstance(); return instance.getStoryList(); },
-            function(){console.log('onStart setBearStories')},
+            function(){},
             (array) => {dispatch(receiveStories(stories,array))},
             (error) => {
                 dispatch(requestBearStoriesFailed());

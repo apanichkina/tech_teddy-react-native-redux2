@@ -24,7 +24,7 @@ class BlueManager {
         unknown: 'bluetooth problem',
         enableManual: 'Please, enable BT manually'
     };
-
+//TODO убрать печать в консоль
     talkToBear(bear_endmsg, bear_delimeter, onAnswer, message) {
         return function (timeout = 10000) {
             console.log('talkToBear: '+ message);
@@ -117,7 +117,6 @@ class BlueManager {
             // data - данные от медведя
             (endmsg, delimeter, resolve, reject, data)=> {
                 var datastr = data.data.toString().replace(endmsg, '');
-                console.log(datastr);
                 var templist = datastr.split(delimeter);
                 var len = templist.length;
                 if (len > 0) {
@@ -187,7 +186,6 @@ class BlueManager {
     }
 
     play(filename, timeout = 10000) {
-        console.log('s' + filename + '\n');
         var process = this.talkToBear(
             'story\r\n',
             '\r\n',
@@ -272,7 +270,6 @@ class BlueManager {
             '\r\n',
             (endmsg, delimeter, resolve, reject, data)=> {
                 var datastr = data.data.toString().replace(endmsg, '');
-                console.log('getAlarmTime:', datastr);
                 resolve(datastr);
             },
             't\n');

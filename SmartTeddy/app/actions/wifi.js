@@ -21,6 +21,7 @@ export function toggleWiFiActive(value:boolean):Action {
         value
     }
 }
+//TODO удалить вывод в консоль
 export function setWiFi (ssid, password) {
     let instance = Bluetooth.getInstance();
     console.log('ssid: '+ssid);

@@ -20,7 +20,6 @@ class Profile extends Component {
         return s.charAt(0).toUpperCase() + s.substr(1).toLowerCase();
     }
     render() {
-        console.log(this.props.storyId);
         const { isConnected, story, subStoryId } = this.props;
         return (
         <Container theme={myTheme} style={styles.container}>

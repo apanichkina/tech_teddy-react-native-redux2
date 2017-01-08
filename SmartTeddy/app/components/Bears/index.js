@@ -28,7 +28,7 @@ class Bears extends Component {
     }
     onBearClick(name, id) {
         this.props.pressConnectToDeviceButton(id);
-        this.props.connectToDevice(id, name)
+        this.props.connectToDevice(id, name);
             //.then(() => {
             //    this.props.replaceRoute('bear-profile');
             //})
@@ -40,7 +40,6 @@ class Bears extends Component {
         if (this.props.bluetoothEnabled != nextProps.bluetoothEnabled) this.props.searchBears();
     }
     enableBluetooth(){
-        console.log('enableBluetooth')
         Bluetooth.getInstance().enable();
         this.props.searchBears();
        // this.props.searchBears();

@@ -53,7 +53,6 @@ export function receiveBears(devices):Action {
 }
 
 export function searchBears() {
-    console.log('Я ищу мишек');
     let instance = Bluetooth.getInstance();
     return function (dispatch) {
         return instance.list().then(array => {{console.log(array);dispatch(receiveBears(array))}}
@@ -72,7 +71,6 @@ export function connectToDevice(id, name) {
                     return instance.connect(id);
                 },
                 function () {
-                    console.log('onStart connectToDevice');
                     dispatch(startConnectToDeviceButton())
                 },
                 function (result) {
@@ -99,10 +97,9 @@ export function connectToDevice(id, name) {
                 },
                 (error) => {
                     dispatch(doneConnectToDeviceButton());
-                    dispatch(setError('Не удалось подключиться')); //<-------пример, как кидать пользователю ошибки в Toast
+                    dispatch(setError('Не удалось подключиться'));
                     console.log('connect ti device error:');
                     console.log(error);
-                    //throw error;
                 }
             );
         }
@@ -130,7 +127,6 @@ export function disconnectFromDevice() {
                 //     heartBeatID = clearTimeout(heartBeatID);
                 // }
                 dispatch(unconnectBluetooth());
-                console.log('disconnectFromDevice');
                 dispatch(setConnectedBear('',''));
             }
         ).catch((error) => {
@@ -143,7 +139,6 @@ export function disconnectFromDevice() {
 export function heartBeat() {
     return function (dispatch, getState) {
 
-        // console.log('heartBeat me please');
         addSystemTask('heartBeat', ()=> {
                 let instance = Bluetooth.getInstance();
                 return instance.shortPolling();
@@ -152,12 +147,6 @@ export function heartBeat() {
 
             },
             (array) => {
-                //let isDownloading = getState().bearStory.downloaded;
-                //if (!array.length && isDownloading) {
-                //    dispatch(setError('Загрузка завешнена'));
-                //    dispatch(stopDowload());
-                //    dispatch(setBearStories());
-                //}
                 for (var i = 0; i < array.length; ++i) {
                     var code = array[i][0];
                     var body = array[i].substring(1);
@@ -188,7 +177,7 @@ export function heartBeat() {
                         case 'r':
                         {
                             // dispatch(speakRole(body));
-                            console.log('hero: ' + body + ' is speaking');
+                            //console.log('hero: ' + body + ' is speaking');
                         }
                             break;
                         case 'd':

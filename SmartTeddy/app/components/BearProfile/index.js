@@ -32,7 +32,6 @@ class BProfile extends Component {
         super(props);
         //this.props.setBearStories()
         setTimeout(() => {
-            console.log('BProfile:setTStories done');
             this.props.setBearStories()
         }, 300);
     }

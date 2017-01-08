@@ -96,17 +96,14 @@ class AppNavigator extends Component {
                 }
             }
             this.disconnectFromDevice();
-            console.log('Bluetooth connectionLost')
         });
 
         BluetoothSerial.on('bluetoothEnabled', () => {
             this.enableBluetooth();
-            console.log('Bluetooth enabled')
         });
 
         BluetoothSerial.on('bluetoothDisabled', () => {
             this.disableBluetooth();
-            console.log('Bluetooth disabled')
         })
     }
 

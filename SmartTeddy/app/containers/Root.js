@@ -30,7 +30,6 @@ class Root extends React.Component  {
         NetInfo.isConnected.fetch().then(isConnected => {
             let state = isConnected ? true : false;
             this.props.isConnectedInternet(state);
-            console.log('First, is ' + (isConnected ? 'online' : 'offline'));
         });
         NetInfo.isConnected.addEventListener(
             'change',
@@ -51,7 +50,6 @@ class Root extends React.Component  {
     handleFirstConnectivityChange(isConnected) {
         let state = isConnected ? true : false;
         this.props.isConnectedInternet(state);
-        console.log('Then, internet is ' + (isConnected ? 'online' : 'offline'));
     }
 
     logout() {
@@ -65,11 +63,9 @@ class Root extends React.Component  {
     onConfurmModal() {
         this.logout();
         this.setState({isModalVisible: false});
-        console.log('Confurm')
     }
     onСancelModal(){
         this.setState({isModalVisible: false});
-        console.log('Cancel')
     }
     show = () =>{
         let message = this.props.errorMessage;
