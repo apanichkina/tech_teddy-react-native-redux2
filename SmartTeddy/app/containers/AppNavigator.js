@@ -195,7 +195,7 @@ class AppNavigator extends Component {
                 panCloseMask={0.2}
                 styles={{
                   drawer: {
-                    shadowColor: '#000000',
+                    shadowColor: '#ffff',
                     shadowOpacity: 0.8,
                     shadowRadius: 3
                   }

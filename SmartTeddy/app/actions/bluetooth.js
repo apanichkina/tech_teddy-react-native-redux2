@@ -192,7 +192,7 @@ export function heartBeat() {
                             let commands = body.split(':');
                             let id = commands[0];
                             let bytes = commands[1];
-                            dispatch(downloaded(bytes));
+                            dispatch(downloaded(parseInt(bytes), id));
                             //console.log('downloaded: ' + body + ' bytes');
                         }
                             break;

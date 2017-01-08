@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { Image, View as D } from 'react-native';
+import { Image } from 'react-native';
 import { Container, Content, Header, Text, Title, Icon, View, Thumbnail, H1 } from 'native-base';
 import { fetchCategories } from '../../actions/storyCategory'
 import styles from './styles';
