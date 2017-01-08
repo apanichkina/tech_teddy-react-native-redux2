@@ -23,6 +23,7 @@ class PlayerContainer extends Component {
   }
 
   render() {
+      console.log('player rerender')
       const {
             isPaused,
             playWaiting,

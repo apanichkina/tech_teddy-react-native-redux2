@@ -2,9 +2,9 @@ import * as types from './actionTypes';
 import Bluetooth from '../BluetoothLib'
 import {alarmIsPlaying} from './alarm'
 import {setError} from './error'
-import {downloaded} from './bearStory'
+import {downloaded, uploadStoryToBear, deleteStory} from './bearStory'
 import { setBearStories, setConnectedBear } from './bear'
-import {playStory,pauseStory, stopStory}from './player'
+import {playStory, pauseStory, pauseBearStory, stopStory}from './player'
 import { pushNewRoute} from './route'
 import {addUserTask, addSystemTask} from '../queue';
 import {stopDowload} from './bearStory'
@@ -171,13 +171,17 @@ export function heartBeat() {
                         case 's':
                         {
                             //dispatch(playStory(body));
-                            if (body == 'top') dispatch(stopStory());
+                            if (body == 'top') {
+                                dispatch(stopStory());
+                            } else {
+                                dispatch(playStory(body));
+                            }
                             //console.log('story: ' + body +' is playing');
                         }
                             break;
                         case 'p':
                         {
-                            //dispatch(pauseStory(body));
+                            dispatch(pauseBearStory(body));
                             //console.log('story: ' + body + ' is paused');
                         }
                             break;
@@ -192,6 +196,9 @@ export function heartBeat() {
                             let commands = body.split(':');
                             let id = commands[0];
                             let bytes = commands[1];
+                            if (getState().bearStory.downloadingStoryId != id) {
+                                dispatch(uploadStoryToBear(id));
+                            }
                             dispatch(downloaded(parseInt(bytes), id));
                             //console.log('downloaded: ' + body + ' bytes');
                         }

@@ -4,6 +4,7 @@ import {addUserTask} from '../queue';
 import {setBearStories} from './bear'
 import {fetchStories} from './interactiveStories'
 import {setError} from './error'
+import {stopStory} from './player'
 function uploadStory(id:number, size:number, sizes):Action {
     return {
         type: types.UPLOAD_STORY,
@@ -113,7 +114,9 @@ export function deleteStoryFromBear(id) {
                 console.log('onStart deleteStoryFromBear'+id)
             },
             () => {
-                dispatch(setBearStories())
+                dispatch(deleteStory(id));
+                dispatch(setBearStories());
+                if (getState().player.storyId == id) dispatch(stopStory());
             },
             (error) => {
                 dispatch(setError('Ошибка. Повторите попытку'));
