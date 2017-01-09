@@ -27,6 +27,7 @@ class BlueManager {
 
     talkToBear(bear_endmsg, bear_delimeter, onAnswer, message) {
         return function (timeout = 10000) {
+            console.log('talkToBear: '+ message);
             var read = function (endmsg, delimeter, resolve, reject, stop) {
                 var temp = function (data) {
                     onAnswer(endmsg, delimeter, resolve, reject, data);
@@ -210,7 +211,7 @@ class BlueManager {
         return process(timeout)
     }
 
-    downloadFile(filename, timeout = 10000) {
+    downloadFile(filename, count, timeout = 10000) {
         var process = this.talkToBear(
             'download\r\n',
             '\r\n',
@@ -218,11 +219,11 @@ class BlueManager {
                 var datastr = data.data.toString().replace(endmsg, '');
                 resolve(datastr);
             },
-            'y' + filename + '\n');
+            'y' + filename + '\n' + count + '\n');
         return process(timeout)
     }
 
-    removeFile(filename, timeout = 10000) {
+    removeFile(filename, count, timeout = 10000) {
         var process = this.talkToBear(
             'remove\r\n',
             '\r\n',
@@ -230,7 +231,7 @@ class BlueManager {
                 var datastr = data.data.toString().replace(endmsg, '');
                 resolve(datastr);
             },
-            'r' + filename + '\n');
+            'r' + filename + '\n' + count + '\n');
         return process(timeout)
     }
 

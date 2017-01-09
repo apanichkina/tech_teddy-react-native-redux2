@@ -5,10 +5,11 @@ import styles from './styles';
 import Player from './Player'
 import DeleteOrUpload from './DeleteOrUpload'
 import Upload from './Upload'
+import myTheme from '../../themes/base-theme';
 import {
     MKProgress,
     } from 'react-native-material-kit';
-const illustration_default = require('../../../img/illustration2.jpg');
+const illustration_default = require('../../../img/no-image-box.png');
 export default class StoryCard extends Component {
 
   render() {
@@ -30,7 +31,7 @@ export default class StoryCard extends Component {
         duration_splitted
     } = this.props;
     return (
-        <Card style={[styles.mb, { flex: 0 }]}>
+        <Card theme={myTheme} style={[styles.mb, { flex: 0 }]}>
 
             <CardItem>
                 <Icon name={logo}/>
@@ -38,9 +39,20 @@ export default class StoryCard extends Component {
             </CardItem>
 
             <CardItem cardBody >
-                <Image style={{ resizeMode: 'cover', width: null}} source={{uri: img_urls.large}}/>
+                <Image style={{ resizeMode: 'cover', width: null, marginBottom:6}} defaultSource={require('../../../img/no-image-box.png')} source={{uri: img_urls.large}}/>
+
                 <View>
-                    {isDownloading ?
+                    {isConnected && isUpload ?
+                        category !== 'РОЛЕВЫЕ' ?
+                        <Player storyId={id+''}/>
+                            : <Button block info onPress={goToInteractive}>
+                                К ИНТЕРАКТИВНОЙ СКАЗКЕ
+                              </Button>
+                        : null
+                    }
+                </View>
+                <View>
+                    {isDownloading && (downloaded > 0.05) ?
                         <MKProgress
                             style={{ marginTop: 6}}
                             buffer={1}
@@ -48,20 +60,9 @@ export default class StoryCard extends Component {
                             bufferColor="#B2DFDB"
                             progress={downloaded}
                             />
-                        : null
+                        :null
                     }
                 </View>
-                <View>
-                    {isConnected && isUpload ?
-                        category !== 'РОЛЕВЫЕ' ?
-                        <Player storyId={id}/>
-                            : <Button block info onPress={goToInteractive}>
-                                К ИНТЕРАКТИВНОЙ СКАЗКЕ
-                              </Button>
-                        : null
-                    }
-                </View>
-
                 <View style={{ flexDirection:'row'  }}>
                     {!isBought ?
                         <Button style={{ margin: 6, marginLeft:0, flex: 2}}
@@ -71,7 +72,7 @@ export default class StoryCard extends Component {
                         </Button>
                         :  !isConnected ?
                             <Button info style={{ margin: 6, marginLeft:0, flex:2}} onPress={onConnectBear}>
-                                ПРИМЕДВЕДИТЬСЯ
+                                ПОДКЛЮЧИТЬСЯ
                             </Button>
                         : <DeleteOrUpload storyId={id}/>
                     }

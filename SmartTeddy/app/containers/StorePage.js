@@ -17,10 +17,11 @@ class Store extends Component {
       stories: React.PropTypes.array.isRequired,
       isFetching: React.PropTypes.bool.isRequired,
       getStories:React.PropTypes.func,
-      isEmpty:React.PropTypes.bool
+      isEmpty:React.PropTypes.bool,
+      inMemory: React.PropTypes.bool
   };
   render() {
-    const { openDrawer, title, stories, categories, isFetching, isInternet, isEmpty} = this.props;
+    const { openDrawer, title, stories, categories, isFetching, isInternet, isEmpty, inMemory} = this.props;
     return (
       <Container theme={myTheme}>
         <Header style={{shadowOffset: {width: 0, height: 0}, elevation: 0 }} >
@@ -30,7 +31,7 @@ class Store extends Component {
             </Button>
         </Header>
           <View>
-            {!isInternet ?
+            {(!isInternet && !inMemory) ?
                     <View style={{padding:10, flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}} >
                         <Thumbnail style={{tintColor:'#9E9E9E',marginTop:-30}} square size={130} source={require('../../img/no-wifi-signal.png')}/>
                         <Text style={{ alignSelf: 'center',color:'#9E9E9E', marginBottom:20}}>Нет подключения к интернету</Text>

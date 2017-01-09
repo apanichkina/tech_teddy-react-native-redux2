@@ -26,6 +26,7 @@ class Store extends Component {
           isFetching={isFetching}
           getStories={getStories}
           isEmpty={isEmpty}
+          inMemory={true}
           />
     );
   }

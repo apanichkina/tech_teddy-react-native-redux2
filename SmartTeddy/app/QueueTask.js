@@ -14,7 +14,6 @@ export default class QueueTask {
     }
 
     start () {
-        console.log('start');
         this.onStart();
         this._active = true;
         let prom = this.action();

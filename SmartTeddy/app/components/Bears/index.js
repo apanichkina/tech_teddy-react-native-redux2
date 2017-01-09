@@ -36,9 +36,13 @@ class Bears extends Component {
         // this.props.setConnectedBearName(name);
         // this.props.pushNewRoute('bear-profile');
     }
+    componentWillReceiveProps(nextProps){
+        if (this.props.bluetoothEnabled != nextProps.bluetoothEnabled) this.props.searchBears();
+    }
     enableBluetooth(){
         console.log('enableBluetooth')
         Bluetooth.getInstance().enable();
+        this.props.searchBears();
        // this.props.searchBears();
         //this.props.enableBluetooth();
     }

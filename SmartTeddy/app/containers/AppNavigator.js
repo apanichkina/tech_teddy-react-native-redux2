@@ -20,7 +20,7 @@ import SideBar from '../components/SideBar/';
 import Social from '../components/Social/socialWebview';
 import Alarm from './ClockAlarm'
 import WiFi from './WiFi'
-
+import SplashPage from '../components/Splashscreen/';
 import { enableBluetooth, disableBluetooth, disconnectFromDevice } from '../actions/bluetooth';
 import BluetoothSerial from 'react-native-bluetooth-hc05'
 import statusBarColor from '../themes/base-theme';
@@ -181,6 +181,8 @@ class AppNavigator extends Component {
                 return <Social url="https://magicbackpack.ru/api/social/ok" navigator={navigator} />;
             case 'fb':
                 return <Social url="https://magicbackpack.ru/api/social/fb" navigator={navigator} />;
+            case 'splashscreen':
+                return <SplashPage navigator={navigator} />;
             default :
                 return <Store navigator={navigator} />;
         }
@@ -200,7 +202,7 @@ class AppNavigator extends Component {
                 panCloseMask={0.2}
                 styles={{
                   drawer: {
-                    shadowColor: '#000000',
+                    shadowColor: '#ffff',
                     shadowOpacity: 0.8,
                     shadowRadius: 3
                   }
