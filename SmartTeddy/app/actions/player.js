@@ -32,12 +32,13 @@ export function stopStory():Action {
 export function playStoryOnBear(id) {
 
     return function (dispatch) {
-        addUserTask('playStoryOnBear', ()=> {
+        addUserTask('playStoryOnBear:'+id, ()=> {
                 let instance = Bluetooth.getInstance();
                 return instance.play(id);
             },
             function () {
                 dispatch(startPlayButton())
+                //dispatch(playStory(id))
             },
             (array) => {
                 dispatch(donePlayButton());
@@ -48,7 +49,8 @@ export function playStoryOnBear(id) {
                 dispatch(setError('Ошибка воспроизведения'));
                 console.log('play story error:');
                 console.log(error);
-            }
+            },
+            ()=>{  dispatch(startPlayButton());  dispatch(donePlayButton());}
         );
     }
 }

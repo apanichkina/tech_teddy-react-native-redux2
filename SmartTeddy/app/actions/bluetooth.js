@@ -5,6 +5,7 @@ import {setError} from './error'
 import {downloaded, uploadStoryToBear, deleteStory} from './bearStory'
 import { setBearStories, setConnectedBear } from './bear'
 import {playStory, pauseStory, pauseBearStory, stopStory}from './player'
+import {donePlayButton} from './playerButtons'
 import { pushNewRoute} from './route'
 import {addUserTask, addSystemTask} from '../queue';
 import {stopDowload} from './bearStory'
@@ -163,6 +164,7 @@ export function heartBeat() {
                             if (body == 'top') {
                                 dispatch(stopStory());
                             } else {
+                                dispatch(donePlayButton());
                                 dispatch(playStory(body));
                             }
                             //console.log('story: ' + body +' is playing');
@@ -185,7 +187,8 @@ export function heartBeat() {
                             let commands = body.split(':');
                             let id = commands[0];
                             let bytes = commands[1];
-                            if (getState().bearStory.downloadingStoryId != id) {
+                            if (getState().bearStory.downloadingStoryId != parseInt(id)) {
+                                console.log('мишка сам качает');
                                 dispatch(uploadStoryToBear(id));
                             }
                             dispatch(downloaded(parseInt(bytes), id));

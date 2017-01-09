@@ -13,6 +13,7 @@ import {popToTop} from '../actions/route'
 import {isConnectedInternet} from '../actions/internet'
 import {setErrorNotVisible} from '../actions/error'
 import Toast from 'react-native-root-toast';
+import { disconnectFromDevice} from '../actions/bluetooth';
 let strings = {
     message: 'Вы уверены, что хотите ВЫЙТИ из учетной записи?'
 };
@@ -53,6 +54,7 @@ class Root extends React.Component  {
     }
 
     logout() {
+        this.props.disconnectFromDevice();
         this.props.authDiscardToken();
         this.props.popToTop();
 
@@ -115,7 +117,8 @@ const mapDispatchToProps = (dispatch) => {
         authDiscardToken: () => dispatch(authDiscardToken()),
         popToTop: () => dispatch(popToTop()),
         isConnectedInternet: (s) => dispatch(isConnectedInternet(s)),
-        setErrorNotVisible: () => dispatch(setErrorNotVisible())
+        setErrorNotVisible: () => dispatch(setErrorNotVisible()),
+        disconnectFromDevice: () => dispatch(disconnectFromDevice())
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Root);

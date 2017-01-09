@@ -41,7 +41,7 @@ class SProfile extends Component {
         else this.props.pushNewRoute('signin')
     }
     goToInteractive(id){
-        this.props.seeSubStory(id);
+       // this.props.seeSubStory(id);
         this.props.pushNewRoute('interactive')
     }
 

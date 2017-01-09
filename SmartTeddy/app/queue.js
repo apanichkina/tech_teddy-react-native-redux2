@@ -17,8 +17,17 @@ var queue = async.priorityQueue(function(task, callback) {
 queue.drain = function() {
 
 };
-
-var addUserTask = function(name, action, onStart, onSuccess, onFail){
+var lastTaskName = '';
+var lastTaskTime = Date.now();
+var addUserTask = function(name, action, onStart, onSuccess, onFail, onDelete = () =>{console.log('delete task')}){
+    let clearName = name.split(':')[0];
+    if ((name == lastTaskName) && (Date.now() - lastTaskTime) < 2000) {
+        onDelete();
+        console.log('dubleaction');
+        return;
+    }
+    lastTaskName = name;
+    lastTaskTime = Date.now();
     let task = new QueueTask(name, action, onStart, onSuccess, onFail);
     queue.push(task, 1, function(err){});
 };
