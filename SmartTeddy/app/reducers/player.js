@@ -7,6 +7,12 @@ const initialState = {
 
 export default function (state = initialState, action={}) {
     switch (action.type) {
+        case 'BEAR_PLAYER_PAUSED':
+                return {
+            ...state,
+            isStoryPaused: true,
+            storyId: action.id
+        };
         case 'PLAY_STORY':
             return {
                 ...state,

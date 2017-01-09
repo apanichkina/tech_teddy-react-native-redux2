@@ -11,7 +11,7 @@ export default class Story extends React.Component {
                 <Thumbnail square size={100}  source={{uri: img_urls.small}} />
                 <Text>{name.toUpperCase()}</Text>
                 <Text note>Длительность: {duration}</Text>
-                <Text note>Цена: {price}</Text>
+                {/* <Text note>Цена: {price}</Text> */}
             </CardItem>
 
         );

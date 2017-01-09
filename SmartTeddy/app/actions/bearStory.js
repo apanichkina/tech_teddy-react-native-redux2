@@ -3,11 +3,14 @@ import Bluetooth from '../BluetoothLib'
 import {addUserTask} from '../queue';
 import {setBearStories} from './bear'
 import {fetchStories} from './interactiveStories'
-function uploadStory(id:number, size:number):Action {
+import {setError} from './error'
+import {stopStory} from './player'
+function uploadStory(id:number, size:number, sizes):Action {
     return {
         type: types.UPLOAD_STORY,
         id,
-        size
+        size,
+        sizes
     }
 }
 function deleteStory(id:number):Action {
@@ -16,10 +19,11 @@ function deleteStory(id:number):Action {
         id
     }
 }
-export function downloaded(bytes:number):Action {
+export function downloaded(bytes:number, id):Action {
     return {
         type: types.DOWNLOADED_STORY,
-        bytes
+        bytes,
+        id
     }
 }
 export function stopDowloadState():Action {
@@ -52,6 +56,7 @@ export function uploadHardcodeStoryToBear(id) {
                     dispatch(uploadStory(id, 100000))
                 },
                 (error) => {
+                    dispatch(setError('Ошибка. Попробуйте снова'));
                     console.log('upload story error:');
                     console.log(error);
                 }
@@ -63,9 +68,17 @@ export function uploadStoryToBear(id) {
     return function (dispatch, getState) {
         //
         let uploadedStory = getState().userStories.stories[id];
-        let count = uploadedStory.roled ? uploadedStory.story_parts.length : 1;
-        //let uploadedSize = uploadedStory.size;
-        let uploadedSize = 3000000;
+        let stories = uploadedStory.story_parts;
+        let count = uploadedStory.story_parts.length;
+        let sizes = [];
+        sizes[0]=0;
+        let value = 0;
+        for (let i = 1; i < count; ++i) {
+            value += stories[i-1].size;
+            sizes[i] = value;
+        }
+        let fullSize = value + stories[count-1].size;
+
             addUserTask('uploadStoryToBear', ()=> {
                     let instance = Bluetooth.getInstance();
                     return instance.downloadFile(id, count);
@@ -74,9 +87,12 @@ export function uploadStoryToBear(id) {
                     console.log('onStart uploadStoryToBear'+id)
                 },
                 () => {
-                    dispatch(uploadStory(id, uploadedSize))
+                    console.log(fullSize);
+                    console.log(sizes);
+                    dispatch(uploadStory(id, fullSize, sizes))
                 },
                 (error) => {
+                    dispatch(setError('Ошибка. Повторите попытку'));
                     console.log('upload story error:'+id);
                     console.log(error);
                 }
@@ -98,9 +114,12 @@ export function deleteStoryFromBear(id) {
                 console.log('onStart deleteStoryFromBear'+id)
             },
             () => {
-                dispatch(setBearStories())
+                dispatch(deleteStory(id));
+                dispatch(setBearStories());
+                if (getState().player.storyId == id) dispatch(stopStory());
             },
             (error) => {
+                dispatch(setError('Ошибка. Повторите попытку'));
                 console.log('delete story error:'+id);
                 console.log(error);
             }

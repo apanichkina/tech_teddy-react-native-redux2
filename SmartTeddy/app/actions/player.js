@@ -11,6 +11,12 @@ export function playStory(id):Action {
     }
 }
 
+export function pauseBearStory(id):Action {
+    return {
+        type: types.BEAR_PLAYER_PAUSED,
+        id
+    }
+}
 export function pauseStory():Action {
     return {
         type: types.PAUSE_STORY

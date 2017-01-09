@@ -11,8 +11,8 @@ export default {
 
     // Button
   btnFontFamily: (Platform.OS === 'ios') ? 'HelveticaNeue' : 'Roboto_medium',
-  btnDisabledBg: '#b5b5b5',
-  btnDisabledClr: '#f1f1f1',
+  btnDisabledBg: '#BDBDBD',
+  btnDisabledClr: '#BDBDBD',
   get btnDisableBg() {
     return this.btnDisabledBg;
   },
@@ -83,7 +83,7 @@ export default {
   // Color
   brandPrimary: '#00897B', //Primary
   brandInfo: '#FFB74D', //Accent
-  brandSuccess: '#5cb85c',
+  brandSuccess: '#BDBDBD',
   brandDanger: '#d9534f',
   brandWarning: '#f0ad4e',
   brandSidebar: '#252932',
