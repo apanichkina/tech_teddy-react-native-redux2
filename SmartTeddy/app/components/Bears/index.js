@@ -4,9 +4,8 @@ import { View, Container, Header, Title, Content, Text, List, ListItem, Card, Ca
 import Bluetooth from '../../BluetoothLib'
 import { openDrawer } from '../../actions/drawer';
 import { pushNewRoute, replaceRoute} from '../../actions/route';
-import { searchBears, connectToDevice } from '../../actions/bluetooth';
-import { setConnectedBearName, setBearStories } from '../../actions/bear';
-import {enableBluetooth} from '../../actions/bluetooth'
+import { searchBears, connectToDevice, disconnectFromDevice, enableBluetoot } from '../../actions/bluetooth';
+import { setBearStories } from '../../actions/bear';
 import {pressConnectToDeviceButton} from '../../actions/connectToDeviceButton'
 import styles from './styles';
 import myTheme from '../../themes/base-theme';
@@ -16,7 +15,6 @@ class Bears extends Component {
         openDrawer: React.PropTypes.func,
         pushNewRoute: React.PropTypes.func,
         searchBears: React.PropTypes.func,
-        setConnectedBearName: React.PropTypes.func,
         connectToDevice: React.PropTypes.func,
         setBearStories: React.PropTypes.func,
         pressConnectToDeviceButton: React.PropTypes.func
@@ -51,39 +49,53 @@ class Bears extends Component {
             devicesCount,
             connectToDeviceButtonWaiting,
             id,
-            connectToDeviceFetching } = this.props;
+            connectToDeviceFetching,
+            connectedBearId
+            } = this.props;
         return (
             <Container theme={myTheme} style={styles.container}>
                 <Header>
                     <Button transparent onPress={this.props.openDrawer}>
                         <Icon name="ios-menu" />
                     </Button>
-                    <Title>Примедведиться</Title>
+                    <Title>Поиск устройств</Title>
                 </Header>
                     {!bluetoothEnabled ?
                         <View style={{padding:10, flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}} >
                             <Thumbnail style={{tintColor:'#9E9E9E',marginTop:-30}} square size={130} source={require('../../../img/bluetooth.png')}/>
-                            <Text style={{ alignSelf: 'center',color:'#9E9E9E', marginBottom:20}}>Блютус выключен</Text>
+                            <Text style={{  textAlign: 'center',color:'#9E9E9E', marginBottom:20}}>Блютус выключен</Text>
                             <Button style={{ alignSelf: 'center', margin:6 }} info onPress={() => this.enableBluetooth()}>ВКЛЮЧИТЬ</Button>
                         </View>
                         :devicesCount ?
                             <Content>
                                 <List dataArray={bears}
                                         renderRow={(item) =>
-                                        <ListItem button disabled={connectToDeviceButtonWaiting} onPress={()=>{this.onBearClick(item.name, item.id)}}>
+                                        <ListItem
+                                            button
+                                            disabled={connectToDeviceButtonWaiting || connectToDeviceFetching }
+                                            onPress={(connectedBearId == item.id) ?
+                                                        () => this.props.pushNewRoute('bear-profile')
+                                                        : () => this.onBearClick(item.name, item.id)}>
                                                 <View>
                                                     <Text style={styles.header} >{item.name}</Text>
                                                     <Text style={styles.help} >{item.id}</Text>
-                                                    <Text style={styles.status}>{connectToDeviceFetching && id == item.id ? 'Подключение...' : ' '}</Text>
+                                                    <Text style={styles.status}>{connectedBearId == item.id ? 'Подключен' : connectToDeviceFetching && id == item.id ? 'Подключение...' : ' '}</Text>
                                                 </View>
                                         </ListItem>
                                     }>
                                 </List>
-                            </Content>
+                                {connectedBearId !== '' &&
+                                    <Button
+                                        style={{ alignSelf: 'center', margin:6 }}
+                                        info
+                                        onPress={() => this.props.disconnectFromDevice()}>ОТКЛЮЧИТЬСЯ
+                                    </Button>
+                                }
+                                </Content>
                         :  <View style={{padding:10, flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}} >
                             <Thumbnail style={{marginTop:-30}} square size={130} source={require('../../../img/tumbleweed.png')}/>
-                            <Text style={{ alignSelf: 'center'}}>Нет соединенных устройств</Text>
-                            <Text style={{ alignSelf: 'center',color:'#9E9E9E', marginBottom:20, width:300}}>Подключитесь к устройству в настройках</Text>
+                            <Text style={{  textAlign: 'center'}}>Нет соединенных устройств</Text>
+                            <Text style={{  textAlign: 'center',color:'#9E9E9E', marginBottom:20}}>Подключитесь к устройству в настройках</Text>
                             <Button style={{ alignSelf: 'center', margin:6 }} info onPress={() => this.refresh()}>ОБНОВИТЬ СПИСОК</Button>
                            </View>
                     }
@@ -99,7 +111,8 @@ const mapStateToProps = (state) => {
         bluetoothEnabled: state.bluetooth.bluetoothEnabled,
         connectToDeviceButtonWaiting: state.connectToDeviceButton.isWaiting,
         connectToDeviceFetching: state.connectToDeviceButton.isFetching,
-        id: state.connectToDeviceButton.id
+        id: state.connectToDeviceButton.id,
+        connectedBearId: state.bluetooth.bluetoothConnected ? state.bear.connectedBearId : ''
     }
 };
 
@@ -108,12 +121,12 @@ const mapDispatchToProps = (dispatch) => {
         replaceRoute: (route) => dispatch(replaceRoute(route)),
         openDrawer: () => dispatch(openDrawer()),
         pushNewRoute: route => dispatch(pushNewRoute(route)),
-        setConnectedBearName: name => dispatch(setConnectedBearName(name)),
         searchBears: () => dispatch(searchBears()),
         connectToDevice: (id, name) => dispatch(connectToDevice(id, name)),
         setBearStories: () => dispatch(setBearStories()),
         enableBluetooth: () => dispatch(enableBluetooth()),
-        pressConnectToDeviceButton:(id) => dispatch(pressConnectToDeviceButton(id))
+        pressConnectToDeviceButton:(id) => dispatch(pressConnectToDeviceButton(id)),
+        disconnectFromDevice: () => dispatch(disconnectFromDevice())
     }
 };
 

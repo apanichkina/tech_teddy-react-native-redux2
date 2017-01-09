@@ -14,7 +14,7 @@ import {isConnectedInternet} from '../actions/internet'
 import {setErrorNotVisible} from '../actions/error'
 import Toast from 'react-native-root-toast';
 let strings = {
-    message: 'Вы уверенны, что хотите ВЫЙТИ из учетной записи?'
+    message: 'Вы уверены, что хотите ВЫЙТИ из учетной записи?'
 };
 
 class Root extends React.Component  {

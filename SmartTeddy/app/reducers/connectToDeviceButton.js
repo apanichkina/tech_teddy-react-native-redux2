@@ -3,7 +3,7 @@
 const initialState = {
     isFetching: false,
     isWaiting: false,
-    id: -0
+    id: -1
 };
 
 export default function (state = initialState, action={}) {
