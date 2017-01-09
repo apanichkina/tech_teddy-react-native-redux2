@@ -1,16 +1,15 @@
 
 
 const initialState = {
-    storyId: 0
+    subStoryId: ''
 };
 
 export default function (state = initialState, action={}) {
     switch (action.type) {
-        case 'SEE_STORY':
+        case 'SEE_SUB_STORY':
             return {
                 ...state,
-                storyId: action.id
-                
+                subStoryId: action.id
             };
         default:
             return state

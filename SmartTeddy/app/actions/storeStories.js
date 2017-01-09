@@ -24,7 +24,7 @@ export function fetchStories() {
 
     return function (dispatch) {
         dispatch(requestStories());
-        url = 'https://hardteddy.ru/api/store/story';
+        url = 'https://magicbackpack.ru/api/store/story';
         return timeout(5000,fetch(url, {
             method: 'GET',
             headers: {}

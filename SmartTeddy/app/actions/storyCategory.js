@@ -26,7 +26,7 @@ export function receiveCategories(json):Action {
 export function fetchCategories() {
 
     return function (dispatch) {
-        let url = 'https://hardteddy.ru/api/store/categories';
+        let url = 'https://magicbackpack.ru/api/store/categories';
                 return timeout(3000,fetch(url, {
                     method: 'GET',
                     headers: {}
@@ -34,7 +34,31 @@ export function fetchCategories() {
                     .then(json => dispatch(receiveCategories(json))
                 ).catch((error) => {
                         console.log('category error:');
-                        console.log(error)
+                        console.log(error);
+                        let hardCategories = {
+                            "body": {
+                                "categories": [
+                                    {
+                                        "id": 1,
+                                        "name": "сказки"
+                                    },
+                                    {
+                                        "id": 2,
+                                        "name": "на ночь"
+                                    },
+                                    {
+                                        "id": 3,
+                                        "name": "помощь"
+                                    },
+                                    {
+                                        "id": 4,
+                                        "name": "ролевые"
+                                    }
+                                ]
+                            },
+                            "status": 0
+                        };
+                        dispatch(receiveCategories(hardCategories));
                     });
     }
 }

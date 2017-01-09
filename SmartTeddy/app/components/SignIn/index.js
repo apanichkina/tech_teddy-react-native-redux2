@@ -13,11 +13,11 @@ import { Col, Row, Grid } from "react-native-easy-grid";
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
 
-var regExpLogin = new RegExp("^[a-z0-9_-]{3,16}$", 'i');
+var regExpEmail = new RegExp(/.+@.+\..+/i);
 
-var Name = t.refinement(t.String, function (str) { return str.length >= 3 &&  str.length <= 16 && regExpLogin.test(str)});
-Name.getValidationErrorMessage = function () {
-    return 'неверный формат логина';
+var Email = t.refinement(t.String, function (str) { return regExpEmail.test(str)});
+Email.getValidationErrorMessage = function () {
+    return 'неверный формат почты';
 };
 var Password = t.refinement(t.String, function (str) { return str.length >= 6});
 Password.getValidationErrorMessage = function () {
@@ -25,17 +25,18 @@ Password.getValidationErrorMessage = function () {
 };
 
 var Person = t.struct({
-    name: Name,
+    email: Email,
     password: Password
 });
 
 var options = {
 
     fields: {
-        name: {
-            label: 'Логин:',
-            placeholder:'Логин',
+        email: {
+            label: 'Почта:',
+            placeholder:'Почта',
             underlineColorAndroid: "transparent"
+
         },
         password: {
             label: 'Пароль:',
@@ -63,7 +64,7 @@ class SignIn extends Component {
         dismissKeyboard();
         var value = this.refs.form.getValue();
         if (value) {
-            this.props.fetchSignIn(value.name, value.password);
+            this.props.fetchSignIn(value.email, value.password);
         }
     }
     goToSignUp() {
@@ -139,7 +140,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         popRoute: () => dispatch(popRoute()),
         pushNewRoute: route => dispatch(pushNewRoute(route)),
-        fetchSignIn: (n,p) => dispatch(fetchSignIn(n,p))
+        fetchSignIn: (e,p) => dispatch(fetchSignIn(e,p))
     }
 };
 

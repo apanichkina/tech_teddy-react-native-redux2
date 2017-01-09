@@ -28,6 +28,7 @@ export const REQUEST_STORE_STORIES_FAIL = 'REQUEST_STORE_STORIES_FAIL';
 
 //Story
 export const SEE_STORY = 'SEE_STORY';
+export const SEE_SUB_STORY = 'SEE_SUB_STORY';
 
 //User
 export const AUTH_SET_TOKEN = 'AUTH_SET_TOKEN';

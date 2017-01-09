@@ -61,7 +61,7 @@ var options = {
             underlineColorAndroid: "transparent"
         },
         email: {
-            label: 'Email:',
+            label: 'Почта:',
             placeholder:'Ваша невероятная почта',
             underlineColorAndroid: "transparent"
 

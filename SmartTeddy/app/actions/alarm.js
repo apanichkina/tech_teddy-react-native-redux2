@@ -49,11 +49,11 @@ export function toggleAlarmSound():Action {
 
 
 function parseTime (res, dispatch, getState) {
-    let d = res.charCodeAt(2);
+    let d = res.charCodeAt(4);
     let time = new Date();
-    time.setHours(res.charCodeAt(0), res.charCodeAt(1));
+    time.setHours(res.charCodeAt(0), res.charCodeAt(2));
 
-    let active = res.charCodeAt(3);
+    let active = res.charCodeAt(6);
     let days = [];
     for (let i = 0; i < 7; ++i) {
         days[i] = ((d >> i) & 0x01) ? true : false;
@@ -70,6 +70,28 @@ function parseTime (res, dispatch, getState) {
     if (state.alarm.isSoundActive !== alarm_soundActive) dispatch(toggleAlarmSound());
     dispatch(setAlarmTime(time));
     dispatch(setAlarmDays(days));
+    
+
+    /*var hm = res[0].split(':');
+    let time = new Date();
+    time.setHours(hm[0], hm[1]);
+
+    let days = [];
+    for (let i = 0; i < 7; ++i) {
+        days[i] = (res[1][i] === '1') ? true : false;
+    }
+
+    let alarm_lightActive = (res[1][0] === '1') ? true : false;
+    let alarm_vibroActive = (res[1][1] === '1') ? true : false;
+    let alarm_soundActive = (res[1][2] === '1') ? true : false;
+    let alarm_active = (res[1][3] === '1') ? true : false;
+    let state = getState();
+    if (state.alarm.isAlarmActive !== alarm_active) dispatch(toggleAlarmActive());
+    if (state.alarm.isLightActive !== alarm_lightActive) dispatch(toggleAlarmLight());
+    if (state.alarm.isVibroActive !== alarm_vibroActive) dispatch(toggleAlarmVibro());
+    if (state.alarm.isSoundActive !== alarm_soundActive) dispatch(toggleAlarmSound());
+    dispatch(setAlarmTime(time));
+    dispatch(setAlarmDays(days));*/
 
 }
 
@@ -77,7 +99,7 @@ export function getAlarmTime () {
     let instance = Bluetooth.getInstance();
     return function (dispatch, getState) {
         return instance.getAlarmTime()
-            .then((res) => { parseTime(res,dispatch,getState ) })
+            .then((res) => { parseTime(res, dispatch, getState) })
             .catch((error) => {
                 console.log('getAlarmTime error');
                 console.log(error)
@@ -95,7 +117,7 @@ export function setAlarm () {
             soundActive: state.alarm.isSoundActive
         };
         return instance.setAlarm(state.alarm.alarmTime, state.alarm.alarmDays, activate)
-            .then((res) => { parseTime(res,dispatch,getState ) })
+            .then((res) => { parseTime(res, dispatch, getState) })
             .catch((error) => {
                 console.log('setAlarm error');
                 console.log(error)

@@ -4,16 +4,17 @@ import { Image } from 'react-native';
 import styles from './styles';
 import Player from './Player'
 import DeleteOrUpload from './DeleteOrUpload'
+import Upload from './Upload'
 import {
     MKProgress,
     } from 'react-native-material-kit';
-const illustration_default = require('../../../img/illustration2.jpg');
+const illustration_default = require('../../../img/no-image-box.png');
 export default class StoryCard extends Component {
 
   render() {
     const {
         name,
-        illustration,
+        img_urls,
         description,
         onBuyClick,
         isUpload,
@@ -25,7 +26,8 @@ export default class StoryCard extends Component {
         isDownloading,
         id,
         category,
-        goToInteractive
+        goToInteractive,
+        duration_splitted
     } = this.props;
     return (
         <Card style={[styles.mb, { flex: 0 }]}>
@@ -36,9 +38,10 @@ export default class StoryCard extends Component {
             </CardItem>
 
             <CardItem cardBody >
-                <Image style={{ resizeMode: 'cover', width: null}} source={illustration}/>
+                <Image style={{ resizeMode: 'cover', width: null}} defaultSource={require('../../../img/no-image-box.png')} source={{uri: img_urls.large}}/>
                 <View>
                     {isDownloading ?
+                        downloaded > 0.05 ?
                         <MKProgress
                             style={{ marginTop: 6}}
                             buffer={1}
@@ -46,15 +49,21 @@ export default class StoryCard extends Component {
                             bufferColor="#B2DFDB"
                             progress={downloaded}
                             />
-                        : null
+                            : <MKProgress.Indeterminate
+                                style={{ marginTop: 6}}
+                                progressColor="#00897B"
+                                bufferColor="#B2DFDB"
+                                buffer={1}
+                            />
+                        :null
                     }
                 </View>
                 <View>
                     {isConnected && isUpload ?
                         category !== 'РОЛЕВЫЕ' ?
-                        <Player storyId={id}/>
+                        <Player storyId={id+''}/>
                             : <Button block info onPress={goToInteractive}>
-                                НАЧАТЬ ИНТЕРАКТИВНУЮ СКАЗКУ
+                                К ИНТЕРАКТИВНОЙ СКАЗКЕ
                               </Button>
                         : null
                     }
@@ -79,6 +88,12 @@ export default class StoryCard extends Component {
                         <Text>ПОДЕЛИТЬСЯ</Text>
                     </Button>
                 </View>
+                {/*
+                 <View style={{ flexDirection:'row'  }}>
+                 <Upload storyId={'14_2'}/>
+                 </View>
+                */}
+
                 <Text>{description}</Text>
             </CardItem>
         </Card>
@@ -90,8 +105,14 @@ StoryCard.propTypes = {
     category: React.PropTypes.string.isRequired,
     name: React.PropTypes.string.isRequired,
     description: React.PropTypes.string.isRequired,
+    duration_splitted: React.PropTypes.shape({
+        minutes: React.PropTypes.number,
+        seconds: React.PropTypes.number
+    }),
     price: React.PropTypes.number.isRequired,
-    illustration: React.PropTypes.object.isRequired,
+    img_urls: React.PropTypes.shape({
+        large: React.PropTypes.string
+    }),
     onBuyClick: React.PropTypes.func,
     onConnectBear: React.PropTypes.func,
     isBought: React.PropTypes.bool,

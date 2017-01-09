@@ -3,7 +3,7 @@ import {fetchStories} from './userStories';
 
 export function fetchBuyStory(id) {
     return function (dispatch,getState) {
-        fetch('https://hardteddy.ru/api/store/buy', {
+        fetch('https://magicbackpack.ru/api/store/buy', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',

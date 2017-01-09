@@ -18,7 +18,6 @@ export default class StorePagePresentational extends Component {
                         <Story
                             key={story.id}
                             {...story}
-                            illustration={{uri: 'https://storage.googleapis.com/hardteddy_images/small/'+story.id+'.jpg'}}
                             onClick={() => onStoryClick((story.id))}
                         />
                     )}

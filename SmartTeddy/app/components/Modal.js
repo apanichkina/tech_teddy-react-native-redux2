@@ -16,7 +16,7 @@ class ModalComponent extends React.Component  {
                     animationTension={40}
                     modalDidOpen={() => undefined}
                     modalDidClose={() => undefined}
-                    closeOnTouchOutside={true}
+                    closeOnTouchOutside={false}
                     containerStyle={{
                         justifyContent: 'center'
                     }}
