@@ -157,7 +157,7 @@ class SideBar extends Component {
                     : null
                 }
             </Content>
-                { isAuth && storyId != -1 &&
+                { isAuth && !!bearname && storyId != -1 &&
                     <Footer theme={footerTheme} style={{ elevation: 3}}>
                         <ListItem button style={{backgroundColor: '#BDBDBD', paddingLeft:0, marginLeft:0, paddingTop:0, marginTop:0}} onPress={() => this.onClick(story.id, story.roled)}>
                             <Thumbnail square size={55}  source={{uri: story.img_urls.small}} />

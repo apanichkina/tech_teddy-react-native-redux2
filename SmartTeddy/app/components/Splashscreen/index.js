@@ -1,23 +1,26 @@
 
 import React, { Component } from 'react';
-import { Image, View as D } from 'react-native';
+import { Image } from 'react-native';
 import { Container, Content, Header, Text, Title, Icon, View, Thumbnail, H1 } from 'native-base';
-const splashscreen = require('../../../img/web_hi_res_512.png');
+import { fetchCategories } from '../../actions/storyCategory'
 import styles from './styles';
+import { connect } from 'react-redux';
 import myTheme from '../../themes/base-theme';
-export default class SplashPage extends Component {
+const splashscreen = require('../../../img/web_hi_res_512.png');
+
+class SplashPage extends Component {
 
   static propTypes = {
     navigator: React.PropTypes.shape({})
-  }
+  };
 
   componentWillMount() {
     const navigator = this.props.navigator;
-    setTimeout(() => {
-      navigator.replace({
-        id: 'home'
+      Promise.all([this.props.fetchCategories()]).then(values => {
+          navigator.replace({
+              id: 'home'
+          });
       });
-    }, 500);
   }
 
   render() { // eslint-disable-line class-methods-use-this
@@ -40,3 +43,16 @@ export default class SplashPage extends Component {
     );
   }
 }
+
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchCategories: () => dispatch(fetchCategories())
+    }
+};
+
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(SplashPage)
