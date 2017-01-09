@@ -73,6 +73,8 @@ export const DELETE_STORY = 'DELETE_STORY';
 export const FINISH_PROGRESS = 'FINISH_PROGRESS';
 
 //Player
+
+export const BEAR_PLAYER_PAUSED = 'BEAR_PLAYER_PAUSED';
 export const PLAY_STORY = 'PLAY_STORY';
 export const PAUSE_STORY = 'PAUSE_STORY';
 export const STOP_STORY = 'STOP_STORY';

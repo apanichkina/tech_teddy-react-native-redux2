@@ -16,7 +16,6 @@ export default function (state = initialState, action={}) {
                 ...state,
                 downloadingStoryId: action.id,
                 downloadingStorySize: action.size,
-                downloaded: 0.01,
                 sizes: action.sizes,
                 roled: roled
             };
@@ -48,6 +47,7 @@ export default function (state = initialState, action={}) {
                 sizes: [],
                 roled: false
             });
+
         default:
             return state
     }

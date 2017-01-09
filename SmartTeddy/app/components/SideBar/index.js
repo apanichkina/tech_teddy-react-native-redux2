@@ -10,7 +10,7 @@ import footerTheme from './footer-theme';
 import styles from './style';
 import { seeStory } from '../../actions/story';
 const drawerImage = require('../../../img/header.png');
-
+const defaultImage = require('../../../img/no-image-slide.png');
 class SideBar extends Component {
 
     static propTypes = {
@@ -157,7 +157,7 @@ class SideBar extends Component {
                     : null
                 }
             </Content>
-                { isAuth && storyId != -1 &&
+                { isAuth && !!bearname && story && storyId != -1 &&
                     <Footer theme={footerTheme} style={{ elevation: 3}}>
                         <ListItem button style={{backgroundColor: '#BDBDBD', paddingLeft:0, marginLeft:0, paddingTop:0, marginTop:0}} onPress={() => this.onClick(story.id, story.roled)}>
                             <Thumbnail square size={55}  source={{uri: story.img_urls.small}} />

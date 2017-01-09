@@ -10,6 +10,9 @@ class Profile extends Component {
     constructor(props) {
         super(props);
     }
+    componentWillMount(){
+        if (!this.props.subStoryId) this.props.seeSubStory(this.props.story.story_parts[0].id);
+    }
     popRoute() {
         this.props.popRoute();
     }
@@ -20,7 +23,6 @@ class Profile extends Component {
         return s.charAt(0).toUpperCase() + s.substr(1).toLowerCase();
     }
     render() {
-        console.log(this.props.storyId);
         const { isConnected, story, subStoryId } = this.props;
         return (
         <Container theme={myTheme} style={styles.container}>
@@ -64,7 +66,7 @@ const mapStateToProps = (state) => {
     return {
         story: state.userStories.stories[parseInt(state.story.storyId)],
         isConnected: !!state.bluetooth.bluetoothConnected,
-        subStoryId: state.subStory.subStoryId,
+        subStoryId: state.subStory.subStoryId[state.story.storyId],
         storyId: state.story.storyId
     }
 };

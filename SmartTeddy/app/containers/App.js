@@ -32,15 +32,18 @@ const storyCategoryTransform = createFilter(
     'storyCategory',
     ['categories']
 );
+const subStoryTransform = createFilter(
+    'subStory',
+    ['subStoryId']
+);
 const loggerMiddleware = createLogger();
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 const reducer = combineReducers(reducers);
 const store = createStoreWithMiddleware(reducer, undefined, autoRehydrate());
-persistStore(store, {whitelist: ['user', 'userStories','storyCategory'],transforms: [userTransform, userStoriesTransform, storyCategoryTransform],storage: AsyncStorage}, () => {
+persistStore(store, {whitelist: ['user', 'userStories','storyCategory','subStory'],transforms: [userTransform, userStoriesTransform, storyCategoryTransform, subStoryTransform],storage: AsyncStorage}, () => {
     console.log('rehydration complete')});
 //TODO disable landscape orientation http://stackoverflow.com/questions/32176548/how-to-disable-rotation-in-react-native
 
-//store.dispatch(fetchCategories());
 
 export default class App extends React.Component  {
 

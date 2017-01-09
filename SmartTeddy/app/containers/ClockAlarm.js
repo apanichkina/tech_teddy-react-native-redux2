@@ -102,7 +102,7 @@ class ClockAlarm extends Component {
   }
 
 
-
+//TODO убрать печать в консоль
   _handleTimePicked (time) {
      console.log('A date has been picked: ', time)
     this.props.setAlarmTime(time)

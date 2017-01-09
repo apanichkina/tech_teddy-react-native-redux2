@@ -21,8 +21,8 @@ class DOUContainer extends Component {
 
   render() {
     const {isUpload,  downloadingStoryId, storyId, downloaded} = this.props;
-    let isWaitingDownload = (storyId == downloadingStoryId) && (downloaded <= 0.05);
-      let isDownloading = (storyId == downloadingStoryId) && (downloaded > 0.05);
+    let isWaitingDownload = (storyId == downloadingStoryId) && (downloaded <= 0.01);
+      let isDownloading = (storyId == downloadingStoryId) && (downloaded > 0.01);
     return (
             <DOU
                 onUploadClick={()=>{this.uploadStory()}}

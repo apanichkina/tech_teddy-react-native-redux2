@@ -1,15 +1,18 @@
 
 
 const initialState = {
-    subStoryId: ''
+    subStoryId: []
 };
 
 export default function (state = initialState, action={}) {
     switch (action.type) {
         case 'SEE_SUB_STORY':
+            let array = state.subStoryId;
+            let id = action.id;
+            array[parseInt(id)] = id;
             return {
                 ...state,
-                subStoryId: action.id
+                subStoryId: array
             };
         default:
             return state

@@ -52,7 +52,7 @@ export default class StoryCard extends Component {
                     }
                 </View>
                 <View>
-                    {isDownloading && (downloaded > 0.05) ?
+                    {isDownloading && (downloaded > 0.01) ?
                         <MKProgress
                             style={{ marginTop: 6}}
                             buffer={1}

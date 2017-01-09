@@ -19,21 +19,9 @@ export default class QueueTask {
         let prom = this.action();
         prom.then(this._onSuccess.bind(this)).catch(this._onFail.bind(this));
         return prom;
-
-        //let prom = new Promise( (resolve, reject) => {
-        //    this.onStart();
-        //    this.action(resolve, reject);
-        //    this._active = true;
-        //    //prom = this.action();
-        //    //this.onStart(prom);
-        //    //this._active = true;
-        //});
-        //prom.then(this._onSuccess.bind(this)).catch(this._onFail.bind(this));
-        //return prom;
     }
 
     _onSuccess (result) {
-       // console.log('success');
         this.onSuccess(result);
         this._active = false;
         this._resolved = true;
@@ -46,7 +34,6 @@ export default class QueueTask {
     }
 
     _onFail (error) {
-       // console.log('fail');
         this.onFail(error);
         this._active = false;
         this._failed = true;
