@@ -261,6 +261,29 @@ class BlueManager {
             },
             't'+h+m+d+a+'\n');
         return process(timeout)
+        /* var d = '';
+        for (var i = 0; i < 7; ++i) {
+            d += days[i] ? '1' : '0';
+        }
+
+        var a = '';
+        a += active.lightActive ? '1' : '0';
+        a += active.vibroActive ? '1' : '0';
+        a += active.soundActive ? '1' : '0';
+        a += active.clock ? '1' : '0';
+
+        var h = time.getHours();
+        var m = time.getMinutes();
+
+        var process = this.talkToBear(
+            'alarm\r\n',
+            '\r\n',
+            (endmsg, delimeter, resolve, reject, data)=> {
+                var datastr = data.data.toString().replace(endmsg, '');
+                resolve(datastr);
+            },
+            't'+h+':'+m+'\n'+d+'\n'+a+'\n');
+        return process(timeout)*/
 
     }
 
@@ -271,10 +294,9 @@ class BlueManager {
             '\r\n',
             (endmsg, delimeter, resolve, reject, data)=> {
                 var datastr = data.data.toString().replace(endmsg, '');
-                console.log('getAlarmTime:', datastr);
                 resolve(datastr);
             },
-            't\n');
+            'tg\n');
         return process(timeout)
 
     }
