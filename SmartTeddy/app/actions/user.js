@@ -46,6 +46,19 @@ export function authSignInRequestFail(){
     };
 }
 
+export function socialSignUp(success, usertoken, beartoken) {
+    if(success){
+        // Все хорошо
+        dispatch(authSetToken(usertoken));
+        dispatch(authSetUser(""));
+        dispatch(fetchStories());
+        dispatch(popNRoute(2));
+    }
+    else{
+        dispatch(setError('Вход в социальную сеть завершился крахом'));
+        dispatch(popNRoute(1));
+    }
+}
 
 export function fetchSignIn(email, password) {
 

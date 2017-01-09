@@ -176,9 +176,11 @@ class AppNavigator extends Component {
             case 'interactive':
                 return <Interactive navigator={navigator} />;
             case 'vk':
-                return <Social url="207.154.202.242/api/social/vk" navigator={navigator} />;
-            case 'odnoklassniki':
-                return <Social url="" navigator={navigator} />;
+                return <Social url="https://magicbackpack.ru/api/social/vk" navigator={navigator} />;
+            case 'ok':
+                return <Social url="https://magicbackpack.ru/api/social/ok" navigator={navigator} />;
+            case 'fb':
+                return <Social url="https://magicbackpack.ru/api/social/fb" navigator={navigator} />;
             default :
                 return <Store navigator={navigator} />;
         }

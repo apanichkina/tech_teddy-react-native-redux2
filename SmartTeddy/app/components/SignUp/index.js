@@ -4,12 +4,13 @@ import React, { Component } from 'react';
 import { Container, Content, Header, Text, Title, Button as ButtonNB, Icon, View, Spinner } from 'native-base';
 import styles from './styles';
 import myTheme from '../../themes/base-theme';
-import { popRoute, popNRoute } from '../../actions/route';
+import { popRoute, popNRoute, pushNewRoute } from '../../actions/route';
 import {fetchSignUp} from '../../actions/user'
 import { connect } from 'react-redux';
 import SmartScrollView from 'react-native-smart-scroll-view';
 import Button from 'react-native-button';
 import dismissKeyboard from 'react-native-dismiss-keyboard';
+import SocialButtons from "../Social/socialLoginButtons";
 
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
@@ -150,6 +151,7 @@ class SignUp extends Component {
                                 Войти
                             </Button>
                         </View>
+                        {/*<SocialButtons VKEvent={()=>this.props.pushNewRoute("vk")} FBEvent={()=>this.props.pushNewRoute("fb")} OKEvent={()=>this.props.pushNewRoute("ok")}/>*/}
                     </SmartScrollView>
                 </View>
             </Container>
@@ -170,7 +172,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         popRoute: () => dispatch(popRoute()),
         popNRoute: (n) => dispatch(popNRoute(n)),
-        fetchSignUp: (n, e, p1, p2) => dispatch(fetchSignUp(n, e, p1, p2))
+        fetchSignUp: (n, e, p1, p2) => dispatch(fetchSignUp(n, e, p1, p2)),
+        pushNewRoute: route => dispatch(pushNewRoute(route))
     }
 };
 

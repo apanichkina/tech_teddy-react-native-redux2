@@ -10,6 +10,8 @@ import SmartScrollView from 'react-native-smart-scroll-view';
 import Button from 'react-native-button';
 import dismissKeyboard from 'react-native-dismiss-keyboard';
 import { Col, Row, Grid } from "react-native-easy-grid";
+import SocialButtons from "../Social/socialLoginButtons";
+
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
 
@@ -117,6 +119,7 @@ class SignIn extends Component {
                             Зарегистрироваться
                         </Button></Col>
                     </Grid>
+                    <SocialButtons VKEvent={()=>this.pushNewRoute("vk")} FBEvent={()=>this.pushNewRoute("fb")} OKEvent={()=>this.pushNewRoute("ok")}/>
                 </SmartScrollView>
             </View>
         </Container>

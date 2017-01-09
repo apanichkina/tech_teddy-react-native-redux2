@@ -29,7 +29,7 @@ class ModalComponent extends React.Component  {
                     <Text>{messageText}</Text>
                     <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                         <Button transparent textStyle={{color:myTheme.btnPrimaryBg }} onPress={onСancel}> ОТМЕНИТЬ </Button>
-                        <Button transparent  textStyle={{color:myTheme.btnPrimaryBg }}onPress={onConfurm}> ОК </Button>
+                        <Button transparent  textStyle={{color:myTheme.btnPrimaryBg }} onPress={onConfurm}> ОК </Button>
                     </View>
 
                 </Modal>
