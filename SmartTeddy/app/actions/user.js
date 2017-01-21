@@ -1,5 +1,5 @@
 import * as types from './actionTypes';
-import {popRoute, popNRoute} from './route'
+import {popRoute, popNRoute, pushNewRoute } from './route'
 import {fetchStories} from './userStories'
 import {setError} from './error'
 import timeout from '../FetchTimeout';
@@ -58,6 +58,17 @@ export function socialSignUp(success, usertoken, beartoken) {
         else {
             dispatch(setError('Вход в социальную сеть завершился крахом'));
             dispatch(popNRoute(1));
+        }
+    }
+}
+export function socialSignIn(name) {
+
+    return function (dispatch, getState) {
+        let state = getState();
+        if (!state.internet.isConnected) {
+            dispatch(setError('Нет интернета'));
+        } else {
+            dispatch(pushNewRoute(name))
         }
     }
 }

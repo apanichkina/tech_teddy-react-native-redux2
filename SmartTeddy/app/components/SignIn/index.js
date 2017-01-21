@@ -4,7 +4,7 @@ import { Container, Content, Header, Text, Title, Button as ButtonNB, Icon, View
 import styles from './styles';
 import myTheme from '../../themes/base-theme';
 import { popRoute, pushNewRoute } from '../../actions/route';
-import { fetchSignIn } from '../../actions/user';
+import { fetchSignIn, socialSignIn } from '../../actions/user';
 import { connect } from 'react-redux';
 import SmartScrollView from 'react-native-smart-scroll-view';
 import Button from 'react-native-button';
@@ -73,6 +73,10 @@ class SignIn extends Component {
         dismissKeyboard();
         this.pushNewRoute('signup')
     }
+    goToSocial(name) {
+        dismissKeyboard();
+        this.props.socialSignIn(name)
+    }
     onChange(value) {
         this.setState({ value });
     }
@@ -119,7 +123,10 @@ class SignIn extends Component {
                             Зарегистрироваться
                         </Button></Col>
                     </Grid>
-                    <SocialButtons VKEvent={()=>this.pushNewRoute("vk")} FBEvent={()=>this.pushNewRoute("fb")} OKEvent={()=>this.pushNewRoute("ok")}/>
+                    <SocialButtons
+                        VKEvent={()=>this.goToSocial("vk")}
+                        FBEvent={()=>this.goToSocial("fb")}
+                        OKEvent={()=>this.goToSocial("ok")}/>
                 </SmartScrollView>
             </View>
         </Container>
@@ -143,7 +150,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         popRoute: () => dispatch(popRoute()),
         pushNewRoute: route => dispatch(pushNewRoute(route)),
-        fetchSignIn: (e,p) => dispatch(fetchSignIn(e,p))
+        fetchSignIn: (e,p) => dispatch(fetchSignIn(e,p)),
+        socialSignIn: (name) => dispatch(socialSignIn(name))
     }
 };
 

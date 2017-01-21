@@ -9,6 +9,7 @@ import {
 import { connect } from 'react-redux';
 import Modal from '../components/Modal';
 import { authDiscardToken } from '../actions/user';
+import { discardUserStories } from '../actions/userStories';
 import {popToTop} from '../actions/route'
 import {isConnectedInternet} from '../actions/internet'
 import {setErrorNotVisible} from '../actions/error'
@@ -56,6 +57,7 @@ class Root extends React.Component  {
     logout() {
         this.props.disconnectFromDevice();
         this.props.authDiscardToken();
+        this.props.discardUserStories();
         this.props.popToTop();
 
     }
@@ -118,7 +120,8 @@ const mapDispatchToProps = (dispatch) => {
         popToTop: () => dispatch(popToTop()),
         isConnectedInternet: (s) => dispatch(isConnectedInternet(s)),
         setErrorNotVisible: () => dispatch(setErrorNotVisible()),
-        disconnectFromDevice: () => dispatch(disconnectFromDevice())
+        disconnectFromDevice: () => dispatch(disconnectFromDevice()),
+        discardUserStories: () => dispatch(discardUserStories())
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Root);
