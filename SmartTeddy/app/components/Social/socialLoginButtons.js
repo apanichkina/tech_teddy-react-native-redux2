@@ -11,22 +11,22 @@ export default class SocialButtons extends Component {
     render() {
         return (
             <View style={styles.content}>
-            <TouchableHighlight underlayColor="white" onPress={this.props.VKEvent}>
-                <Image
-                    style={styles.button}
-                    source={require('../../../img/social/vk.png')}
-                />
-            </TouchableHighlight>
-                <TouchableHighlight underlayColor="white" onPress={this.props.FBEvent}>
+                <TouchableHighlight underlayColor="white" onPress={this.props.VKEvent}>
                     <Image
                         style={styles.button}
-                        source={require('../../../img/social/fb.png')}
+                        source={require('../../../img/social/Vk-icon.png')}
                     />
                 </TouchableHighlight>
                 <TouchableHighlight underlayColor="white" onPress={this.props.OKEvent}>
                     <Image
                         style={styles.button}
                         source={require('../../../img/social/ok.png')}
+                        />
+                </TouchableHighlight>
+                <TouchableHighlight underlayColor="white" onPress={this.props.FBEvent}>
+                    <Image
+                        style={styles.button}
+                        source={require('../../../img/social/square-facebook-512.png')}
                     />
                 </TouchableHighlight>
             </View>
@@ -36,5 +36,5 @@ export default class SocialButtons extends Component {
 SocialButtons.propTypes = {
     VKEvent: React.PropTypes.func.isRequired,
     FBEvent: React.PropTypes.func.isRequired,
-    OKEvent: React.PropTypes.func.isRequired,
+    OKEvent: React.PropTypes.func.isRequired
 };

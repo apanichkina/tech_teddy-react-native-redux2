@@ -82,7 +82,7 @@ class Bears extends Component {
                                                 <View>
                                                     <Text style={styles.header} >{item.name}</Text>
                                                     <Text style={styles.help} >{item.id}</Text>
-                                                    <Text style={styles.status}>{connectedBearId == item.id ? 'Подключен' : connectToDeviceFetching && id == item.id ? 'Подключение...' : ' '}</Text>
+                                                    <Text style={styles.status}>{connectedBearId == item.id ? 'Подключено' : connectToDeviceFetching && id == item.id ? 'Подключение...' : ' '}</Text>
                                                 </View>
                                         </ListItem>
                                     }>
