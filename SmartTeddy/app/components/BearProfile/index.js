@@ -27,6 +27,9 @@ class BProfile extends Component {
     componentWillUpdate(nextProps, nextState){
         if (!this.props.name) this.props.popToTop();
     }
+    componentDidMount(){
+
+    }
 
     constructor(props) {
         super(props);

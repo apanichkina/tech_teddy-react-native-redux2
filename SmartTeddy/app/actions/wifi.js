@@ -1,6 +1,6 @@
 import * as types from './actionTypes';
 import Bluetooth from '../BluetoothLib'
-
+import {addUserTask} from '../queue';
 export function setWiFiPassword(password:string):Action {
     return {
         type: types.SET_WIFI_PASSWORD,
@@ -62,5 +62,26 @@ export function toggleWiFi () {
                 console.log('toggleWiFi');
                 //E.long(error, 'toggleWiFi')
             });
+    }
+}
+
+
+export function getWiFiList() {
+    return function (dispatch, getState) {
+        // let stories = getState().userStories.stories;
+        //dispatch(requestBearStories());
+        addUserTask('getWifiList',()=>{ let instance = Bluetooth.getInstance(); return instance.getWiFi(); },
+            function(){},
+            (array) => {
+                //dispatch(receiveStories(stories,array))
+                console.log(array)
+            },
+            (error) => {
+                //dispatch(requestBearStoriesFailed());
+                console.log('wifi list error:');
+                console.log(error)
+            }
+        );
+
     }
 }

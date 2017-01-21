@@ -100,7 +100,34 @@ class BlueManager {
     disable () {
         return BL.disable()
     }
-
+    getWiFi(timeout = 15000) {
+        var process = this.talkToBear(
+            // КОНЕЦ ВСЕГО ОБЩЕНИЯ С МИШКОЙ
+            'wifi\r\n',
+            //'end\r\n',
+            // РАЗДЕЛИТЕЛЬ
+            '\r\n',
+            // ФУНКЦИЯ НА ПРИЕМ СООБЩЕНИЯ
+            // endmsg - переданный выше
+            // delimeter - переданный выше
+            // resolve - функция, в которую нужно передать ответ для внешнего мира, если все хорошо
+            // reject - функция, в которую нужно передать информацию об ошибке для внешнего мира, если все плохо
+            // data - данные от медведя
+            (endmsg, delimeter, resolve, reject, data)=> {
+                var datastr = data.data.toString().replace(endmsg, '');
+                //console.log(datastr)
+                var templist = datastr.split(delimeter);
+                var len = templist.length;
+                if (len > 0) {
+                    templist.splice(len - 1, 1)
+                }
+                storyList = templist;
+                resolve(templist);
+            },
+            //СООБЩЕНИЕ
+            'wl\n');
+        return process(timeout)
+    }
 
     getStoryList(timeout = 10000) {
         var process = this.talkToBear(

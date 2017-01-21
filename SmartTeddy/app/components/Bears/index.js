@@ -70,7 +70,7 @@ class Bears extends Component {
                             <Button style={{ alignSelf: 'center', margin:6 }} info onPress={() => this.enableBluetooth()}>ВКЛЮЧИТЬ</Button>
                         </View>
                         :devicesCount ?
-                            <Content>
+                            <Content padder>
                                 <List dataArray={bears}
                                         renderRow={(item) =>
                                         <ListItem
@@ -80,8 +80,8 @@ class Bears extends Component {
                                                         () => this.props.pushNewRoute('bear-profile')
                                                         : () => this.onBearClick(item.name, item.id)}>
                                                 <View>
-                                                    <Text style={styles.header} >{item.name}</Text>
-                                                    <Text style={styles.help} >{item.id}</Text>
+                                                    <Text style={[styles.header, connectedBearId == item.id ? {color:'#00897B'} : null]} >{item.name}</Text>
+                                                    <Text style={[styles.help, connectedBearId == item.id ? {color:'#00897B'} : null]} >{item.id}</Text>
                                                     <Text style={styles.status}>{connectedBearId == item.id ? 'Подключено' : connectToDeviceFetching && id == item.id ? 'Подключение...' : ' '}</Text>
                                                 </View>
                                         </ListItem>
