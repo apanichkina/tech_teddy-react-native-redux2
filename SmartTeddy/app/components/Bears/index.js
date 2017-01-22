@@ -28,7 +28,7 @@ class Bears extends Component {
     }
     onBearClick(name, id) {
         this.props.pressConnectToDeviceButton(id);
-        this.props.connectToDevice(id, name)
+        this.props.connectToDevice(id, name);
             //.then(() => {
             //    this.props.replaceRoute('bear-profile');
             //})
@@ -40,7 +40,6 @@ class Bears extends Component {
         if (this.props.bluetoothEnabled != nextProps.bluetoothEnabled) this.props.searchBears();
     }
     enableBluetooth(){
-        console.log('enableBluetooth')
         Bluetooth.getInstance().enable();
         this.props.searchBears();
        // this.props.searchBears();
@@ -71,7 +70,7 @@ class Bears extends Component {
                             <Button style={{ alignSelf: 'center', margin:6 }} info onPress={() => this.enableBluetooth()}>ВКЛЮЧИТЬ</Button>
                         </View>
                         :devicesCount ?
-                            <Content>
+                            <Content padder>
                                 <List dataArray={bears}
                                         renderRow={(item) =>
                                         <ListItem
@@ -81,9 +80,9 @@ class Bears extends Component {
                                                         () => this.props.pushNewRoute('bear-profile')
                                                         : () => this.onBearClick(item.name, item.id)}>
                                                 <View>
-                                                    <Text style={styles.header} >{item.name}</Text>
-                                                    <Text style={styles.help} >{item.id}</Text>
-                                                    <Text style={styles.status}>{connectedBearId == item.id ? 'Подключен' : connectToDeviceFetching && id == item.id ? 'Подключение...' : ' '}</Text>
+                                                    <Text style={[styles.header, connectedBearId == item.id ? {color:'#00897B'} : null]} >{item.name}</Text>
+                                                    <Text style={[styles.help, connectedBearId == item.id ? {color:'#00897B'} : null]} >{item.id}</Text>
+                                                    <Text style={styles.status}>{connectedBearId == item.id ? 'Подключено' : connectToDeviceFetching && id == item.id ? 'Подключение...' : ' '}</Text>
                                                 </View>
                                         </ListItem>
                                     }>

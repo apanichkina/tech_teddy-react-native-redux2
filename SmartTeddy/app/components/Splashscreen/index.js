@@ -6,7 +6,7 @@ import { fetchCategories } from '../../actions/storyCategory'
 import styles from './styles';
 import { connect } from 'react-redux';
 import myTheme from '../../themes/base-theme';
-const splashscreen = require('../../../img/web_hi_res_512.png');
+const splashscreen = require('../../../img/splashicon.png');
 
 class SplashPage extends Component {
 

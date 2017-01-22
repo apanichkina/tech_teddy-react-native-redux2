@@ -9,9 +9,11 @@ class BlueManager {
     requestStack = [];
 
     stop = function (func) {
+        //console.log("stopped");
         BluetoothSerial.off('data', func);
         this.unsubscribe();
         this.isFetching = false;
+        clearTimeout(this.timeout)
     }.bind(this);
 
     // TODO: внутри этого модуля контролировать соединение с девайсом:
@@ -24,7 +26,7 @@ class BlueManager {
         unknown: 'bluetooth problem',
         enableManual: 'Please, enable BT manually'
     };
-
+//TODO убрать печать в консоль
     talkToBear(bear_endmsg, bear_delimeter, onAnswer, message) {
         return function (timeout = 10000) {
             console.log('talkToBear: '+ message);
@@ -39,7 +41,11 @@ class BlueManager {
             return new Promise((resolve, reject) => {
                 var delimeter = bear_delimeter;
                 var endmsg = bear_endmsg;
-                var temp = read(endmsg, delimeter, resolve, reject, this.stop);
+                var temp = read(endmsg, delimeter, resolve, reject, this.stop.bind(this));
+                this.timeout = setTimeout(() => {
+                    this.stop(null, temp);
+                    reject(this.errors.timeoutExpired);
+                }, timeout);
                 if (this.isFetching == true) {
                     // requestStack.push();
                     reject(this.errors.isFetching)
@@ -49,10 +55,6 @@ class BlueManager {
                     BluetoothSerial.isConnected().then(
                             result => {
                             if (result) {
-                                setTimeout(() => {
-                                    this.stop(temp);
-                                    reject(this.errors.timeoutExpired);
-                                }, timeout);
                                 this.subscribe(endmsg);
                                 BluetoothSerial.on('data', temp);
                                 BluetoothSerial.write(message);
@@ -100,7 +102,34 @@ class BlueManager {
     disable () {
         return BL.disable()
     }
-
+    getWiFi(timeout = 15000) {
+        var process = this.talkToBear(
+            // КОНЕЦ ВСЕГО ОБЩЕНИЯ С МИШКОЙ
+            'wifi\r\n',
+            //'end\r\n',
+            // РАЗДЕЛИТЕЛЬ
+            '\r\n',
+            // ФУНКЦИЯ НА ПРИЕМ СООБЩЕНИЯ
+            // endmsg - переданный выше
+            // delimeter - переданный выше
+            // resolve - функция, в которую нужно передать ответ для внешнего мира, если все хорошо
+            // reject - функция, в которую нужно передать информацию об ошибке для внешнего мира, если все плохо
+            // data - данные от медведя
+            (endmsg, delimeter, resolve, reject, data)=> {
+                var datastr = data.data.toString().replace(endmsg, '');
+                //console.log(datastr)
+                var templist = datastr.split(delimeter);
+                var len = templist.length;
+                if (len > 0) {
+                    templist.splice(len - 1, 1)
+                }
+                storyList = templist;
+                resolve(templist);
+            },
+            //СООБЩЕНИЕ
+            'wl\n');
+        return process(timeout)
+    }
 
     getStoryList(timeout = 10000) {
         var process = this.talkToBear(
@@ -117,7 +146,6 @@ class BlueManager {
             // data - данные от медведя
             (endmsg, delimeter, resolve, reject, data)=> {
                 var datastr = data.data.toString().replace(endmsg, '');
-                console.log(datastr);
                 var templist = datastr.split(delimeter);
                 var len = templist.length;
                 if (len > 0) {
@@ -187,7 +215,6 @@ class BlueManager {
     }
 
     play(filename, timeout = 10000) {
-        console.log('s' + filename + '\n');
         var process = this.talkToBear(
             'story\r\n',
             '\r\n',

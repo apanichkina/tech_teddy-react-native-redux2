@@ -28,6 +28,10 @@ export default function(state = initialState, action={}) {
             return Object.assign({}, state, {
                 isFetching: false
             });
+        case 'DISCARD_USER_STORIES':
+            return Object.assign({}, state, {
+                stories: []
+            });
         default:
             return state
     }

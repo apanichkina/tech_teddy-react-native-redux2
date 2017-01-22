@@ -3,7 +3,7 @@ var DEFAULT_VALUE = 0.2;
 var SliderContainer = React.createClass({
     getInitialState() {
         return {
-            value: DEFAULT_VALUE,
+            value: DEFAULT_VALUE
         };
     },
 

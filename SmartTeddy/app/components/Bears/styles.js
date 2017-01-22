@@ -20,7 +20,7 @@ module.exports = StyleSheet.create({
         lineHeight: 30
     },
     status:{
-        color: '#00897B',
+        color: '#BDBDBD',
         fontSize: 13,
         lineHeight: 15
     }

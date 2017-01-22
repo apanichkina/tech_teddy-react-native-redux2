@@ -41,7 +41,7 @@ class SProfile extends Component {
         else this.props.pushNewRoute('signin')
     }
     goToInteractive(id){
-        this.props.seeSubStory(id);
+       // this.props.seeSubStory(id);
         this.props.pushNewRoute('interactive')
     }
 
@@ -53,10 +53,10 @@ class SProfile extends Component {
           case "сказки":
               logo = logo_fun;
               break;
-          case "колыбельные":
+          case "на ночь":
               logo = logo_night;
               break;
-          case "помощник":
+          case "помощь":
               logo = logo_helper;
               break;
           default:

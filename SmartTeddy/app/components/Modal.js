@@ -11,7 +11,7 @@ class ModalComponent extends React.Component  {
                 <Modal
                     open={isVisible}
                     offset={0}
-                    overlayBackground={'rgba(0, 0, 0, 0.75)'}
+                    overlayBackground={'rgba(0, 0, 0, 0.5)'}
                     animationDuration={200}
                     animationTension={40}
                     modalDidOpen={() => undefined}
@@ -29,7 +29,7 @@ class ModalComponent extends React.Component  {
                     <Text>{messageText}</Text>
                     <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                         <Button transparent textStyle={{color:myTheme.btnPrimaryBg }} onPress={onСancel}> ОТМЕНИТЬ </Button>
-                        <Button transparent  textStyle={{color:myTheme.btnPrimaryBg }}onPress={onConfurm}> ОК </Button>
+                        <Button transparent  textStyle={{color:myTheme.btnPrimaryBg }} onPress={onConfurm}> ОК </Button>
                     </View>
 
                 </Modal>

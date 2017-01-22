@@ -22,7 +22,11 @@ function requestStoriesFail():Action {
         type: types.REQUEST_USER_STORIES_FAIL
     }
 }
-
+export function discardUserStories():Action {
+    return {
+        type: types.DISCARD_USER_STORIES
+    }
+}
 export function fetchStories() {
 
     return function (dispatch,getState) {

@@ -8,11 +8,14 @@ import {
     } from 'react-native'
 import { connect } from 'react-redux';
 import Modal from '../components/Modal';
+import ModalWiFi from '../components/SetWiFIModal';
 import { authDiscardToken } from '../actions/user';
+import { discardUserStories } from '../actions/userStories';
 import {popToTop} from '../actions/route'
 import {isConnectedInternet} from '../actions/internet'
 import {setErrorNotVisible} from '../actions/error'
 import Toast from 'react-native-root-toast';
+import { disconnectFromDevice} from '../actions/bluetooth';
 let strings = {
     message: 'Вы уверены, что хотите ВЫЙТИ из учетной записи?'
 };
@@ -30,7 +33,6 @@ class Root extends React.Component  {
         NetInfo.isConnected.fetch().then(isConnected => {
             let state = isConnected ? true : false;
             this.props.isConnectedInternet(state);
-            console.log('First, is ' + (isConnected ? 'online' : 'offline'));
         });
         NetInfo.isConnected.addEventListener(
             'change',
@@ -51,11 +53,12 @@ class Root extends React.Component  {
     handleFirstConnectivityChange(isConnected) {
         let state = isConnected ? true : false;
         this.props.isConnectedInternet(state);
-        console.log('Then, internet is ' + (isConnected ? 'online' : 'offline'));
     }
 
     logout() {
+        this.props.disconnectFromDevice();
         this.props.authDiscardToken();
+        this.props.discardUserStories();
         this.props.popToTop();
 
     }
@@ -65,11 +68,9 @@ class Root extends React.Component  {
     onConfurmModal() {
         this.logout();
         this.setState({isModalVisible: false});
-        console.log('Confurm')
     }
     onСancelModal(){
         this.setState({isModalVisible: false});
-        console.log('Cancel')
     }
     show = () =>{
         let message = this.props.errorMessage;
@@ -102,6 +103,7 @@ class Root extends React.Component  {
                     onConfurm={() =>{this.onConfurmModal()}}
                     onСancel={() =>{this.onСancelModal()}}
                     />
+                <ModalWiFi/>
 
             </View>
         );
@@ -111,7 +113,8 @@ class Root extends React.Component  {
 const mapStateToProps = (state) => {
     return {
         isErrorVisible: state.error.isVisible,
-        errorMessage: state.error.message
+        errorMessage: state.error.message,
+        isWiFiModalVisible: state.wifiSet.isModalVisible
     }
 };
 const mapDispatchToProps = (dispatch) => {
@@ -119,7 +122,9 @@ const mapDispatchToProps = (dispatch) => {
         authDiscardToken: () => dispatch(authDiscardToken()),
         popToTop: () => dispatch(popToTop()),
         isConnectedInternet: (s) => dispatch(isConnectedInternet(s)),
-        setErrorNotVisible: () => dispatch(setErrorNotVisible())
+        setErrorNotVisible: () => dispatch(setErrorNotVisible()),
+        disconnectFromDevice: () => dispatch(disconnectFromDevice()),
+        discardUserStories: () => dispatch(discardUserStories())
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Root);

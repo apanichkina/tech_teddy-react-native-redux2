@@ -17,6 +17,7 @@ import Interactive from '../components/InteractiveStory/';
 import BearProfile from '../components/BearProfile/';
 import StoryProfile from '../components/StoryProfile';
 import SideBar from '../components/SideBar/';
+import Social from '../components/Social/socialWebview';
 import Alarm from './ClockAlarm'
 import WiFi from './WiFi'
 import SplashPage from '../components/Splashscreen/';
@@ -96,17 +97,14 @@ class AppNavigator extends Component {
                 }
             }
             this.disconnectFromDevice();
-            console.log('Bluetooth connectionLost')
         });
 
         BluetoothSerial.on('bluetoothEnabled', () => {
             this.enableBluetooth();
-            console.log('Bluetooth enabled')
         });
 
         BluetoothSerial.on('bluetoothDisabled', () => {
             this.disableBluetooth();
-            console.log('Bluetooth disabled')
         })
     }
 
@@ -174,6 +172,12 @@ class AppNavigator extends Component {
                 return <SignUp navigator={navigator} />;
             case 'interactive':
                 return <Interactive navigator={navigator} />;
+            case 'vk':
+                return <Social url="https://magicbackpack.ru/api/social/vk" navigator={navigator} />;
+            case 'ok':
+                return <Social url="https://magicbackpack.ru/api/social/ok" navigator={navigator} />;
+            case 'fb':
+                return <Social url="https://magicbackpack.ru/api/social/fb" navigator={navigator} />;
             case 'splashscreen':
                 return <SplashPage navigator={navigator} />;
             default :

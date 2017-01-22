@@ -6,14 +6,14 @@ import user from './user'
 import bluetooth from './bluetooth'
 import bear from './bear'
 import alarm from './alarm'
-import wifi from './wifi'
+import wifiList from './wifiList'
+import wifiSet from './wifiSet'
 import player from './player'
 import userStories from './userStories'
 import storeStories from './storeSrories'
 import internet from './internet'
 import error from './error'
 import bearStory from './bearStory'
-import interactiveStories from './interactiveStories'
 import connectToDeviceButton from './connectToDeviceButton'
 import playerButtons from './playerButtons'
 import subStory from './subStory'
@@ -28,13 +28,13 @@ export {
     userStories,
     storeStories,
     connectToDeviceButton,
-    interactiveStories,
     bluetooth,
     error,
     internet,
     user,
     route,
-    wifi,
+    wifiList,
+    wifiSet,
     alarm,
     drawer
     };

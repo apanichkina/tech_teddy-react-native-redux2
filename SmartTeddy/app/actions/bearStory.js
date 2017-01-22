@@ -2,7 +2,6 @@ import * as types from './actionTypes';
 import Bluetooth from '../BluetoothLib'
 import {addUserTask} from '../queue';
 import {setBearStories} from './bear'
-import {fetchStories} from './interactiveStories'
 import {setError} from './error'
 import {stopStory} from './player'
 function uploadStory(id:number, size:number, sizes):Action {
@@ -49,9 +48,7 @@ export function uploadHardcodeStoryToBear(id) {
                     let instance = Bluetooth.getInstance();
                     return instance.downloadFile(id);
                 },
-                function () {
-                    console.log('onStart uploadStoryToBear')
-                },
+                function () {},
                 () => {
                     dispatch(uploadStory(id, 100000))
                 },
@@ -83,9 +80,7 @@ export function uploadStoryToBear(id) {
                     let instance = Bluetooth.getInstance();
                     return instance.downloadFile(id, count);
                 },
-                function () {
-                    console.log('onStart uploadStoryToBear'+id)
-                },
+                function () {},
                 () => {
                     console.log(fullSize);
                     console.log(sizes);
@@ -104,8 +99,7 @@ export function uploadStoryToBear(id) {
 export function deleteStoryFromBear(id) {
     return function (dispatch, getState) {
         let uploadedStory = getState().userStories.stories[id];
-        let count = uploadedStory.roled ? uploadedStory.story_parts.length : 1;
-        console.log(count);
+        let count = uploadedStory.story_parts.length;
         addUserTask('deleteStoryFromBear', ()=> {
                 let instance = Bluetooth.getInstance();
                 return instance.removeFile(id, count);

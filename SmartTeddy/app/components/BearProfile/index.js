@@ -27,12 +27,14 @@ class BProfile extends Component {
     componentWillUpdate(nextProps, nextState){
         if (!this.props.name) this.props.popToTop();
     }
+    componentDidMount(){
+
+    }
 
     constructor(props) {
         super(props);
         //this.props.setBearStories()
         setTimeout(() => {
-            console.log('BProfile:setTStories done');
             this.props.setBearStories()
         }, 300);
     }

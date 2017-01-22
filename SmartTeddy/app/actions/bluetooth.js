@@ -5,7 +5,9 @@ import {setError} from './error'
 import {downloaded, uploadStoryToBear, deleteStory} from './bearStory'
 import { setBearStories, setConnectedBear } from './bear'
 import {playStory, pauseStory, pauseBearStory, stopStory}from './player'
+import {donePlayButton} from './playerButtons'
 import { pushNewRoute} from './route'
+import { toggleWiFiActive, setConnectedWiFiSSID } from './wifi'
 import {addUserTask, addSystemTask} from '../queue';
 import {stopDowload} from './bearStory'
 import {replaceRoute} from './route'
@@ -53,7 +55,6 @@ export function receiveBears(devices):Action {
 }
 
 export function searchBears() {
-    console.log('Я ищу мишек');
     let instance = Bluetooth.getInstance();
     return function (dispatch) {
         return instance.list().then(array => {{console.log(array);dispatch(receiveBears(array))}}
@@ -72,7 +73,6 @@ export function connectToDevice(id, name) {
                     return instance.connect(id);
                 },
                 function () {
-                    console.log('onStart connectToDevice');
                     dispatch(startConnectToDeviceButton())
                 },
                 function (result) {
@@ -99,10 +99,9 @@ export function connectToDevice(id, name) {
                 },
                 (error) => {
                     dispatch(doneConnectToDeviceButton());
-                    dispatch(setError('Не удалось подключиться')); //<-------пример, как кидать пользователю ошибки в Toast
+                    dispatch(setError('Не удалось подключиться'));
                     console.log('connect ti device error:');
                     console.log(error);
-                    //throw error;
                 }
             );
         }
@@ -130,7 +129,6 @@ export function disconnectFromDevice() {
                 //     heartBeatID = clearTimeout(heartBeatID);
                 // }
                 dispatch(unconnectBluetooth());
-                console.log('disconnectFromDevice');
                 dispatch(setConnectedBear('',''));
             }
         ).catch((error) => {
@@ -143,7 +141,6 @@ export function disconnectFromDevice() {
 export function heartBeat() {
     return function (dispatch, getState) {
 
-        // console.log('heartBeat me please');
         addSystemTask('heartBeat', ()=> {
                 let instance = Bluetooth.getInstance();
                 return instance.shortPolling();
@@ -152,12 +149,10 @@ export function heartBeat() {
 
             },
             (array) => {
-                //let isDownloading = getState().bearStory.downloaded;
-                //if (!array.length && isDownloading) {
-                //    dispatch(setError('Загрузка завешнена'));
-                //    dispatch(stopDowload());
-                //    dispatch(setBearStories());
-                //}
+                if (!array.length) {
+                    dispatch(toggleWiFiActive(false));
+                    dispatch(setConnectedWiFiSSID(''));
+                }
                 for (var i = 0; i < array.length; ++i) {
                     var code = array[i][0];
                     var body = array[i].substring(1);
@@ -174,6 +169,7 @@ export function heartBeat() {
                             if (body == 'top') {
                                 dispatch(stopStory());
                             } else {
+                                dispatch(donePlayButton());
                                 dispatch(playStory(body));
                             }
                             //console.log('story: ' + body +' is playing');
@@ -188,7 +184,7 @@ export function heartBeat() {
                         case 'r':
                         {
                             // dispatch(speakRole(body));
-                            console.log('hero: ' + body + ' is speaking');
+                            //console.log('hero: ' + body + ' is speaking');
                         }
                             break;
                         case 'd':
@@ -196,7 +192,7 @@ export function heartBeat() {
                             let commands = body.split(':');
                             let id = commands[0];
                             let bytes = commands[1];
-                            if (getState().bearStory.downloadingStoryId != id) {
+                            if (getState().bearStory.downloadingStoryId != parseInt(id)) {
                                 dispatch(uploadStoryToBear(id));
                             }
                             dispatch(downloaded(parseInt(bytes), id));
@@ -209,6 +205,16 @@ export function heartBeat() {
                             dispatch(setError('Загрузка завешнена'));
                             dispatch(setBearStories());
                             //console.log('downloaded: ' + body + ' bytes');
+                        }
+                            break;
+                        case 'w':
+                        {
+                            dispatch(toggleWiFiActive(true));
+                            if (body == 1 || body == 2 || body == 3) {
+                               console.log('fetching wifi')
+                            } else {
+                                dispatch(setConnectedWiFiSSID(body));
+                            }
                         }
                             break;
                         default:
