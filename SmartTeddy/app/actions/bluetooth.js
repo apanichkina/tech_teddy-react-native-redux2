@@ -7,6 +7,7 @@ import { setBearStories, setConnectedBear } from './bear'
 import {playStory, pauseStory, pauseBearStory, stopStory}from './player'
 import {donePlayButton} from './playerButtons'
 import { pushNewRoute} from './route'
+import { toggleWiFiActive, setConnectedWiFiSSID } from './wifi'
 import {addUserTask, addSystemTask} from '../queue';
 import {stopDowload} from './bearStory'
 import {replaceRoute} from './route'
@@ -188,7 +189,6 @@ export function heartBeat() {
                             let id = commands[0];
                             let bytes = commands[1];
                             if (getState().bearStory.downloadingStoryId != parseInt(id)) {
-                                console.log('мишка сам качает');
                                 dispatch(uploadStoryToBear(id));
                             }
                             dispatch(downloaded(parseInt(bytes), id));
@@ -203,7 +203,17 @@ export function heartBeat() {
                             //console.log('downloaded: ' + body + ' bytes');
                         }
                             break;
+                        case 'w':
+                        {
+                            dispatch(toggleWiFiActive(true));
+                            if (body != '1' || body != '2' || body != '3')
+                            {
+                                dispatch(setConnectedWiFiSSID(body));
+                            }
+                        }
+                            break;
                         default:
+                            dispatch(toggleWiFiActive(false));
                             break;
                     }
                 }

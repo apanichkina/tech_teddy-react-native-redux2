@@ -11,7 +11,7 @@ class ModalComponent extends React.Component  {
                 <Modal
                     open={isVisible}
                     offset={0}
-                    overlayBackground={'rgba(0, 0, 0, 0.75)'}
+                    overlayBackground={'rgba(0, 0, 0, 0.5)'}
                     animationDuration={200}
                     animationTension={40}
                     modalDidOpen={() => undefined}

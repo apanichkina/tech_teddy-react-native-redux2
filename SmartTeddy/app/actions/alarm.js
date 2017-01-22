@@ -1,5 +1,6 @@
 import * as types from './actionTypes';
 import Bluetooth from '../BluetoothLib'
+import {addUserTask,addSystemTask } from '../queue';
 
 export function setAlarmTime(time:Date):Action {
     return {
@@ -74,18 +75,22 @@ function parseTime (res, dispatch, getState) {
 }
 
 export function getAlarmTime () {
-    let instance = Bluetooth.getInstance();
     return function (dispatch, getState) {
-        return instance.getAlarmTime()
-            .then((res) => { parseTime(res,dispatch,getState ) })
-            .catch((error) => {
+        addUserTask('getAlarmTime',()=>{ let instance = Bluetooth.getInstance(); return instance.getAlarmTime(); },
+            function(){},
+            (res) => {
+                parseTime(res,dispatch,getState )
+            },
+            (error) => {
                 console.log('getAlarmTime error');
                 console.log(error)
-            });
+            }
+        );
+
     }
 }
 export function setAlarm () {
-    let instance = Bluetooth.getInstance();
+
     return function (dispatch, getState) {
         let state = getState();
         var activate = {
@@ -94,12 +99,17 @@ export function setAlarm () {
             vibroActive: state.alarm.isVibroActive,
             soundActive: state.alarm.isSoundActive
         };
-        return instance.setAlarm(state.alarm.alarmTime, state.alarm.alarmDays, activate)
-            .then((res) => { parseTime(res,dispatch,getState ) })
-            .catch((error) => {
+        addUserTask('setAlarm',()=>{ let instance = Bluetooth.getInstance(); return instance.setAlarm(state.alarm.alarmTime, state.alarm.alarmDays, activate); },
+            function(){},
+            (res) => {
+                parseTime(res,dispatch,getState )
+            },
+            (error) => {
                 console.log('setAlarm error');
                 console.log(error)
-            });
+            }
+        );
+
     }
 
 }

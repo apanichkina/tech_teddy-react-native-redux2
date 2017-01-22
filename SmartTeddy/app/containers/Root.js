@@ -8,6 +8,7 @@ import {
     } from 'react-native'
 import { connect } from 'react-redux';
 import Modal from '../components/Modal';
+import ModalWiFi from '../components/SetWiFIModal';
 import { authDiscardToken } from '../actions/user';
 import { discardUserStories } from '../actions/userStories';
 import {popToTop} from '../actions/route'
@@ -102,6 +103,7 @@ class Root extends React.Component  {
                     onConfurm={() =>{this.onConfurmModal()}}
                     onСancel={() =>{this.onСancelModal()}}
                     />
+                <ModalWiFi/>
 
             </View>
         );
@@ -111,7 +113,8 @@ class Root extends React.Component  {
 const mapStateToProps = (state) => {
     return {
         isErrorVisible: state.error.isVisible,
-        errorMessage: state.error.message
+        errorMessage: state.error.message,
+        isWiFiModalVisible: state.wifiSet.isModalVisible
     }
 };
 const mapDispatchToProps = (dispatch) => {

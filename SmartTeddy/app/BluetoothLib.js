@@ -9,9 +9,11 @@ class BlueManager {
     requestStack = [];
 
     stop = function (func) {
+        console.log("stopped");
         BluetoothSerial.off('data', func);
         this.unsubscribe();
         this.isFetching = false;
+        clearTimeout(this.timeout)
     }.bind(this);
 
     // TODO: внутри этого модуля контролировать соединение с девайсом:
@@ -39,7 +41,11 @@ class BlueManager {
             return new Promise((resolve, reject) => {
                 var delimeter = bear_delimeter;
                 var endmsg = bear_endmsg;
-                var temp = read(endmsg, delimeter, resolve, reject, this.stop);
+                var temp = read(endmsg, delimeter, resolve, reject, this.stop.bind(this));
+                this.timeout = setTimeout(() => {
+                    this.stop(null, temp);
+                    reject(this.errors.timeoutExpired);
+                }, timeout);
                 if (this.isFetching == true) {
                     // requestStack.push();
                     reject(this.errors.isFetching)
@@ -49,10 +55,6 @@ class BlueManager {
                     BluetoothSerial.isConnected().then(
                             result => {
                             if (result) {
-                                setTimeout(() => {
-                                    this.stop(temp);
-                                    reject(this.errors.timeoutExpired);
-                                }, timeout);
                                 this.subscribe(endmsg);
                                 BluetoothSerial.on('data', temp);
                                 BluetoothSerial.write(message);
