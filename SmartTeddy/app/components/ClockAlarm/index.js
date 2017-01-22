@@ -71,9 +71,9 @@ class ClockAlarmPresentational extends Component {
 
                 <Content>
                     <View style={styles.container}>
-                        <View style={styles.inline}>
+                        {/* <View style={styles.inline}>
                             <Text style={styles.heading}>{title}</Text>
-                        </View>
+                        </View> */}
                         <View style={styles.inlineH0} >
                             <TouchableOpacity onPress={this._showDateTimePicker}>
                                 <Text
