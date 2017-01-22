@@ -67,14 +67,7 @@ class SideBar extends Component {
                             <Text style={styles.text}>Каталог сказок</Text>
                         </View>
                     </ListItem>
-                    <ListItem button  iconLeft onPress={() => this.navigateTo('wi-fi')}>
-                        <View style={styles.listItemContainer}>
-                            <View style={styles.iconContainer}>
-                                <Icon name="ios-wifi" style={[styles.sidebarIcon, !bearname ? {color:'#BDBDBD'}:null]} />
-                            </View>
-                            <Text style={[styles.text, !bearname ? {color:'#BDBDBD'}:null]}>WiFi</Text>
-                        </View>
-                    </ListItem>
+
                     {!isAuth ?
                         <ListItem button iconLeft onPress={() => this.navigateTo('signin')} >
                             <View style={styles.listItemContainer}>

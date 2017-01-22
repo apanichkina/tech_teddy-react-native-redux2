@@ -10,6 +10,7 @@ import {
   Switch,
   TouchableWithoutFeedback,
 } from 'react-native';
+import {popToTop} from '../actions/route'
 import { toggleWiFi, setWiFi, getWiFiList, setModalVisibility, setWiFiSSID, toggleWiFiActiveUnknown} from '../actions/wifi';
 import { connect } from 'react-redux';
 import { Container, Header, Title, Content, List, ListItem, Button, Icon, InputGroup, Input, View, Text, Thumbnail, H1, Spinner} from 'native-base';
@@ -39,7 +40,8 @@ class Settings extends Component {
         this.state = {
             wifiPassword: this.props.wifiPassword,
             wifiSSID: this.props.wifiSSID,
-            isActive: this.props.isWiFiActive
+            isActive: this.props.isWiFiActive,
+            lastUpdate: Date.now()
         };
     }
     componentWillMount(){
@@ -48,21 +50,35 @@ class Settings extends Component {
         }
 
     }
-    toggleWiFi(){
-        this.props.toggleWiFiActiveUnknown();
+    toggleWiFi(value){
+        this.setState({isActive: value, lastUpdate: Date.now()});
+       // this.props.toggleWiFiActiveUnknown();
         this.props.toggleWiFi();
-        this.props.getWiFiList();
-
-
-    }
-    componentWillUpdate(nextProps, nextState) {
-        if (this.props.isWiFiActive == this.state.isActive == false && nextState.isActive == true) {
-            this.props.toggleWiFi();
+        if (value) {
             this.props.getWiFiList();
         }
-        if (this.props.isWiFiActive == this.state.isActive == true && nextState.isActive == false) {
-            this.props.toggleWiFi();
+
+    }
+
+    componentWillUpdate(nextProps, nextState) {
+        if (!nextProps.name) this.props.popToTop();
+        if (nextProps.isWiFiActive != this.state.isActive) {
+            if (Date.now()- this.state.lastUpdate > 2000) {
+                this.setState({isActive: nextProps.isWiFiActive, lastUpdate: Date.now()});
+            }
         }
+        //if(nextProps.isWiFiActive != this.state.isActive) {
+        //    console.log('////////////////////////')
+        //    this.setState({isActive: nextProps.isWiFiActive})
+        //}
+        //
+        //if (this.state.isActive == false && nextState.isActive == true) {
+        //        this.props.toggleWiFi();
+        //        this.props.getWiFiList();
+        //}
+        //if (this.state.isActive == true && nextState.isActive == false) {
+        //        this.props.toggleWiFi();
+        //}
     }
     setWiFiModal(ssid, isKnown){
         this.props.setWiFiSSID(ssid);
@@ -70,6 +86,7 @@ class Settings extends Component {
     }
     render() {
         const { openDrawer, wifiList, isFetching, isWiFiActive, connectedWiFi} = this.props;
+
         return (
             <Container theme={myTheme} style={styles.container}>
                 <Header>
@@ -86,7 +103,7 @@ class Settings extends Component {
                             style={{}}
                             thumbTintColor="#0000ff"
                             tintColor="#F06292"
-                            onValueChange={(value) => this.setState({isActive: value})}
+                            onValueChange={(value) => this.toggleWiFi(value)}
                             value={this.state.isActive} />
                     </View>
                     <View style={{padding:10}}>
@@ -94,7 +111,7 @@ class Settings extends Component {
                             <Text style={{color:'#37474F'}}>Чтобы посмотреть доступные сети, включите Wi-Fi</Text>
                             : isFetching ?
                                 <Spinner style={{ alignSelf: 'center' }}/>
-                                : <List dataArray={wifiList}
+                                : wifiList.length ? <List dataArray={wifiList}
                                           renderRow={(item) =>
                                         <ListItem
                                             button
@@ -116,6 +133,7 @@ class Settings extends Component {
                                         </ListItem>
                                         }>
                                     </List>
+                            : <Text>Ничего не нашлось, попробуйте снова =) </Text>
                         }
                         {
                         /*
@@ -173,6 +191,7 @@ class Settings extends Component {
 }
 const mapStateToProps = (state) => {
   return {
+      name: state.bear.connectedBearName,
       wifiPassword: state.wifiSet.wifiPassword,
       wifiSSID: state.wifiSet.wifiSSID,
       isWiFiActive: state.wifiSet.isWiFiActive,
@@ -191,7 +210,8 @@ const mapDispatchToProps = (dispatch) => {
         getWiFiList:() => dispatch(getWiFiList()),
         setModalVisibility:(n) => dispatch(setModalVisibility(n)),
         setWiFiSSID: (ssid) => dispatch(setWiFiSSID(ssid)),
-        toggleWiFiActiveUnknown: () => dispatch(toggleWiFiActiveUnknown())
+        toggleWiFiActiveUnknown: () => dispatch(toggleWiFiActiveUnknown()),
+        popToTop: () => dispatch(popToTop())
     }
 };
 

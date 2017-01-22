@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container, Header, Title, Content, List, ListItem, Button, Icon, InputGroup, Input } from 'native-base';
+import {popToTop} from '../../actions/route'
 import {
     View,
     Text,
@@ -23,6 +24,9 @@ class ClockAlarmPresentational extends Component {
             isDateTimePickerVisible: false
         }
 
+    }
+    componentWillUpdate(nextProps, nextState){
+        if (!nextProps.name) this.props.popToTop();
     }
     _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true })
 
@@ -129,12 +133,15 @@ class ClockAlarmPresentational extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { }
+  return {
+      name: state.bear.connectedBearName
+  }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    openDrawer: () => dispatch(openDrawer())
+    openDrawer: () => dispatch(openDrawer()),
+      popToTop: () => dispatch(popToTop())
   }
 };
 

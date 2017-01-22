@@ -1,6 +1,7 @@
 
 
 const initialState = {
+    isFetching: false,
     isWiFiActive: false,
     wifiPassword: '',
     wifiSSID: '',

@@ -31,26 +31,28 @@ export function setWiFi (ssid, password='') {
    // console.log('wifisetaction',ssid,password);
     return function (dispatch, getState) {
         console.log('wifisetaction',ssid,password);
-        //addUserTask('setWiFi',()=>{ let instance = Bluetooth.getInstance(); return instance.setWiFi(ssid, password); },
-        //    function(){},
-        //    (res) => {
-        //        let state = getState();
-        //        dispatch(setWiFiSSID(ssid));
-        //        dispatch(setWiFiPassword(password));
-        //        console.log(res);
-        //        console.log('setWiFi');
-        //        //E.long(res, 'setWiFi')
-        //
-        //    },
-        //    (error) => {
-        //        console.log(error);
-        //        console.log('setWiFi');
-        //    }
-        //);
+        addUserTask('setWiFi',()=>{ let instance = Bluetooth.getInstance(); return instance.setWiFi(ssid, password); },
+            function(){},
+            (res) => {
+                //let state = getState();
+                //dispatch(setWiFiSSID(ssid));
+                //dispatch(setWiFiPassword(password));
+                dispatch(discardWiFi())
+                console.log(res);
+                console.log('setWiFi');
+                //E.long(res, 'setWiFi')
+
+            },
+            (error) => {
+                dispatch(discardWiFi())
+                console.log(error);
+                console.log('setWiFi');
+            }
+        );
     }
 }
 
-export function toggleWiFi () {
+export function toggleWiFi() {
     return function (dispatch, getState) {
         // let stories = getState().userStories.stories;
         dispatch(requestWiFiList());
@@ -135,9 +137,15 @@ export function setModalVisibility(state:bool):Action {
 }
 
 export function setConnectedWiFiSSID(ssid:string):Action {
+    console.log('setConnected:',ssid);
     return {
         type: types.SET_CONNECTED_WIFI_SSID,
         ssid
     }
 }
-
+export function discardWiFi():Action {
+    console.log('discard')
+    return {
+        type: types.DISCARD_WIFI
+    }
+}

@@ -149,6 +149,10 @@ export function heartBeat() {
 
             },
             (array) => {
+                if (!array.length) {
+                    dispatch(toggleWiFiActive(false));
+                    dispatch(setConnectedWiFiSSID(''));
+                }
                 for (var i = 0; i < array.length; ++i) {
                     var code = array[i][0];
                     var body = array[i].substring(1);
@@ -206,14 +210,14 @@ export function heartBeat() {
                         case 'w':
                         {
                             dispatch(toggleWiFiActive(true));
-                            if (body != '1' || body != '2' || body != '3')
-                            {
+                            if (body == 1 || body == 2 || body == 3) {
+                               console.log('fetching wifi')
+                            } else {
                                 dispatch(setConnectedWiFiSSID(body));
                             }
                         }
                             break;
                         default:
-                            dispatch(toggleWiFiActive(false));
                             break;
                     }
                 }

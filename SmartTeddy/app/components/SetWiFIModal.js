@@ -5,7 +5,7 @@ import myTheme from '../themes/base-theme';
 import { connect } from 'react-redux';
 import SmartScrollView from 'react-native-smart-scroll-view';
 import dismissKeyboard from 'react-native-dismiss-keyboard';
-import { toggleWiFi, setWiFi, getWiFiList, setModalVisibility, setConnectedWiFiSSID} from '../actions/wifi';
+import { setWiFi, getWiFiList, setModalVisibility, setConnectedWiFiSSID, discardWiFi} from '../actions/wifi';
 var strings = {
     title: 'Wi-Fi',
     disconnected: 'Разрыв соединения',
@@ -24,12 +24,14 @@ class ModalComponent extends React.Component  {
     }
     onСancel(){
         dismissKeyboard();
+        this.props.discardWiFi();
         this.props.setModalVisibility(false);
     }
     setWiFi(){
         dismissKeyboard();
-        //this.props.setConnectedWiFiSSID('dddddddd');
+        this.props.setConnectedWiFiSSID('');
         this.props.setWiFi(this.props.wifiSSID,this.state.wifiPassword);
+        this.props.discardWiFi();
         this.props.setModalVisibility(false);
     }
     render() {
@@ -64,7 +66,7 @@ class ModalComponent extends React.Component  {
                                     placeholder='Введите пароль'
                                     secureTextEntry={true}
                                     autoFocus={true}
-                                    inFocuce={()=>this.setState({offset: -40})}
+                                    onFocus={()=>this.setState({offset: -60})}
                                     value={this.state.wifiPassword}
                                     onChangeText={(text) => { this.setState({wifiPassword: text}) }} />
                             </InputGroup>
@@ -94,7 +96,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         setModalVisibility: (n) => dispatch(setModalVisibility(n)),
         setWiFi:(ssid, pass) => dispatch(setWiFi(ssid, pass)),
-        setConnectedWiFiSSID: (n) => dispatch(setConnectedWiFiSSID(n))
+        setConnectedWiFiSSID: (n) => dispatch(setConnectedWiFiSSID(n)),
+        discardWiFi:() => dispatch(discardWiFi())
 
     };
 };

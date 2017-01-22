@@ -9,7 +9,7 @@ class BlueManager {
     requestStack = [];
 
     stop = function (func) {
-        console.log("stopped");
+        //console.log("stopped");
         BluetoothSerial.off('data', func);
         this.unsubscribe();
         this.isFetching = false;
