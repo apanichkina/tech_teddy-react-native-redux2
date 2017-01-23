@@ -85,7 +85,7 @@ class Settings extends Component {
         this.props.setModalVisibility(true)
     }
     render() {
-        const { openDrawer, wifiList, isFetching, isWiFiActive, connectedWiFi} = this.props;
+        const { openDrawer, wifiList, isFetching, isWiFiActive, connectedWiFi, isFetchingWiFi} = this.props;
 
         return (
             <Container theme={myTheme} style={styles.container}>
@@ -98,6 +98,7 @@ class Settings extends Component {
                 <Content>
                     <View style={styles.enableInfoWrapper}>
                         <Text style={{fontSize: 18 }}>{isWiFiActive? 'Включено' : 'Выключено'}</Text>
+                        {isWiFiActive && isFetchingWiFi && <Spinner color='#00897B' style={{width:10, margin:0, padding:0}} />}
                         <Switch
                             onTintColor="#00ff00"
                             style={{}}
@@ -191,6 +192,7 @@ class Settings extends Component {
 }
 const mapStateToProps = (state) => {
   return {
+      isFetchingWiFi: state.wifiSet.isFetching,
       name: state.bear.connectedBearName,
       wifiPassword: state.wifiSet.wifiPassword,
       wifiSSID: state.wifiSet.wifiSSID,

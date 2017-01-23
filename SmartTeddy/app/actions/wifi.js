@@ -121,6 +121,7 @@ export function getWiFiList() {
             },
             (error) => {
                 dispatch(requestWiFiListFail());
+                dispatch(toggleWiFiActive(false));
                 console.log('wifi list error:');
                 console.log(error)
             }
@@ -144,5 +145,11 @@ export function setConnectedWiFiSSID(ssid:string):Action {
 export function discardWiFi():Action {
     return {
         type: types.DISCARD_WIFI
+    }
+}
+export function setIsFetchingWiFi(value:bool):Action {
+    return {
+        type: types.SET_WIFI_FETCHING,
+        value
     }
 }

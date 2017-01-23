@@ -7,7 +7,7 @@ import { setBearStories, setConnectedBear } from './bear'
 import {playStory, pauseStory, pauseBearStory, stopStory}from './player'
 import {donePlayButton} from './playerButtons'
 import { pushNewRoute} from './route'
-import { toggleWiFiActive, setConnectedWiFiSSID } from './wifi'
+import { toggleWiFiActive, setConnectedWiFiSSID,setIsFetchingWiFi } from './wifi'
 import {addUserTask, addSystemTask} from '../queue';
 import {stopDowload} from './bearStory'
 import {replaceRoute} from './route'
@@ -152,6 +152,7 @@ export function heartBeat() {
                 if (!array.length) {
                     dispatch(toggleWiFiActive(false));
                     dispatch(setConnectedWiFiSSID(''));
+                    dispatch(setIsFetchingWiFi(false));
                 }
                 for (var i = 0; i < array.length; ++i) {
                     var code = array[i][0];
@@ -211,9 +212,10 @@ export function heartBeat() {
                         {
                             dispatch(toggleWiFiActive(true));
                             if (body == 1 || body == 2 || body == 3) {
-                               console.log('fetching wifi')
+                               dispatch(setIsFetchingWiFi(true));
                             } else {
                                 dispatch(setConnectedWiFiSSID(body));
+                                dispatch(setIsFetchingWiFi(false));
                             }
                         }
                             break;

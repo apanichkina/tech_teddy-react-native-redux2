@@ -47,13 +47,17 @@ export default function (state = initialState, action={}) {
                     connectedWiFiSSID: ''
                 };
             }
-        case ' TOGGLE_WIFI_ACTIVE_UNKNOWN':
+        case 'TOGGLE_WIFI_ACTIVE_UNKNOWN':
             let oldVal =  state.isWiFiActive;
                 return {
                     ...state,
                     isWiFiActive: !oldVal
                 };
-
+        case 'SET_WIFI_FETCHING':
+            return {
+                ...state,
+                isFetching: action.value
+            };
         default:
             return state
     }
