@@ -14,7 +14,7 @@ export default class DOUComponent extends Component {
     } = this.props;
 
             return (
-                    <Button  style={[{ margin: 6, marginLeft:0, flex:2}, isDownloading ? {borderColor:'#BDBDBD'}:null]}  bordered disabled={isDownloading || isWaitingDownload} onPress={isUpload ? onDeleteClick: onUploadClick}>
+                    <Button  style={[{ margin: 6, marginHorizontal:0, flex:2}, isDownloading ? {borderColor:'#BDBDBD'}:null]}  bordered disabled={isDownloading || isWaitingDownload} onPress={isUpload ? onDeleteClick: onUploadClick}>
                         { isUpload ?
                             <Icon name="ios-trash" />
                             : isWaitingDownload ?

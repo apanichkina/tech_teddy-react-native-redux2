@@ -159,7 +159,7 @@ class SideBar extends Component {
             </Content>
                 { isAuth && !!bearname && story && storyId != -1 &&
                     <Footer theme={footerTheme} style={{ elevation: 3}}>
-                        <ListItem button style={{backgroundColor: '#BDBDBD', paddingLeft:0, marginLeft:0, paddingTop:0, marginTop:0}} onPress={() => this.onClick(story.id, story.roled)}>
+                        <ListItem button style={{backgroundColor: '#BDBDBD', paddingLeft:0, marginLeft:0, paddingTop:2, marginTop:0, paddingRight:5}} onPress={() => this.onClick(story.id, story.roled)}>
                             <Thumbnail square size={55}  source={{uri: story.img_urls.small}} />
                             <View style={{flexDirection: 'row'}}>
                                 <View>
@@ -168,7 +168,9 @@ class SideBar extends Component {
                                     <Text note>{story.story_parts[subId].title}</Text>
                                     }
                                 </View>
+                                <View style={{width:60}}>
                                 <Player storyId={storyId}/>
+                                </View>
                             </View>
                         </ListItem>
                     </Footer>

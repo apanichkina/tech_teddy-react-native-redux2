@@ -4,7 +4,7 @@ import { Image } from 'react-native';
 import styles from './styles';
 import Player from './Player'
 import DeleteOrUpload from './DeleteOrUpload'
-import Upload from './Upload'
+
 import myTheme from '../../themes/base-theme';
 import {
     MKProgress,
@@ -42,13 +42,13 @@ export default class StoryCard extends Component {
                 <Image style={{ resizeMode: 'cover', width: null, marginBottom:6}} defaultSource={require('../../../img/no-image-box.png')} source={{uri: img_urls.large}}/>
 
                 <View>
-                    {isConnected && isUpload ?
-                        category !== 'РОЛЕВЫЕ' ?
-                        <Player storyId={id+''}/>
-                            : <Button block info onPress={goToInteractive}>
+                    {isConnected && isUpload &&
+                        category == 'РОЛЕВЫЕ' ?
+                             <Button block info onPress={goToInteractive}>
                                 К ИНТЕРАКТИВНОЙ СКАЗКЕ
                               </Button>
                         : null
+
                     }
                 </View>
                 <View>
@@ -63,24 +63,34 @@ export default class StoryCard extends Component {
                         :null
                     }
                 </View>
-                <View style={{ flexDirection:'row'  }}>
+                <View>
+                {isConnected && isUpload && category !== 'РОЛЕВЫЕ' ?
+                    <Player storyId={id+''}/>
+                    : null
+                }
+                    </View>
+                <View style={{ flexDirection:'row',flex: 4 }}>
                     {!isBought ?
-                        <Button style={{ margin: 6, marginLeft:0, flex: 2}}
+                        <Button style={{ margin: 6, marginHorizontal:0, flex: 2}}
                                 onPress={onBuyClick}>
                             <Icon name="ios-star" />
                             <Text style={{ color: '#fff'}}>В ИЗБРАННОЕ</Text>
                         </Button>
                         :  !isConnected ?
-                            <Button info style={{ margin: 6, marginLeft:0, flex:2}} onPress={onConnectBear}>
+                            <Button info style={{ margin: 6, marginHorizontal:0, flex:2}} onPress={onConnectBear}>
                                 ПОДКЛЮЧИТЬСЯ
                             </Button>
                         : <DeleteOrUpload storyId={id}/>
                     }
 
-                    <Button bordered  style={{ margin: 6, marginLeft:0, marginRight:0, flex: 2}} >
-                        <Icon name="ios-share-alt" />
-                        <Text>ПОДЕЛИТЬСЯ</Text>
-                    </Button>
+
+                    {/*
+                     <Button bordered  style={{ margin: 6, marginLeft:0, marginRight:0, flex: 2}} >
+                     <Icon name="ios-share-alt" />
+                     <Text>ПОДЕЛИТЬСЯ</Text>
+                     </Button>
+                    */}
+
                 </View>
                 {/*
                  <View style={{ flexDirection:'row'  }}>

@@ -30,7 +30,7 @@ export function toggleWiFiActiveUnknown():Action {
 export function setWiFi (ssid, password='') {
    // console.log('wifisetaction',ssid,password);
     return function (dispatch, getState) {
-        console.log('wifisetaction',ssid,password);
+       // console.log('wifisetaction',ssid,password);
         addUserTask('setWiFi',()=>{ let instance = Bluetooth.getInstance(); return instance.setWiFi(ssid, password); },
             function(){},
             (res) => {
@@ -38,8 +38,8 @@ export function setWiFi (ssid, password='') {
                 //dispatch(setWiFiSSID(ssid));
                 //dispatch(setWiFiPassword(password));
                 dispatch(discardWiFi())
-                console.log(res);
-                console.log('setWiFi');
+                //console.log(res);
+                //console.log('setWiFi');
                 //E.long(res, 'setWiFi')
 
             },
@@ -62,8 +62,8 @@ export function toggleWiFi() {
                 let currentState = false;
                 if (res == 'on') currentState = true;
                 dispatch(toggleWiFiActive(currentState));
-                console.log(res);
-                console.log('toggleWiFi');
+                //console.log(res);
+                //console.log('toggleWiFi');
 
             },
             (error) => {
@@ -118,7 +118,6 @@ export function getWiFiList() {
             function(){},
             (array) => {
                 dispatch(receiveWiFiList(array));
-                console.log(array)
             },
             (error) => {
                 dispatch(requestWiFiListFail());
@@ -137,14 +136,12 @@ export function setModalVisibility(state:bool):Action {
 }
 
 export function setConnectedWiFiSSID(ssid:string):Action {
-    console.log('setConnected:',ssid);
     return {
         type: types.SET_CONNECTED_WIFI_SSID,
         ssid
     }
 }
 export function discardWiFi():Action {
-    console.log('discard')
     return {
         type: types.DISCARD_WIFI
     }

@@ -18,17 +18,17 @@ export default class PlayerComponent extends Component {
     return (
                 <View theme={myTheme} style={{ flexDirection:'row'}}>
                     {!isPlaying ?
-                            <Button info disabled={playWaiting} style={{ width: 60, margin: 6, marginLeft:0}} onPress={onPlay}>
+                            <Button info disabled={playWaiting} style={{ flex:2, margin: 6, marginHorizontal:0}} onPress={onPlay}>
                                 {playFetching && isFetchHere?
                                     <Spinner color='#fff' style={{margin:0, padding:0}}/>
                                     : <Icon name="ios-play" style={{ color: '#fff', margin: 5 }}/>
                                 }
                             </Button>
                             : isPaused ?
-                                <Button style={{  width: 60,margin: 6, marginLeft:0}} onPress={onPause}>
+                                <Button style={{ flex:2, margin: 6, marginHorizontal:0}} onPress={onPause}>
                                     <Icon  name="ios-play" style={{ color: '#fff', margin: 5 }}/>
                                 </Button>
-                                    :<Button style={{  width: 60,margin: 6, marginLeft:0}} onPress={onPause}>
+                                    :<Button style={{ flex:2, margin: 6, marginHorizontal:0}} onPress={onPause}>
                                         <Icon name='ios-pause' style={{ color: '#fff', margin: 5 }}/>
                                     </Button>
                     }
