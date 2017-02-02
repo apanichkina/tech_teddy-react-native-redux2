@@ -87,10 +87,14 @@ export function connectToDevice(id, name) {
                             .then(()=>{
                                 heartBeatID = undefined;
                                 heartBeat()(dispatch, getState);
+                                dispatch(stopDowload());
+                                dispatch(stopStory());
                                 dispatch(doneConnectToDeviceButton());
                                 dispatch(replaceRoute('bear-profile'));
                             })
                             .catch((err)=>{
+                                dispatch(stopDowload());
+                                dispatch(stopStory());
                                 dispatch(doneConnectToDeviceButton());
                                 dispatch(replaceRoute('bear-profile'));
                                 console.log('syncTime failed', err);})
@@ -203,7 +207,7 @@ export function heartBeat() {
                         case 'f':
                         {
                             dispatch(stopDowload());
-                            dispatch(setError('Загрузка завешнена'));
+                            dispatch(setError('Загрузка завершена'));
                             dispatch(setBearStories());
                             //console.log('downloaded: ' + body + ' bytes');
                         }

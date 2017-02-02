@@ -29,7 +29,7 @@ class BlueManager {
 //TODO убрать печать в консоль
     talkToBear(bear_endmsg, bear_delimeter, onAnswer, message) {
         return function (timeout = 10000) {
-            //console.log('talkToBear: '+ message);
+            console.log('talkToBear: '+ message);
             var read = function (endmsg, delimeter, resolve, reject, stop) {
                 var temp = function (data) {
                     onAnswer(endmsg, delimeter, resolve, reject, data);

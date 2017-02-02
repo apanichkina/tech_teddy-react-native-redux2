@@ -64,35 +64,38 @@ export function uploadHardcodeStoryToBear(id) {
 export function uploadStoryToBear(id) {
     return function (dispatch, getState) {
         //
-        let uploadedStory = getState().userStories.stories[id];
-        let stories = uploadedStory.story_parts;
-        let count = uploadedStory.story_parts.length;
-        let sizes = [];
-        sizes[0]=0;
-        let value = 0;
-        for (let i = 1; i < count; ++i) {
-            value += stories[i-1].size;
-            sizes[i] = value;
-        }
-        let fullSize = value + stories[count-1].size;
+        if (getState().bearStory.downloadingStoryId != -1) {
+            dispatch(setError('Запрещено одновременное скачивание нескольких сказок'));
+        } else {
+            let uploadedStory = getState().userStories.stories[id];
+            let stories = uploadedStory.story_parts;
+            let count = uploadedStory.story_parts.length;
+            let sizes = [];
+            sizes[0]=0;
+            let value = 0;
+            for (let i = 1; i < count; ++i) {
+                value += stories[i-1].size;
+                sizes[i] = value;
+            }
+            let fullSize = value + stories[count-1].size;
 
-            addUserTask('uploadStoryToBear', ()=> {
-                    let instance = Bluetooth.getInstance();
-                    return instance.downloadFile(id, count);
-                },
-                function () {},
-                () => {
-                    console.log(fullSize);
-                    console.log(sizes);
-                    dispatch(uploadStory(id, fullSize, sizes))
-                },
-                (error) => {
-                    dispatch(setError('Ошибка. Повторите попытку'));
-                    console.log('upload story error:'+id);
-                    console.log(error);
-                }
-            );
-
+                addUserTask('uploadStoryToBear', ()=> {
+                        let instance = Bluetooth.getInstance();
+                        return instance.downloadFile(id, count);
+                    },
+                    function () {},
+                    () => {
+                        console.log(fullSize);
+                        console.log(sizes);
+                        dispatch(uploadStory(id, fullSize, sizes))
+                    },
+                    (error) => {
+                        dispatch(setError('Ошибка. Повторите попытку'));
+                        console.log('upload story error:'+id);
+                        console.log(error);
+                    }
+                );
+            }
     }
 }
 
@@ -110,7 +113,9 @@ export function deleteStoryFromBear(id) {
             () => {
                 dispatch(deleteStory(id));
                 dispatch(setBearStories());
-                if (getState().player.storyId == id) dispatch(stopStory());
+                if (getState().player.storyId == id) {
+                    dispatch(stopStory());
+                }
             },
             (error) => {
                 dispatch(setError('Ошибка. Повторите попытку'));
