@@ -1,5 +1,6 @@
 import * as types from './actionTypes';
 import Bluetooth from '../BluetoothLib'
+import {setError} from './error'
 import {addUserTask,addSystemTask } from '../queue';
 export function setWiFiPassword(password:string):Action {
     return {
@@ -46,7 +47,8 @@ export function setWiFi (ssid, password='') {
             (error) => {
                 dispatch(discardWiFi())
                 console.log(error);
-                console.log('setWiFi');
+                console.log('setWiFi error!!!!!!!');
+                dispatch(setError('Ошибка установки WiFi'));
             }
         );
     }

@@ -93,11 +93,13 @@ export function connectToDevice(id, name) {
                                 dispatch(replaceRoute('bear-profile'));
                             })
                             .catch((err)=>{
+                                heartBeatID = undefined;
+                                heartBeat()(dispatch, getState);
                                 dispatch(stopDowload());
                                 dispatch(stopStory());
                                 dispatch(doneConnectToDeviceButton());
                                 dispatch(replaceRoute('bear-profile'));
-                                console.log('syncTime failed', err);})
+                                console.log('syncTime failed at start', err);})
 
                     }, 1000);
                 },
@@ -244,7 +246,7 @@ export function heartBeat() {
                     heartBeatID = setTimeout(() => {
                         heartBeatID = undefined;
                         heartBeat()(dispatch, getState);
-                    }, 2000);
+                    }, 3000);
                 }
             }
         );

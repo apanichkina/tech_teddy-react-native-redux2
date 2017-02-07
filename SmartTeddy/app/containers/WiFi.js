@@ -45,16 +45,18 @@ class Settings extends Component {
         };
     }
     componentWillMount(){
-        if (this.props.isWiFiActive) {
-            this.props.getWiFiList();
-        }
+        this.props.getWiFiList();
+        //if (this.props.isWiFiActive) {
+        //    this.props.getWiFiList();
+        //}
 
     }
     toggleWiFi(value){
-        this.setState({isActive: value, lastUpdate: Date.now()});
+        //this.setState({isActive: value, lastUpdate: Date.now()});
        // this.props.toggleWiFiActiveUnknown();
         this.props.toggleWiFi();
         if (value) {
+            console.log(value)
             this.props.getWiFiList();
         }
 
@@ -96,21 +98,25 @@ class Settings extends Component {
                     <Title> {strings.title}</Title>
                 </Header>
                 <Content>
-                    <View style={styles.enableInfoWrapper}>
-                        <Text style={{fontSize: 18 }}>{isWiFiActive? 'Включено' : 'Выключено'}</Text>
-                        {isWiFiActive && isFetchingWiFi && <Spinner color='#00897B' style={{width:10, margin:0, padding:0}} />}
-                        <Switch
-                            onTintColor="#00ff00"
-                            style={{}}
-                            thumbTintColor="#0000ff"
-                            tintColor="#F06292"
-                            onValueChange={(value) => this.toggleWiFi(value)}
-                            value={this.state.isActive} />
-                    </View>
+
+                     <View style={styles.enableInfoWrapper}>
+                     <Text style={{fontSize: 18 }}>{isWiFiActive? 'Включено' : 'Выключено'}</Text>
+                     {isWiFiActive && isFetchingWiFi && <Spinner color='#00897B' style={{width:10, margin:0, padding:0}} />}
+                     <Switch
+                     onTintColor="#00ff00"
+                     style={{}}
+                     thumbTintColor="#0000ff"
+                     tintColor="#F06292"
+                     onValueChange={(value) => this.toggleWiFi(value)}
+                     value={isWiFiActive} />
+                     </View>
+
+
+                    <View>
+                    {isWiFiActive && isFetchingWiFi && <Text style={[styles.status, {color: '#00897B', textAlign: 'center', marginTop:10}]}>Подключение...</Text>}
+</View>
                     <View style={{padding:10}}>
-                        {!isWiFiActive ?
-                            <Text style={{color:'#37474F'}}>Чтобы посмотреть доступные сети, включите Wi-Fi</Text>
-                            : isFetching ?
+                        { isFetching ?
                                 <Spinner style={{ alignSelf: 'center' }}/>
                                 : wifiList.length ? <List dataArray={wifiList}
                                           renderRow={(item) =>
