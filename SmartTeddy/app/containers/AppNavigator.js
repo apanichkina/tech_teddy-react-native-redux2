@@ -143,7 +143,7 @@ class AppNavigator extends Component {
     }
 
     isConnected() {
-        console.log('this.props.bearname '+this.props.bearname);
+       // console.log('this.props.bearname '+this.props.bearname);
         //return false;
         return (this.props.bearname) ? true : false; 
     }

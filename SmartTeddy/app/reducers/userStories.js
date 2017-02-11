@@ -14,7 +14,6 @@ export default function(state = initialState, action={}) {
             });
         case 'RECEIVE_USER_STORIES':
             let isEmptyValue = false;
-            console.log(action.stories);
             if (action.stories.length == 0) {
                 isEmptyValue = true;
             }

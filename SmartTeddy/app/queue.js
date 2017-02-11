@@ -4,8 +4,8 @@ import QueueTask from './QueueTask'
 var queue = async.priorityQueue(function(task, callback) {
     task.start()
         .then((result) => {
-            console.log('Success here:', task.name);
-            console.log('Success here:', result);
+            //console.log('Success here:', task.name);
+            //console.log('Success here:', result);
             callback();
         })
         .catch((error)=>{
