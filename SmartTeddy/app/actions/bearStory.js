@@ -85,8 +85,8 @@ export function uploadStoryToBear(id) {
                     },
                     function () {},
                     () => {
-                        console.log(fullSize);
-                        console.log(sizes);
+                        //console.log(fullSize);
+                        //console.log(sizes);
                         dispatch(uploadStory(id, fullSize, sizes))
                     },
                     (error) => {
@@ -108,7 +108,7 @@ export function deleteStoryFromBear(id) {
                 return instance.removeFile(id, count);
             },
             function () {
-                console.log('onStart deleteStoryFromBear'+id)
+               // console.log('onStart deleteStoryFromBear'+id)
             },
             () => {
                 dispatch(deleteStory(id));

@@ -149,7 +149,7 @@ export function fetchSignUp(name, email, password1, password2) {
             })
         })).then(response => response.json())
             .then(responseJson => {
-                console.log(responseJson);
+                //console.log(responseJson);
                 let body = responseJson.body;
                 if(responseJson.status == 0){
                     // Все хорошо

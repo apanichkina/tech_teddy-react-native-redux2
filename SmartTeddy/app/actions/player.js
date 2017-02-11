@@ -74,3 +74,24 @@ export function pauseStoryOnBear() {
         );
     }
 }
+
+export function stopStoryOnBear() {
+
+    return function (dispatch) {
+        addUserTask('stopStoryOnBear', ()=> {
+                let instance = Bluetooth.getInstance();
+                return instance.stopStory();
+            },
+            function () {
+
+            },
+            (array) => {
+               // dispatch(pauseStory())
+            },
+            (error) => {
+                console.log('stop story error:');
+                console.log(error);
+            }
+        );
+    }
+}

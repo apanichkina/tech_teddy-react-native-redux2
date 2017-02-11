@@ -4,10 +4,12 @@ import { Image } from 'react-native';
 import { Content, Text, List, ListItem, Icon, View, Thumbnail, Spinner, Button, Container, Footer } from 'native-base';
 import Player from '../StoryProfile/Player'
 import { closeDrawer } from '../../actions/drawer';
+import {stopAlarmOnBear} from '../../actions/alarm'
 import { replaceOrPushRoute,pushNewRoute } from '../../actions/route';
 import sidebarTheme from './sidebar-theme';
 import footerTheme from './footer-theme';
 import styles from './style';
+import myTheme from '../../themes/base-theme.js';
 import { seeStory } from '../../actions/story';
 const drawerImage = require('../../../img/header.png');
 const defaultImage = require('../../../img/no-image-slide.png');
@@ -44,7 +46,7 @@ class SideBar extends Component {
         //this.navigateTo('story-profile')
     }
     render() {
-        const { bearname, isAuth, username, storyId, story, subId } = this.props;
+        const { bearname, isAuth, username, storyId, story, subId, isAlarmPlaying, stopAlarmOnBear } = this.props;
         return (
             <Container>
             <Content
@@ -159,9 +161,9 @@ class SideBar extends Component {
             </Content>
                 { isAuth && !!bearname && story && storyId != -1 &&
                     <Footer theme={footerTheme} style={{ elevation: 3}}>
-                        <ListItem button style={{backgroundColor: '#BDBDBD', paddingLeft:0, marginLeft:0, paddingTop:2, marginTop:0, paddingRight:5}} onPress={() => this.onClick(story.id, story.roled)}>
-                            <Thumbnail square size={55}  source={{uri: story.img_urls.small}} />
-                            <View style={{flexDirection: 'row'}}>
+                        <ListItem button style={{backgroundColor: '#BDBDBD', paddingLeft:0, marginLeft:0, paddingTop:0, marginTop:0, paddingRight:5}} onPress={() => this.onClick(story.id, story.roled)}>
+                            <Thumbnail square size={55}  source={{uri: story.img_urls.small}} style={{marginRight:0, paddingRight:0}} />
+                            <View style={{flexDirection: 'row', marginLeft:0, paddingLeft:0}}>
                                 <View>
                                     <Text style={{color: '#212121'}}>{story.name.toUpperCase()}</Text>
                                     {story.roled &&
@@ -174,6 +176,24 @@ class SideBar extends Component {
                             </View>
                         </ListItem>
                     </Footer>
+                }
+                { isAuth && !!bearname && !story && storyId != -1 && isAlarmPlaying &&
+                <Footer theme={footerTheme} style={{ elevation: 3}}>
+                    <ListItem style={{backgroundColor: '#BDBDBD', paddingLeft:0, marginLeft:0, paddingTop:0, marginTop:0, paddingRight:5}}>
+                        <Thumbnail square size={55}  source={require('../../../img/alarm_img5.png')} />
+                        <View style={{flexDirection: 'row'}}>
+                            <View>
+                                <Text style={{color: '#212121'}}>БУДИЛЬНИК</Text>
+                                <Text note style={{lineHeight:22}}>пора вставать</Text>
+                            </View>
+                            <View style={{width:60}} theme={myTheme}>
+                                <Button style={{margin: 6, marginHorizontal:0, width: 50}}  onPress={stopAlarmOnBear}>
+                                    <Icon  name="ios-square" style={{ color: '#fff'}}/>
+                                </Button>
+                            </View>
+                        </View>
+                    </ListItem>
+                </Footer>
                 }
 
             </Container>
@@ -188,7 +208,8 @@ const mapStateToProps = state => ({
     username: state.user.user,
     storyId: state.player.storyId,
     story: state.userStories.stories[parseInt(state.player.storyId)],
-    subId: parseInt(state.player.storyId.toString().split("_")[1])-1
+    subId: parseInt(state.player.storyId.toString().split("_")[1])-1,
+    isAlarmPlaying: state.alarm.isAlarmPlaying
     //story: state.userStories.stories[parseInt(state.player.storyId.toString().split("_")[0])] //Берем название сказки, которая может быть интерактивной
 });
 
@@ -197,7 +218,8 @@ const mapDispatchToProps = (dispatch) =>{
         closeDrawer: () => dispatch(closeDrawer()),
         replaceOrPushRoute: route => dispatch(replaceOrPushRoute(route)),
         onStoryClick: id => dispatch(seeStory(id)),
-        pushNewRoute: route => dispatch(pushNewRoute(route))
+        pushNewRoute: route => dispatch(pushNewRoute(route)),
+        stopAlarmOnBear: () => dispatch(stopAlarmOnBear())
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SideBar);

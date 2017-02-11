@@ -1,21 +1,10 @@
 import React, { Component } from 'react';
-import {
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
-  RecyclerViewBackedScrollView,
-  RefreshControl,
-  ScrollView,
-  ListView,
-  Switch,
-  TouchableWithoutFeedback,
-} from 'react-native';
+import { StyleSheet } from 'react-native';
 import {popToTop} from '../actions/route'
-import { toggleWiFi, setWiFi, getWiFiList, setModalVisibility, setWiFiSSID, toggleWiFiActiveUnknown} from '../actions/wifi';
+import { getWiFiList, setModalVisibility, setWiFiSSID} from '../actions/wifi';
 import { connect } from 'react-redux';
 import { Container, Header, Title, Content, List, ListItem, Button, Icon, InputGroup, Input, View, Text, Thumbnail, H1, Spinner} from 'native-base';
 import myTheme from '../themes/base-theme';
-import { popRoute } from '../actions/route';
 import TeddyBluetooth from '../BluetoothLib';
 import { openDrawer } from '../actions/drawer';
 
@@ -39,56 +28,40 @@ class Settings extends Component {
         super(props);
         this.state = {
             wifiPassword: this.props.wifiPassword,
-            wifiSSID: this.props.wifiSSID,
-            isActive: this.props.isWiFiActive,
-            lastUpdate: Date.now()
+            wifiSSID: this.props.wifiSSID
         };
     }
     componentWillMount(){
         this.props.getWiFiList();
-        //if (this.props.isWiFiActive) {
-        //    this.props.getWiFiList();
-        //}
-
-    }
-    toggleWiFi(value){
-        //this.setState({isActive: value, lastUpdate: Date.now()});
-       // this.props.toggleWiFiActiveUnknown();
-        this.props.toggleWiFi();
-        if (value) {
-            console.log(value)
-            this.props.getWiFiList();
-        }
-
     }
 
     componentWillUpdate(nextProps, nextState) {
         if (!nextProps.name) this.props.popToTop();
-        if (nextProps.isWiFiActive != this.state.isActive) {
-            if (Date.now()- this.state.lastUpdate > 2000) {
-                this.setState({isActive: nextProps.isWiFiActive, lastUpdate: Date.now()});
-            }
-        }
-        //if(nextProps.isWiFiActive != this.state.isActive) {
-        //    console.log('////////////////////////')
-        //    this.setState({isActive: nextProps.isWiFiActive})
-        //}
-        //
-        //if (this.state.isActive == false && nextState.isActive == true) {
-        //        this.props.toggleWiFi();
-        //        this.props.getWiFiList();
-        //}
-        //if (this.state.isActive == true && nextState.isActive == false) {
-        //        this.props.toggleWiFi();
-        //}
     }
-    setWiFiModal(ssid, isKnown){
+    setWiFiModal(ssid){
         this.props.setWiFiSSID(ssid);
         this.props.setModalVisibility(true)
     }
     render() {
-        const { openDrawer, wifiList, isFetching, isWiFiActive, connectedWiFi, isFetchingWiFi} = this.props;
-
+        const { openDrawer, wifiList, isFetching, connectedWiFi, status} = this.props;
+        let statusMessage = '';
+        switch(status) {
+            case '1':
+                statusMessage = 'Подключение...';
+                break;
+            case '2':
+                statusMessage = 'Подключение...';
+                break;
+            case '3':
+                statusMessage = 'Нет подключения к интернету';
+                break;
+            case '4':
+                statusMessage = 'Подключен';
+                break;
+            default:
+                statusMessage = '';
+                break;
+        }
         return (
             <Container theme={myTheme} style={styles.container}>
                 <Header>
@@ -98,23 +71,6 @@ class Settings extends Component {
                     <Title> {strings.title}</Title>
                 </Header>
                 <Content>
-
-                     <View style={styles.enableInfoWrapper}>
-                     <Text style={{fontSize: 18 }}>{isWiFiActive? 'Включено' : 'Выключено'}</Text>
-                     {isWiFiActive && isFetchingWiFi && <Spinner color='#00897B' style={{width:10, margin:0, padding:0}} />}
-                     <Switch
-                     onTintColor="#00ff00"
-                     style={{}}
-                     thumbTintColor="#0000ff"
-                     tintColor="#F06292"
-                     onValueChange={(value) => this.toggleWiFi(value)}
-                     value={isWiFiActive} />
-                     </View>
-
-
-                    <View>
-                    {isWiFiActive && isFetchingWiFi && <Text style={[styles.status, {color: '#00897B', textAlign: 'center', marginTop:10}]}>Подключение...</Text>}
-</View>
                     <View style={{padding:10}}>
                         { isFetching ?
                                 <Spinner style={{ alignSelf: 'center' }}/>
@@ -123,7 +79,7 @@ class Settings extends Component {
                                         <ListItem
                                             button
                                             disabled={false}
-                                            onPress={()=>this.setWiFiModal(item.name, item.isKnown)}>
+                                            onPress={()=>this.setWiFiModal(item.name)}>
                                                 <View style={{flexDirection:'row'}}>
                                                      {
                                                      item.signal == 3 ?
@@ -134,62 +90,21 @@ class Settings extends Component {
                                                      }
                                                     <View style={{marginLeft:10}}>
                                                         <Text style={{}} >{item.name}</Text>
-                                                        { (connectedWiFi == item.name) && <Text style={styles.status}>Подключено</Text> }
+                                                        {
+                                                        (connectedWiFi == item.name) ?
+                                                            <Text style={styles.status}>{statusMessage}</Text>
+                                                            : null
+                                                        }
                                                     </View>
                                                 </View>
                                         </ListItem>
                                         }>
                                     </List>
                             : <Text>Ничего не нашлось, попробуйте снова =) </Text>
-                        }
-                        {
-                        /*
-                         <Text
-                         style={styles.h2}>
-                         {strings.wifiTitle}
-                         </Text>
-                         <List>
-
-                         <ListItem>
-                         <InputGroup>
-                         <Input
-                         placeholder={strings.wifiNamePlaceholder}
-                         value={this.state.wifiSSID}
-                         onChangeText={(text) => { this.setState({wifiSSID: text}) }} />
-                         </InputGroup>
-                         </ListItem>
-
-                         <ListItem>
-                         <InputGroup>
-                         <Input
-                         placeholder='пароль'
-                         secureTextEntry={true}
-                         value={this.state.wifiPassword}
-                         onChangeText={(text) => { this.setState({wifiPassword: text}) }} />
-
-                         </InputGroup>
-                         </ListItem>
-
-                         <Button
-                         style={{alignSelf: 'flex-end', margin: 6}}
-                         onPress={() => this.props.setWiFi(this.state.wifiSSID, this.state.wifiPassword)}>
-                         ПРИМЕНИТЬ
-                         </Button>
-                         </List>
-
-                         <View style={styles.enableInfoWrapper}>
-                         <Text style={{ fontWeight: 'bold' }}>{strings.checkWifi}</Text>
-                         <Switch
-                         onTintColor="#00ff00"
-                         style={{marginBottom: 10}}
-                         thumbTintColor="#0000ff"
-                         tintColor="#F06292"
-                         onValueChange={() => this.props.toggleWiFi()}
-                         value={this.props.isWiFiActive} />
-                         </View>
-
-                        */}
-
+                            }
+                        <View>
+                            { !isFetching && <Button style={{ alignSelf: 'center', margin:6 }} onPress={()=>{this.props.getWiFiList()}}>Найти сети</Button>}
+                        </View>
             </View>
         </Content>
       </Container>
@@ -198,27 +113,22 @@ class Settings extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-      isFetchingWiFi: state.wifiSet.isFetching,
       name: state.bear.connectedBearName,
       wifiPassword: state.wifiSet.wifiPassword,
       wifiSSID: state.wifiSet.wifiSSID,
-      isWiFiActive: state.wifiSet.isWiFiActive,
       wifiList: state.wifiList.wifiList,
       isFetching: state.wifiList.isFetching,
-      connectedWiFi: state.wifiSet.connectedWiFiSSID
+      connectedWiFi: state.wifiSet.connectedWiFiSSID,
+      status: state.wifiSet.status
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        toggleWiFi: () => dispatch(toggleWiFi()),
-        setWiFi: (ssid, pass) => dispatch(setWiFi(ssid, pass)),
-        popRoute: () => dispatch(popRoute()),
         openDrawer: () => dispatch(openDrawer()),
         getWiFiList:() => dispatch(getWiFiList()),
         setModalVisibility:(n) => dispatch(setModalVisibility(n)),
         setWiFiSSID: (ssid) => dispatch(setWiFiSSID(ssid)),
-        toggleWiFiActiveUnknown: () => dispatch(toggleWiFiActiveUnknown()),
         popToTop: () => dispatch(popToTop())
     }
 };

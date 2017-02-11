@@ -6,7 +6,8 @@ const initialState = {
     isAlarmActive: false,
     isSoundActive: false,
     isVibroActive: false,
-    isLightActive: false
+    isLightActive: false,
+    isAlarmPlaying: false
 
 };
 
@@ -58,6 +59,16 @@ export default function (state = initialState, action={}) {
             return {
                 ...state,
                 isSoundActive: newSoundState
+            };
+        case 'ALARM_IS_PLAYING':
+            return {
+                ...state,
+                isAlarmPlaying: true
+            };
+        case 'STOP_ALARM':
+            return {
+                ...state,
+                isAlarmPlaying: false
             };
         default:
             return state

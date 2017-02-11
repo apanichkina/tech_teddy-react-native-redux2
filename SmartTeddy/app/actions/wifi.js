@@ -90,17 +90,20 @@ function receiveWiFiList(wifiListDef):Action {
         let temp = {};
         temp.name = item[0];
         let signal = item[1];
-        if (signal > -44) {
-            temp.signal = 3;
-        } else {
-            if (signal > -90) {
-                temp.signal = 2;
+        if (signal) {
+            if (signal > -44) {
+                temp.signal = 3;
             } else {
-                temp.signal = 1;
+                if (signal > -90) {
+                    temp.signal = 2;
+                } else {
+                    temp.signal = 1;
+                }
             }
+            //temp.isKnown = (item[2] === '1');
+            list.push(temp)
         }
-        temp.isKnown = (item[2] === '1');
-        list.push(temp)
+
     });
     return {
         type: types.RECEIVE_WIFI_LIST,
@@ -153,5 +156,13 @@ export function setIsFetchingWiFi(value:bool):Action {
     return {
         type: types.SET_WIFI_FETCHING,
         value
+    }
+}
+
+export function setWiFiStatus(status, ssid:string):Action {
+    return {
+        type: types.SET_WIFI_STATUS,
+        ssid,
+        status
     }
 }

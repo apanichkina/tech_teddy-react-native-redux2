@@ -26,6 +26,7 @@ class ModalComponent extends React.Component  {
         dismissKeyboard();
         this.props.discardWiFi();
         this.props.setModalVisibility(false);
+        this.setState({wifiPassword: ''})
     }
     setWiFi(){
         dismissKeyboard();
@@ -33,6 +34,7 @@ class ModalComponent extends React.Component  {
         this.props.setWiFi(this.props.wifiSSID,this.state.wifiPassword);
         this.props.discardWiFi();
         this.props.setModalVisibility(false);
+        this.setState({wifiPassword: ''})
     }
     render() {
         const {isModalVisible, wifiSSID} = this.props;
@@ -76,7 +78,7 @@ class ModalComponent extends React.Component  {
 
                      <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                      <Button transparent textStyle={{color:myTheme.btnPrimaryBg }} onPress={()=>this.onСancel()}> ОТМЕНА </Button>
-                     <Button transparent  disabled={this.state.wifiPassword.length < 5} textStyle={this.state.wifiPassword.length < 5 ? { color: myTheme.btnDisabledClr} : {color:myTheme.btnPrimaryBg }} onPress={() => this.setWiFi()}> ПОДКЛЮЧИТЬСЯ </Button>
+                     <Button transparent  disabled={this.state.wifiPassword.length < 8} textStyle={this.state.wifiPassword.length < 5 ? { color: myTheme.btnDisabledClr} : {color:myTheme.btnPrimaryBg }} onPress={() => this.setWiFi()}> ПОДКЛЮЧИТЬСЯ </Button>
                      </View>
 
 

@@ -1,13 +1,13 @@
 import * as types from './actionTypes';
 import Bluetooth from '../BluetoothLib'
-import {alarmIsPlaying} from './alarm'
+import {alarmIsPlaying, stopAlarm} from './alarm'
 import {setError} from './error'
 import {downloaded, uploadStoryToBear, deleteStory} from './bearStory'
 import { setBearStories, setConnectedBear } from './bear'
 import {playStory, pauseStory, pauseBearStory, stopStory}from './player'
 import {donePlayButton} from './playerButtons'
 import { pushNewRoute} from './route'
-import { toggleWiFiActive, setConnectedWiFiSSID,setIsFetchingWiFi } from './wifi'
+import { toggleWiFiActive, setConnectedWiFiSSID,setIsFetchingWiFi, setWiFiStatus, discardWiFi } from './wifi'
 import {addUserTask, addSystemTask} from '../queue';
 import {stopDowload} from './bearStory'
 import {replaceRoute} from './route'
@@ -57,7 +57,7 @@ export function receiveBears(devices):Action {
 export function searchBears() {
     let instance = Bluetooth.getInstance();
     return function (dispatch) {
-        return instance.list().then(array => {{console.log(array);dispatch(receiveBears(array))}}
+        return instance.list().then(array => {{dispatch(receiveBears(array))}}
         ).catch((error) => {
                 console.log('bear search error:');
                 console.log(error)
@@ -83,23 +83,28 @@ export function connectToDevice(id, name) {
                         //heartBeat()(dispatch);
 
                         //СИНХРОНИЗАЦИЯ ВРЕМЕНИ -------- ЖЕСТЬ КАК ДОЛГО
-                        syncTime()
-                            .then(()=>{
+                        addSystemTask('syncTime',()=>{ let instance = Bluetooth.getInstance(); return instance.setTime(); },
+                            function(){},
+                            (array) => {
                                 heartBeatID = undefined;
                                 heartBeat()(dispatch, getState);
                                 dispatch(stopDowload());
                                 dispatch(stopStory());
                                 dispatch(doneConnectToDeviceButton());
                                 dispatch(replaceRoute('bear-profile'));
-                            })
-                            .catch((err)=>{
+                            },
+                            (error) => {
                                 heartBeatID = undefined;
                                 heartBeat()(dispatch, getState);
                                 dispatch(stopDowload());
                                 dispatch(stopStory());
                                 dispatch(doneConnectToDeviceButton());
                                 dispatch(replaceRoute('bear-profile'));
-                                console.log('syncTime failed at start', err);})
+                                dispatch(setError('Не удалось синхронизировать время'));
+                                console.log('syncTime failed at start');
+                            }
+                        );
+
 
                     }, 1000);
                 },
@@ -156,28 +161,33 @@ export function heartBeat() {
             },
             (array) => {
                 if (!array.length) {
-                    dispatch(toggleWiFiActive(false));
-                    dispatch(setConnectedWiFiSSID(''));
-                    dispatch(setIsFetchingWiFi(false));
+                    //dispatch(toggleWiFiActive(false));
+                    //dispatch(setConnectedWiFiSSID(''));
+                    //dispatch(setIsFetchingWiFi(false));
+                    if (getState().wifiSet.status) {
+                        //(console.log('wifistatus', getState().wifiSet.status));
+                        dispatch(discardWiFi());
+                    }
+                    //dispatch(setWiFiStatus(0,''));
                 }
                 for (var i = 0; i < array.length; ++i) {
                     var code = array[i][0];
                     var body = array[i].substring(1);
                     switch (code) {
-                        case 'a':
-                        {
-                            dispatch(alarmIsPlaying());
-                            //console.log('alarm: ', body);
-                        }
-                            break;
                         case 's':
                         {
                             //dispatch(playStory(body));
                             if (body == 'top') {
                                 dispatch(stopStory());
+                                dispatch(stopAlarm())
                             } else {
-                                dispatch(donePlayButton());
-                                dispatch(playStory(body));
+                                if (body == 'alarm') {
+                                    dispatch(alarmIsPlaying())
+                                } else {
+                                    dispatch(donePlayButton());
+                                    dispatch(playStory(body));
+                                }
+
                             }
                             //console.log('story: ' + body +' is playing');
                         }
@@ -186,12 +196,6 @@ export function heartBeat() {
                         {
                             dispatch(pauseBearStory(body));
                             //console.log('story: ' + body + ' is paused');
-                        }
-                            break;
-                        case 'r':
-                        {
-                            // dispatch(speakRole(body));
-                            //console.log('hero: ' + body + ' is speaking');
                         }
                             break;
                         case 'd':
@@ -217,12 +221,18 @@ export function heartBeat() {
                         case 'w':
                         {
                             dispatch(toggleWiFiActive(true));
-                            if (body == 1 || body == 2 || body == 3) {
-                               dispatch(setIsFetchingWiFi(true));
-                            } else {
-                                dispatch(setConnectedWiFiSSID(body));
-                                dispatch(setIsFetchingWiFi(false));
-                            }
+                            let commands = body.split(':');
+                            let status = commands[0];
+                            let name = commands[1];
+                            dispatch(setWiFiStatus(status,name));
+
+
+                            //if (status == 1 || status == 2 || status == 3) {
+                            //   dispatch(setIsFetchingWiFi(true));
+                            //} else {
+                            //    dispatch(setConnectedWiFiSSID(body));
+                            //    dispatch(setIsFetchingWiFi(false));
+                            //}
                         }
                             break;
                         default:
@@ -261,3 +271,4 @@ export function syncTime() {
         .then(() => {})
         .catch((error) => { throw error; });
 }
+

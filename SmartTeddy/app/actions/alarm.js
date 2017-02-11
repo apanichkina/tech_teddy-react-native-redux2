@@ -71,29 +71,6 @@ function parseTime (res, dispatch, getState) {
     if (state.alarm.isSoundActive !== alarm_soundActive) dispatch(toggleAlarmSound());
     dispatch(setAlarmTime(time));
     dispatch(setAlarmDays(days));
-    
-
-    /*var hm = res[0].split(':');
-    let time = new Date();
-    time.setHours(hm[0], hm[1]);
-
-    let days = [];
-    for (let i = 0; i < 7; ++i) {
-        days[i] = (res[1][i] === '1') ? true : false;
-    }
-
-    let alarm_lightActive = (res[1][0] === '1') ? true : false;
-    let alarm_vibroActive = (res[1][1] === '1') ? true : false;
-    let alarm_soundActive = (res[1][2] === '1') ? true : false;
-    let alarm_active = (res[1][3] === '1') ? true : false;
-    let state = getState();
-    if (state.alarm.isAlarmActive !== alarm_active) dispatch(toggleAlarmActive());
-    if (state.alarm.isLightActive !== alarm_lightActive) dispatch(toggleAlarmLight());
-    if (state.alarm.isVibroActive !== alarm_vibroActive) dispatch(toggleAlarmVibro());
-    if (state.alarm.isSoundActive !== alarm_soundActive) dispatch(toggleAlarmSound());
-    dispatch(setAlarmTime(time));
-    dispatch(setAlarmDays(days));*/
-
 }
 
 export function getAlarmTime () {
@@ -142,3 +119,30 @@ export function alarmIsPlaying():Action {
         type: types.ALARM_IS_PLAYING
     }
 }
+export function stopAlarm():Action {
+    return {
+        type: types.STOP_ALARM
+    }
+}
+
+export function stopAlarmOnBear() {
+
+    return function (dispatch) {
+        addUserTask('stopAlarmOnBear', ()=> {
+                let instance = Bluetooth.getInstance();
+                return instance.stopStory();
+            },
+            function () {
+
+            },
+            (array) => {
+                dispatch(stopAlarm())
+            },
+            (error) => {
+                console.log('stop alarm error:');
+                console.log(error);
+            }
+        );
+    }
+}
+

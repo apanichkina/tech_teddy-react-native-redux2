@@ -6,7 +6,8 @@ const initialState = {
     wifiPassword: '',
     wifiSSID: '',
     isModalVisible: false,
-    connectedWiFiSSID: ''
+    connectedWiFiSSID: '',
+    status: 0
 };
 
 export default function (state = initialState, action={}) {
@@ -28,11 +29,18 @@ export default function (state = initialState, action={}) {
         case 'DISCARD_WIFI':
             return Object.assign({}, state, {
                 wifiPassword: '',
-                wifiSSID: ''
+                wifiSSID: '',
+                connectedWiFiSSID: '',
+                status: 0
             });
         case 'SET_CONNECTED_WIFI_SSID':
             return Object.assign({}, state, {
                 connectedWiFiSSID: action.ssid
+            });
+        case 'SET_WIFI_STATUS':
+            return Object.assign({}, state, {
+                connectedWiFiSSID: action.ssid,
+                status: action.status
             });
         case 'TOGGLE_WIFI_ACTIVE':
             if (action.value) {

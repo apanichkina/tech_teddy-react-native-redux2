@@ -127,7 +127,7 @@ class BlueManager {
                 resolve(templist);
             },
             //СООБЩЕНИЕ
-            'wl\n');
+            'a\n');
         return process(timeout)
     }
 
@@ -225,7 +225,17 @@ class BlueManager {
             's' + filename + '\n');
         return process(timeout)
     }
-
+    stopStory(timeout = 10000) {
+        var process = this.talkToBear(
+            'stop\r\n',
+            '\r\n',
+            (endmsg, delimeter, resolve, reject, data)=> {
+                var datastr = data.data.toString().replace(endmsg, '');
+                resolve(datastr);
+            },
+            's' + '\n');
+        return process(timeout)
+    }
     pause_unpause(timeout = 10000) {
         var process = this.talkToBear(
             'pause\r\n',

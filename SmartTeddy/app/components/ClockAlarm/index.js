@@ -50,6 +50,8 @@ class ClockAlarmPresentational extends Component {
             setTime,
             popRoute,
             openDrawer,
+            stopAlarm,
+            alarmPlaying
         } = this.props;
         this._handleTimePickedLocal = (time) => {
             this.props._handleTimePicked(time);
@@ -104,27 +106,7 @@ class ClockAlarmPresentational extends Component {
                             )
                             }
                         </View>
-                        <View style={styles.inlineH0} >
-                            <TouchableOpacity onPress={toggleSound}>
-                                <Image
-                                    style={[styles.alarm, (isSoundActive) ? {tintColor:myTheme.btnInfoBg } :{tintColor:myTheme.btnDisableBg }]}
-                                    source={require('../../../img/audiotrack_white_24dp.png')} />
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={toggleVibro}>
-                                <Image
-                                    style={[styles.alarm, (isVibroActive) ? {tintColor:myTheme.btnInfoBg } :{tintColor:myTheme.btnDisableBg }]}
-                                    source={require('../../../img/vibration_white_24dp.png')} />
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={toggleLight}>
-                                <Image
-                                    style={[styles.alarm, (isLightActive) ? {tintColor:myTheme.btnInfoBg } :{tintColor:myTheme.btnDisableBg }]}
-                                    source={require('../../../img/brightness_high_white_24dp.png')} />
-                            </TouchableOpacity>
-                        </View>
-                         <Button style={{ alignSelf: 'center' }} onPress={setTime} >SYNC</Button>
-                         <Text>{data}</Text>
-
-
+                        {alarmPlaying && <Button style={{ alignSelf: 'center' }} onPress={stopAlarm} >Стоп</Button> }
                     </View>
                 </Content>
             </Container>
@@ -134,7 +116,8 @@ class ClockAlarmPresentational extends Component {
 
 const mapStateToProps = (state) => {
   return {
-      name: state.bear.connectedBearName
+      name: state.bear.connectedBearName,
+      alarmPlaying: state.alarm.isAlarmPlaying
   }
 };
 
@@ -168,4 +151,5 @@ ClockAlarmPresentational.propTypes = {
     setTime: React.PropTypes.func,
     popRoute: React.PropTypes.func,
     openDrawer: React.PropTypes.func,
+    stopAlarm: React.PropTypes.func
 };
