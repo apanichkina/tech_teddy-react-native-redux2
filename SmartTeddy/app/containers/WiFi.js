@@ -75,7 +75,7 @@ class Settings extends Component {
                         { isFetching ?
                                 <Spinner style={{ alignSelf: 'center' }}/>
                                 : wifiList.length ? <List dataArray={wifiList}
-                                          renderRow={(item) =>
+                                          renderRow={(item) =>{ if (item.name) return(
                                         <ListItem
                                             button
                                             disabled={false}
@@ -97,7 +97,7 @@ class Settings extends Component {
                                                         }
                                                     </View>
                                                 </View>
-                                        </ListItem>
+                                        </ListItem>)}
                                         }>
                                     </List>
                             : <Text>Ничего не нашлось, попробуйте снова =) </Text>

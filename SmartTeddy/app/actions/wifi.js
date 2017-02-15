@@ -100,7 +100,6 @@ function receiveWiFiList(wifiListDef):Action {
                     temp.signal = 1;
                 }
             }
-            //temp.isKnown = (item[2] === '1');
             list.push(temp)
         }
 
