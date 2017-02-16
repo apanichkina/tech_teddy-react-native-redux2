@@ -83,25 +83,36 @@ function requestWiFiList():Action {
         type: types.REQUEST_WIFI_LIST
     }
 }
+function checkName(list,name) {
+    let result = false;
+    list.forEach(function (item) {
+        if (item.name == name) result = true;
+    })
+    return result;
+}
 function receiveWiFiList(wifiListDef):Action {
     let list = [];
     wifiListDef.forEach(function (item, index, array) {
         item = item.split(':');
         let temp = {};
-        temp.name = item[0];
-        let signal = item[1];
-        if (signal) {
-            if (signal > -44) {
-                temp.signal = 3;
-            } else {
-                if (signal > -90) {
-                    temp.signal = 2;
+        let name = item[0];
+        if (!checkName(list,name)) {
+            temp.name = name;
+            let signal = item[1];
+            if (temp.name && signal) {
+                if (signal > -44) {
+                    temp.signal = 3;
                 } else {
-                    temp.signal = 1;
+                    if (signal > -90) {
+                        temp.signal = 2;
+                    } else {
+                        temp.signal = 1;
+                    }
                 }
+                list.push(temp)
             }
-            list.push(temp)
         }
+
 
     });
     return {
@@ -125,7 +136,7 @@ export function getWiFiList() {
             },
             (error) => {
                 dispatch(requestWiFiListFail());
-                dispatch(toggleWiFiActive(false));
+                //dispatch(toggleWiFiActive(false));
                 console.log('wifi list error:');
                 console.log(error)
             }
